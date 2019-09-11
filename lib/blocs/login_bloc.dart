@@ -1,4 +1,8 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:idrink/api.dart';
+import 'package:idrink/models/login.dart';
+import 'package:idrink/models/token.dart';
+import 'package:idrink/services/token_service.dart';
 import 'package:idrink/validators/login_validators.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -8,9 +12,11 @@ enum LoginState {IDLE, LOADING, SUCCESS, FAIL}
 
 class LoginBloc extends BlocBase with LoginValidators{
 
+  final api = Api();
+
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
-  final _stateController = BehaviorSubject<LoginState>();
+  final _stateController = BehaviorSubject<LoginState>(seedValue: LoginState.LOADING);
 
   Stream<String> get outEmail => _emailController.stream.transform(validadeEmail);
   Stream<String> get outPassword => _passwordController.stream.transform(validadePassword);
@@ -24,7 +30,7 @@ class LoginBloc extends BlocBase with LoginValidators{
   Function(String) get changePassword => _passwordController.sink.add;
 
   LoginBloc(){
-    print("Test");
+    _stateController.add(LoginState.IDLE);
   }
 
   void submit() async{
@@ -33,11 +39,31 @@ class LoginBloc extends BlocBase with LoginValidators{
 
     _stateController.add(LoginState.LOADING);
     
-    await Future.delayed(Duration(milliseconds: 1000));
+//    await Future.delayed(Duration(milliseconds: 1000));
 
 //    _emailController.sink.addError("Test");
 //    _passwordController.sink.addError("TestPassword");
-    _stateController.add(LoginState.IDLE);
+
+//    _stateController.add(LoginState.IDLE);
+
+    final response = await api.login(Login(email: email, password: password).toMap());
+
+    response.isNotEmpty ? _stateController.add(LoginState.SUCCESS) : _stateController.add(LoginState.FAIL);
+//    response.isNotEmpty ? TokenService.saveUser(Token.fromJSON(tokenEncoded: response)) : _stateController.add(LoginState.FAIL);
+//    response.isNotEmpty ? print(response.toString()) : _stateController.add(LoginState.FAIL);
+
+    await TokenService.saveUser(response["token"]);
+
+    await Future.delayed(Duration(milliseconds: 1000));
+
+//    final responseOFF = await api.logout(response["token"]);
+    final responseOFF = await api.logout(await TokenService.getToken().then((Token token){
+      return token.tokenEncoded;
+    }));
+
+    print(response.toString());
+    print(responseOFF.toString());
+
   }
 
   @override

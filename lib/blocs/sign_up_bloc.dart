@@ -43,9 +43,15 @@ class SignUpBloc extends BlocBase with SignUpValidators{
 
     _stateController.add(SignUpState.LOADING);
 
-    Map<String, dynamic> response = await api.createCliente(Cliente(name: name, email: email, password: password, phone: phone).toMap());
+    Map<String, dynamic> response = await api.createCliente(
+        Cliente(
+            name: name,
+            email: email,
+            password: password,
+            phone: phone).toMap());
 
     print(response);
+    response.isNotEmpty ? _stateController.add(SignUpState.SUCCESS) : _stateController.add(SignUpState.FAIL);
   }
 
   @override

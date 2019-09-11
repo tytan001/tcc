@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/login_bloc.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
+import 'package:idrink/pages/home_page.dart';
 import 'package:idrink/widgets/input_field_login.dart';
 
 class SignInPage extends StatefulWidget {
@@ -26,9 +27,9 @@ class _SignInPageState extends State<SignInPage> {
     _loginBloc.outState.listen((state){
       switch(state){
         case LoginState.SUCCESS:
-//          Navigator.of(context).pushReplacement(
-//              MaterialPageRoute(builder: (context)=>HomeScreen())
-//          );
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context)=>HomePage())
+          );
           break;
         case LoginState.FAIL:
           showDialog(context: context, builder: (context)=>
