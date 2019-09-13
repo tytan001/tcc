@@ -30,7 +30,12 @@ class LoginBloc extends BlocBase with LoginValidators{
   Function(String) get changePassword => _passwordController.sink.add;
 
   LoginBloc(){
-    _stateController.add(LoginState.IDLE);
+    hasToken();
+  }
+
+  Future<void> hasToken() async{
+    final token = await TokenService.getToken();
+    (token != null) ? _stateController.add(LoginState.SUCCESS) : _stateController.add(LoginState.IDLE);
   }
 
   void submit() async{
@@ -38,28 +43,16 @@ class LoginBloc extends BlocBase with LoginValidators{
     final password = _passwordController.value;
 
     _stateController.add(LoginState.LOADING);
-    
-//    await Future.delayed(Duration(milliseconds: 1000));
-
-//    _emailController.sink.addError("Test");
-//    _passwordController.sink.addError("TestPassword");
-
-//    _stateController.add(LoginState.IDLE);
 
     final response = await api.login(Login(email: email, password: password).toMap());
 
     response.isNotEmpty ? _stateController.add(LoginState.SUCCESS) : _stateController.add(LoginState.FAIL);
-//    response.isNotEmpty ? TokenService.saveUser(Token.fromJSON(tokenEncoded: response)) : _stateController.add(LoginState.FAIL);
-//    response.isNotEmpty ? print(response.toString()) : _stateController.add(LoginState.FAIL);
-
     await TokenService.saveUser(response["token"]);
 
     await Future.delayed(Duration(milliseconds: 1000));
 
-//    final responseOFF = await api.logout(response["token"]);
-    final responseOFF = await api.logout(await TokenService.getToken().then((Token token){
-      return token.tokenEncoded;
-    }));
+    final responseOFF = await api.logout(await TokenService.getToken().then((token) => token.tokenEncoded));
+    TokenService.removeToken();
 
     print(response.toString());
     print(responseOFF.toString());

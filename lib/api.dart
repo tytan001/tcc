@@ -48,9 +48,9 @@ class Api {
       final int statusCode = response.statusCode;
 
       if(statusCode < 200 || statusCode > 400 || json == null){
-        print(response);
-        print(response.body);
-        print(statusCode);
+//        print(response);
+//        print(response.body);
+//        print(statusCode);
         throw new Exception("Error while fetching data");
 
       } else {

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/login_bloc.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
-import 'package:idrink/pages/home_page.dart';
+import 'package:idrink/pages/main_nav_page.dart';
 import 'package:idrink/widgets/input_field_login.dart';
 
 class SignInPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _SignInPageState extends State<SignInPage> {
       switch(state){
         case LoginState.SUCCESS:
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context)=>HomePage())
+              MaterialPageRoute(builder: (context)=>MainNavPage())
           );
           break;
         case LoginState.FAIL:
@@ -61,7 +61,7 @@ class _SignInPageState extends State<SignInPage> {
             return Center(
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation(
-                    Colors.pinkAccent),),
+                  Theme.of(context).accentColor,),),
             );
           } else {
             return Stack(
@@ -100,9 +100,9 @@ class _SignInPageState extends State<SignInPage> {
                                 ),
                               ),
                               textColor: Colors.white,
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).buttonColor,
                               onPressed: snapshot.hasData ? _loginBloc.submit : null,
-                              disabledColor: Theme.of(context).primaryColor.withAlpha(140),
+                              disabledColor: Theme.of(context).buttonColor.withAlpha(140),
                             ),
                           );
                         }
