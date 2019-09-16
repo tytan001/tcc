@@ -1,22 +1,26 @@
 import 'dart:convert';
 
-import 'package:idrink/models/token.dart';
+import 'package:idrink/models/cliente.dart';
 import 'package:idrink/services/service_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:async';
 
 enum SharedPreferencesKeys {
-  TOKEN,
+  CLIENTE,
 }
 
-abstract class TokenService{
-  static Future<void> saveToken(String token) async{
+abstract class ClienteService{
+  static Future<void> saveCliente(Map<String, dynamic> response) async{
     try{
       final preferences = await SharedPreferences.getInstance();
-      final tokenJson = Token.toJSON(token);
-//      final json = Token.toJSON(token);
-      final didSave = await preferences.setString(SharedPreferencesKeys.TOKEN.toString(), tokenJson);
+
+      final cliente = Cliente.fromJson(response);
+
+      final clienteJson = Cliente.toJson(cliente);
+
+      final didSave = await preferences.setString(SharedPreferencesKeys.CLIENTE.toString(), clienteJson);
+
       if (!didSave) {
         throw ServiceException(
           'Unable to save token on SharedPreferences',
@@ -34,15 +38,12 @@ abstract class TokenService{
     }
   }
 
-
-  static Future<Token> getToken() async {
+  static Future<Cliente> getCliente() async {
     try {
       final preferences = await SharedPreferences.getInstance();
-      final jsonRes = preferences.getString(SharedPreferencesKeys.TOKEN.toString());
+      final jsonRes = preferences.getString(SharedPreferencesKeys.CLIENTE.toString());
 
-//      if (jsonRes == null) return null;
-//      return Token.fromSharedPreferences(json.decode(jsonRes));
-      return (jsonRes == null)? null : Token.fromSharedPreferences(json.decode(jsonRes));
+      return (jsonRes == null)? null : Cliente.fromSharedPreferences(json.decode(jsonRes));
 
     } catch (err, stack) {
       print('Something went wrong when accessing SharedPreferences!');
@@ -51,8 +52,8 @@ abstract class TokenService{
     }
   }
 
-  static void removeToken() async{
+  static void removeCliente() async{
     final preferences = await SharedPreferences.getInstance();
-    preferences.remove(SharedPreferencesKeys.TOKEN.toString());
+    preferences.remove(SharedPreferencesKeys.CLIENTE.toString());
   }
 }

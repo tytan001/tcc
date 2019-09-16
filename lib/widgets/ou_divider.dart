@@ -7,7 +7,7 @@ class OuDivider extends StatelessWidget {
           children: <Widget>[
             Expanded(
                 child: Divider(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).accentColor,
                   height: 30,
                 )
             ),
@@ -22,7 +22,7 @@ class OuDivider extends StatelessWidget {
             ),
             Expanded(
                 child: Divider(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).accentColor,
                 )
             ),
           ]

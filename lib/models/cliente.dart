@@ -1,3 +1,4 @@
+import 'dart:convert';
 
 class Cliente{
   final int id;
@@ -11,34 +12,49 @@ class Cliente{
 
   factory Cliente.fromJson(Map<String, dynamic> json) {
     return Cliente(
-      id: json['customer_id'],
-      name: json['customer_name'],
-      email: json['customer_email'],
-      password: json['customer_password'],
-//      cpf: json['customer_cpf'],
-      phone: json['customer_phone'],
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+//      password: json['password'],
+//      cpf: json['cpf'],
+      phone: json['phone'],
     );
   }
 
   Map toMap() {
     var map = new Map<String, dynamic>();
-    map["customer_name"] = name;
-    map["customer_email"] = email;
-    map["customer_password"] = password;
-//    map["customer_cpf"] = cpf;
-    map["customer_phone"] = phone;
+    map["name"] = name;
+    map["email"] = email;
+    map["password"] = password;
+//    map["cpf"] = cpf;
+    map["phone"] = phone;
 
     if(id != null){
-      map["customer_id"] = id;
+      map["id"] = id;
     }
 
     return map;
+  }
+
+  static String toJson(Cliente cliente) {
+    Map<String, dynamic> map = {
+    'id': cliente.id,
+    "name":  cliente.name,
+    "email":  cliente.email,
+//    "password":  cliente.password,
+//      "cpf":  cliente.cpf,
+    "phone":  cliente.phone,
+    };
+    return json.encode(map);
+  }
+
+  static Cliente fromSharedPreferences(dynamic json) {
+    return Cliente.fromJson(json);
   }
 
   @override
   String toString() {
     return " Name: $name \n Email: $email\n Password: $password\n Phone: $phone";
   }
-
 
 }

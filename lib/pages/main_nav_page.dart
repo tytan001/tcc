@@ -39,11 +39,12 @@ class _MainNavPageState extends State<MainNavPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
+//      backgroundColor: Colors.grey[850],
+      backgroundColor: Theme.of(context).primaryColorLight,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
             canvasColor: Theme.of(context).primaryColorLight,
-            primaryColor: Theme.of(context).primaryColorDark,
+            primaryColor: Theme.of(context).accentColor,
             textTheme: Theme.of(context).textTheme.copyWith(
                 caption: TextStyle(color: Theme.of(context).primaryColorDark)
             )

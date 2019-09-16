@@ -32,7 +32,7 @@ class SignUpBloc extends BlocBase with SignUpValidators{
   Function(String) get changePhone => _phoneController.sink.add;
 
   SignUpBloc(){
-    print("Test");
+//    print("Test");
   }
 
   void submit() async{
