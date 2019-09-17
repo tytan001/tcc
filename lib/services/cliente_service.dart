@@ -1,25 +1,26 @@
 import 'dart:convert';
 
-import 'package:idrink/models/cliente.dart';
+import 'package:idrink/models/client.dart';
 import 'package:idrink/services/service_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:async';
 
 enum SharedPreferencesKeys {
-  CLIENTE,
+  CLIENT,
 }
 
-abstract class ClienteService{
-  static Future<void> saveCliente(Map<String, dynamic> response) async{
-    try{
+abstract class ClientService {
+  static Future<void> saveCliente(Map<String, dynamic> response) async {
+    try {
       final preferences = await SharedPreferences.getInstance();
 
-      final cliente = Cliente.fromJson(response);
+      final cliente = Client.fromJson(response);
 
-      final clienteJson = Cliente.toJson(cliente);
+      final clienteJson = Client.toJson(cliente);
 
-      final didSave = await preferences.setString(SharedPreferencesKeys.CLIENTE.toString(), clienteJson);
+      final didSave = await preferences.setString(
+          SharedPreferencesKeys.CLIENT.toString(), clienteJson);
 
       if (!didSave) {
         throw ServiceException(
@@ -29,22 +30,22 @@ abstract class ClienteService{
           lineOrigin: '12',
         );
       }
-//      return token;
-
-    } catch(err, stack){
+    } catch (err, stack) {
       print('Something went wrong when accessing SharedPreferences!');
       print('StackTrace\n$stack');
       throw err;
     }
   }
 
-  static Future<Cliente> getCliente() async {
+  static Future<Client> getClient() async {
     try {
       final preferences = await SharedPreferences.getInstance();
-      final jsonRes = preferences.getString(SharedPreferencesKeys.CLIENTE.toString());
+      final jsonRes =
+          preferences.getString(SharedPreferencesKeys.CLIENT.toString());
 
-      return (jsonRes == null)? null : Cliente.fromSharedPreferences(json.decode(jsonRes));
-
+      return (jsonRes == null)
+          ? null
+          : Client.fromSharedPreferences(json.decode(jsonRes));
     } catch (err, stack) {
       print('Something went wrong when accessing SharedPreferences!');
       print('StackTrace\n$stack');
@@ -52,8 +53,8 @@ abstract class ClienteService{
     }
   }
 
-  static void removeCliente() async{
+  static void removeClient() async {
     final preferences = await SharedPreferences.getInstance();
-    preferences.remove(SharedPreferencesKeys.CLIENTE.toString());
+    preferences.remove(SharedPreferencesKeys.CLIENT.toString());
   }
 }

@@ -2,15 +2,12 @@ import 'dart:convert';
 
 import 'package:meta/meta.dart';
 
-class Token{
+class Token {
   final String tokenEncoded;
 
-  Token({
-    @required this.tokenEncoded
-  });
+  Token({@required this.tokenEncoded});
 
-  Token.fromSharedPreferences(dynamic json) :
-        tokenEncoded = json['token'];
+  Token.fromSharedPreferences(dynamic json) : tokenEncoded = json['token'];
 
   static String fromJSON({Map<String, dynamic> tokenEncoded}) {
     return tokenEncoded["token"];
@@ -31,5 +28,4 @@ class Token{
     buffer.write('}');
     return buffer.toString();
   }
-
 }

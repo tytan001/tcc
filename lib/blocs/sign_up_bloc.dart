@@ -1,13 +1,12 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:idrink/api.dart';
-import 'package:idrink/models/cliente.dart';
+import 'package:idrink/models/client.dart';
 import 'package:idrink/validators/sign_up_validators.dart';
 import 'package:rxdart/rxdart.dart';
 
-enum SignUpState {IDLE, LOADING, SUCCESS, FAIL}
+enum SignUpState { IDLE, LOADING, SUCCESS, FAIL }
 
-class SignUpBloc extends BlocBase with SignUpValidators{
-
+class SignUpBloc extends BlocBase with SignUpValidators {
   final api = Api();
 
   final _nameController = BehaviorSubject<String>();
@@ -17,25 +16,23 @@ class SignUpBloc extends BlocBase with SignUpValidators{
   final _stateController = BehaviorSubject<SignUpState>();
 
   Stream<String> get outName => _nameController.stream.transform(validadeName);
-  Stream<String> get outEmail => _emailController.stream.transform(validadeEmail);
-  Stream<String> get outPassword => _passwordController.stream.transform(validadePassword);
-  Stream<String> get outPhone => _phoneController.stream.transform(validadePhone);
+  Stream<String> get outEmail =>
+      _emailController.stream.transform(validadeEmail);
+  Stream<String> get outPassword =>
+      _passwordController.stream.transform(validadePassword);
+  Stream<String> get outPhone =>
+      _phoneController.stream.transform(validadePhone);
   Stream<SignUpState> get outState => _stateController.stream;
 
   Stream<bool> get outSubmitValid => Observable.combineLatest4(
-      outName, outEmail, outPassword, outPhone, (a, b, c, d) => true
-  );
+      outName, outEmail, outPassword, outPhone, (a, b, c, d) => true);
 
   Function(String) get changeName => _nameController.sink.add;
   Function(String) get changeEmail => _emailController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
   Function(String) get changePhone => _phoneController.sink.add;
 
-  SignUpBloc(){
-//    print("Test");
-  }
-
-  void submit() async{
+  void submit() async {
     final name = _nameController.value;
     final email = _emailController.value;
     final password = _passwordController.value;
@@ -43,15 +40,14 @@ class SignUpBloc extends BlocBase with SignUpValidators{
 
     _stateController.add(SignUpState.LOADING);
 
-    Map<String, dynamic> response = await api.createCliente(
-        Cliente(
-            name: name,
-            email: email,
-            password: password,
-            phone: phone).toMap());
+    Map<String, dynamic> response = await api.createClient(
+        Client(name: name, email: email, password: password, phone: phone)
+            .toMap());
 
     print(response);
-    response.isNotEmpty ? _stateController.add(SignUpState.SUCCESS) : _stateController.add(SignUpState.FAIL);
+    response.isNotEmpty
+        ? _stateController.add(SignUpState.SUCCESS)
+        : _stateController.add(SignUpState.FAIL);
   }
 
   @override

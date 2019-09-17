@@ -1,13 +1,13 @@
-class Loja {
+class Store {
   final int id;
   final String name;
   final String email;
   final String phone;
 
-  Loja({this.id, this.name, this.email, this.phone});
+  Store({this.id, this.name, this.email, this.phone});
 
-  factory Loja.fromJson(Map<String, dynamic> json) {
-    return Loja(
+  factory Store.fromJson(Map<String, dynamic> json) {
+    return Store(
         id: json["id"],
         name: json["name"],
         email: json["email"],
@@ -18,12 +18,11 @@ class Loja {
     return {"id": id, "name": name, "email": email, "phone": phone};
   }
 
-  static List<Loja> toList(List data){
-    List<Loja> stores = [];
-    for(dynamic map in data){
-      stores.add(Loja.fromJson(map));
+  static List<Store> toList(List data) {
+    List<Store> stores = [];
+    for (dynamic map in data) {
+      stores.add(Store.fromJson(map));
     }
     return stores;
-
   }
 }

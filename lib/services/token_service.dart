@@ -10,13 +10,13 @@ enum SharedPreferencesKeys {
   TOKEN,
 }
 
-abstract class TokenService{
-  static Future<void> saveToken(String token) async{
-    try{
+abstract class TokenService {
+  static Future<void> saveToken(String token) async {
+    try {
       final preferences = await SharedPreferences.getInstance();
       final tokenJson = Token.toJSON(token);
-//      final json = Token.toJSON(token);
-      final didSave = await preferences.setString(SharedPreferencesKeys.TOKEN.toString(), tokenJson);
+      final didSave = await preferences.setString(
+          SharedPreferencesKeys.TOKEN.toString(), tokenJson);
       if (!didSave) {
         throw ServiceException(
           'Unable to save token on SharedPreferences',
@@ -25,25 +25,22 @@ abstract class TokenService{
           lineOrigin: '12',
         );
       }
-//      return token;
-
-    } catch(err, stack){
+    } catch (err, stack) {
       print('Something went wrong when accessing SharedPreferences!');
       print('StackTrace\n$stack');
       throw err;
     }
   }
 
-
   static Future<Token> getToken() async {
     try {
       final preferences = await SharedPreferences.getInstance();
-      final jsonRes = preferences.getString(SharedPreferencesKeys.TOKEN.toString());
+      final jsonRes =
+          preferences.getString(SharedPreferencesKeys.TOKEN.toString());
 
-//      if (jsonRes == null) return null;
-//      return Token.fromSharedPreferences(json.decode(jsonRes));
-      return (jsonRes == null)? null : Token.fromSharedPreferences(json.decode(jsonRes));
-
+      return (jsonRes == null)
+          ? null
+          : Token.fromSharedPreferences(json.decode(jsonRes));
     } catch (err, stack) {
       print('Something went wrong when accessing SharedPreferences!');
       print('StackTrace\n$stack');
@@ -51,7 +48,7 @@ abstract class TokenService{
     }
   }
 
-  static void removeToken() async{
+  static void removeToken() async {
     final preferences = await SharedPreferences.getInstance();
     preferences.remove(SharedPreferencesKeys.TOKEN.toString());
   }

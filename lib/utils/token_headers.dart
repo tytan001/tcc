@@ -1,7 +1,6 @@
 import 'dart:io';
 
 abstract class Header {
-
   static Map<String, String> headerDefault() {
     Map<String, String> requestHeaders = {
 //      'Content-type': 'application/json',
@@ -9,7 +8,6 @@ abstract class Header {
     };
     return requestHeaders;
   }
-
 
   static Map<String, String> headerToken(final token) {
     Map<String, String> requestHeaders = {
@@ -19,5 +17,4 @@ abstract class Header {
     };
     return requestHeaders;
   }
-
 }

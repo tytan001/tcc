@@ -1,5 +1,4 @@
-
-class Login{
+class Login {
   final String email;
   final String password;
 
@@ -24,6 +23,4 @@ class Login{
   String toString() {
     return " Email: $email\n Password: $password\n";
   }
-
-
 }

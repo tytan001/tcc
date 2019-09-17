@@ -33,9 +33,9 @@ class _SignInPageState extends State<SignInPage> {
           showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text("Erro"),
-                content: Text("Você não possui os privilégios necessários"),
-              ));
+                    title: Text("Erro"),
+                    content: Text("Você não possui os privilégios necessários"),
+                  ));
           break;
         case LoginState.LOADING:
         case LoginState.IDLE:
@@ -56,7 +56,8 @@ class _SignInPageState extends State<SignInPage> {
       body: StreamBuilder<LoginState>(
           stream: _loginBloc.outState,
           builder: (context, snapshot) {
-            if (snapshot.data == LoginState.LOADING || snapshot.data == LoginState.SUCCESS) {
+            if (snapshot.data == LoginState.LOADING ||
+                snapshot.data == LoginState.SUCCESS) {
               return Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(
@@ -87,97 +88,99 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    child: Container(
-                      margin: EdgeInsets.only(top: margeTop(), bottom: MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).size.height/14),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20))
-                      ),
-
+                      padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
-                        child: ListView(
-                          children: <Widget>[
-                            InputField(
-                              label: "E-mail",
-                              hint: "E-mail",
-                              email: true,
-                              stream: _loginBloc.outEmail,
-                              onChanged: _loginBloc.changeEmail,
-                            ),
-                            SizedBox(
-                              height: 16.0,
-                            ),
-                            InputField(
-                              label: "Password",
-                              hint: "Password",
-                              password: true,
-                              stream: _loginBloc.outPassword,
-                              onChanged: _loginBloc.changePassword,
-                            ),
-                            SizedBox(
-                              height: 16.0,
-                            ),
-                            StreamBuilder<bool>(
-                                stream: _loginBloc.outSubmitValid,
-                                builder: (context, snapshot) {
-                                  return SizedBox(
-                                    height: 44.0,
-                                    child: RaisedButton(
-                                      child: Text(
-                                        "Entrar",
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                        ),
-                                      ),
-                                      textColor: Colors.white,
-                                      color: Theme.of(context).buttonColor,
-                                      onPressed:
-                                      snapshot.hasData ? _loginBloc.submit : null,
-                                      disabledColor: Theme.of(context)
-                                          .buttonColor
-                                          .withAlpha(140),
-                                    ),
-                                  );
-                                }),
-                            SizedBox(
-                              height: 16.0,
-                            ),
-                            OuDivider(),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          margin: EdgeInsets.only(
+                              top: margeTop(),
+                              bottom: MediaQuery.of(context).viewInsets.bottom +
+                                  MediaQuery.of(context).size.height / 14),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+                            child: ListView(
                               children: <Widget>[
-                                Text("Novo usuario ?"),
-                                SizedBox(
-                                  width: 5.0,
+                                InputField(
+                                  label: "E-mail",
+                                  hint: "E-mail",
+                                  email: true,
+                                  stream: _loginBloc.outEmail,
+                                  onChanged: _loginBloc.changeEmail,
                                 ),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: FlatButton(
-                                    onPressed: () {
+                                SizedBox(
+                                  height: 16.0,
+                                ),
+                                InputField(
+                                  label: "Password",
+                                  hint: "Password",
+                                  password: true,
+                                  stream: _loginBloc.outPassword,
+                                  onChanged: _loginBloc.changePassword,
+                                ),
+                                SizedBox(
+                                  height: 16.0,
+                                ),
+                                StreamBuilder<bool>(
+                                    stream: _loginBloc.outSubmitValid,
+                                    builder: (context, snapshot) {
+                                      return SizedBox(
+                                        height: 44.0,
+                                        child: RaisedButton(
+                                          child: Text(
+                                            "Entrar",
+                                            style: TextStyle(
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                          textColor: Colors.white,
+                                          color: Theme.of(context).buttonColor,
+                                          onPressed: snapshot.hasData
+                                              ? _loginBloc.submit
+                                              : null,
+                                          disabledColor: Theme.of(context)
+                                              .buttonColor
+                                              .withAlpha(140),
+                                        ),
+                                      );
+                                    }),
+                                SizedBox(
+                                  height: 16.0,
+                                ),
+                                OuDivider(),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text("Novo usuario ?"),
+                                    SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: FlatButton(
+                                        onPressed: () {
 //                                Navigator.of(context).pushReplacement(
 //                                MaterialPageRoute(builder: (context)=>SignUpPage()));
-                                      widget._pageController.animateToPage(
-                                          MainAuthPage.signUp,
-                                          duration: Duration(milliseconds: 500),
-                                          curve: Curves.fastOutSlowIn);
-                                    },
-                                    child: Text(
-                                      "Cadastrar",
-                                      textAlign: TextAlign.center,
+                                          widget._pageController.animateToPage(
+                                              MainAuthPage.signUp,
+                                              duration:
+                                                  Duration(milliseconds: 500),
+                                              curve: Curves.fastOutSlowIn);
+                                        },
+                                        child: Text(
+                                          "Cadastrar",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        padding: EdgeInsets.zero,
+                                      ),
                                     ),
-                                    padding: EdgeInsets.zero,
-                                  ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      )
-                    )
-                  )
+                          )))
                 ],
               );
             }
@@ -185,8 +188,9 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  double margeTop(){
-    return (MediaQuery.of(context).viewInsets.vertical != 0) ? MediaQuery.of(context).viewInsets.vertical / 3 : MediaQuery.of(context).size.height/2.2;
+  double margeTop() {
+    return (MediaQuery.of(context).viewInsets.vertical != 0)
+        ? MediaQuery.of(context).viewInsets.vertical / 3
+        : MediaQuery.of(context).size.height / 2.2;
   }
-
 }

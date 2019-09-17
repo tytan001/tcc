@@ -8,63 +8,62 @@ import 'package:rxdart/rxdart.dart';
 
 import 'dart:async';
 
-enum LoginState {IDLE, LOADING, SUCCESS, FAIL}
+enum LoginState { IDLE, LOADING, SUCCESS, FAIL }
 
-class LoginBloc extends BlocBase with LoginValidators{
-
+class LoginBloc extends BlocBase with LoginValidators {
   final api = Api();
 
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
-  final _stateController = BehaviorSubject<LoginState>(seedValue: LoginState.LOADING);
+  final _stateController =
+      BehaviorSubject<LoginState>(seedValue: LoginState.LOADING);
 
-  Stream<String> get outEmail => _emailController.stream.transform(validadeEmail);
-  Stream<String> get outPassword => _passwordController.stream.transform(validadePassword);
+  Stream<String> get outEmail =>
+      _emailController.stream.transform(validadeEmail);
+  Stream<String> get outPassword =>
+      _passwordController.stream.transform(validadePassword);
   Stream<LoginState> get outState => _stateController.stream;
 
-  Stream<bool> get outSubmitValid => Observable.combineLatest2(
-      outEmail, outPassword, (a, b) => true
-  );
+  Stream<bool> get outSubmitValid =>
+      Observable.combineLatest2(outEmail, outPassword, (a, b) => true);
 
   Function(String) get changeEmail => _emailController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
 
-  LoginBloc(){
+  LoginBloc() {
     hasToken();
   }
 
-  Future<void> hasToken() async{
+  Future<void> hasToken() async {
+//    final responseOFF = await api.logout(await TokenService.getToken().then((token) => token.tokenEncoded));
+//    TokenService.removeToken();
+//    ClienteService.removeCliente();
+
     final token = await TokenService.getToken();
-    final cliente = await ClienteService.getCliente();
+    final cliente = await ClientService.getClient();
 
-//    print(token);
-//    print(cliente);
-
-    (token != null) ? _stateController.add(LoginState.SUCCESS) : _stateController.add(LoginState.IDLE);
+    (token != null)
+        ? _stateController.add(LoginState.SUCCESS)
+        : _stateController.add(LoginState.IDLE);
   }
 
-  void submit() async{
+  void submit() async {
     final email = _emailController.value;
     final password = _passwordController.value;
 
     _stateController.add(LoginState.LOADING);
 
-    final response = await api.login(Login(email: email, password: password).toMap());
+    final response =
+        await api.login(Login(email: email, password: password).toMap());
 
-    response.isNotEmpty ? _stateController.add(LoginState.SUCCESS) : _stateController.add(LoginState.FAIL);
+    response.isNotEmpty
+        ? _stateController.add(LoginState.SUCCESS)
+        : _stateController.add(LoginState.FAIL);
 
     await TokenService.saveToken(response["token"]);
-    await ClienteService.saveCliente(response["0"]);
+    await ClientService.saveCliente(response["0"]);
 
     await Future.delayed(Duration(milliseconds: 1000));
-
-//    final responseOFF = await api.logout(await TokenService.getToken().then((token) => token.tokenEncoded));
-//    TokenService.removeToken();
-//    ClienteService.removeCliente();
-
-//    print(response.toString());
-//    print(responseOFF.toString());
-
   }
 
   @override

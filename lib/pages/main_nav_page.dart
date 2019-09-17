@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:idrink/blocs/stores_bloc.dart';
+import 'package:idrink/blocs/products_bloc.dart';
 import 'package:idrink/pages/home_page.dart';
 
 class MainNavPage extends StatefulWidget {
-
   static final int home = 0;
   static final int historic = 1;
   static final int profile = 2;
@@ -14,6 +16,8 @@ class MainNavPage extends StatefulWidget {
 }
 
 class _MainNavPageState extends State<MainNavPage> {
+  StoresBloc storesBloc = StoresBloc();
+  ProductsBloc productsBloc = ProductsBloc();
   PageController _pageController;
   int _page = 0;
 
@@ -29,12 +33,11 @@ class _MainNavPageState extends State<MainNavPage> {
     super.dispose();
   }
 
-  @override
-  void deactivate() {
-    _pageController.dispose();
-    super.deactivate();
-  }
-
+//  @override
+//  void deactivate() {
+//    _pageController.dispose();
+//    super.deactivate();
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,47 +49,45 @@ class _MainNavPageState extends State<MainNavPage> {
             canvasColor: Theme.of(context).primaryColorLight,
             primaryColor: Theme.of(context).accentColor,
             textTheme: Theme.of(context).textTheme.copyWith(
-                caption: TextStyle(color: Theme.of(context).primaryColorDark)
-            )
-        ),
+                caption: TextStyle(color: Theme.of(context).primaryColorDark))),
         child: BottomNavigationBar(
             currentIndex: _page,
-            onTap: (p){
-              _pageController.animateToPage(
-                  p,
-                  duration: Duration(milliseconds: 500),
-                  curve: Curves.ease
-              );
+            onTap: (p) {
+              _pageController.animateToPage(p,
+                  duration: Duration(milliseconds: 500), curve: Curves.ease);
             },
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  title: Text("Pedidos")
-              ),
+                  icon: Icon(Icons.home), title: Text("Pedidos")),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.list),
-                  title: Text("Produtos")
-              ),
+                  icon: Icon(Icons.list), title: Text("Produtos")),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  title: Text("Clientes")
-              ),
-            ]
-        ),
+                  icon: Icon(Icons.person), title: Text("Clientes")),
+            ]),
       ),
       body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          onPageChanged: (p){
-            setState(() {
-              _page = p;
-            });
-          },
-          children: <Widget>[
-            HomePage(),
-            Container(color: Colors.blue,),
-            Container(color: Colors.yellow,),
-          ],
+        child: BlocProvider<StoresBloc>(
+          bloc: storesBloc,
+          child: BlocProvider(
+            bloc: productsBloc,
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (p) {
+                setState(() {
+                  _page = p;
+                });
+              },
+              children: <Widget>[
+                HomePage(),
+                Container(
+                  color: Colors.blue,
+                ),
+                Container(
+                  color: Colors.yellow,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

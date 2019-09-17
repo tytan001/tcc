@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class Cliente{
+class Client {
   final int id;
   final String name;
   final String email;
@@ -8,10 +8,10 @@ class Cliente{
 //  final String cpf;
   final String phone;
 
-  Cliente({this.id, this.name, this.email, this.password, this.phone});
+  Client({this.id, this.name, this.email, this.password, this.phone});
 
-  factory Cliente.fromJson(Map<String, dynamic> json) {
-    return Cliente(
+  factory Client.fromJson(Map<String, dynamic> json) {
+    return Client(
       id: json['id'],
       name: json['name'],
       email: json['email'],
@@ -29,32 +29,31 @@ class Cliente{
 //    map["cpf"] = cpf;
     map["phone"] = phone;
 
-    if(id != null){
+    if (id != null) {
       map["id"] = id;
     }
 
     return map;
   }
 
-  static String toJson(Cliente cliente) {
+  static String toJson(Client cliente) {
     Map<String, dynamic> map = {
-    'id': cliente.id,
-    "name":  cliente.name,
-    "email":  cliente.email,
+      'id': cliente.id,
+      "name": cliente.name,
+      "email": cliente.email,
 //    "password":  cliente.password,
 //      "cpf":  cliente.cpf,
-    "phone":  cliente.phone,
+      "phone": cliente.phone,
     };
     return json.encode(map);
   }
 
-  static Cliente fromSharedPreferences(dynamic json) {
-    return Cliente.fromJson(json);
+  static Client fromSharedPreferences(dynamic json) {
+    return Client.fromJson(json);
   }
 
   @override
   String toString() {
     return " Name: $name \n Email: $email\n Password: $password\n Phone: $phone";
   }
-
 }

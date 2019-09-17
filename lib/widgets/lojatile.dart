@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:idrink/models/loja.dart';
+import 'package:idrink/models/store.dart';
+import 'package:idrink/services/page_service.dart';
 
 class LojaTile extends StatelessWidget {
+  final Store _store;
 
-  final Loja _loja;
-
-  LojaTile(this._loja);
+  LojaTile(this._store);
 
   @override
   Widget build(BuildContext context) {
-
 //    final bloc = BlocProvider.of<FavoriteBloc>(context);
 
     return GestureDetector(
-      onTap: (){
-        //Acao do click
-        print("Clicou na ${_loja.name} ");
+      onTap: () {
+        PageService.toPageProduct(context, _store);
       },
       child: Container(
         color: Colors.white,
-        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+        margin: EdgeInsets.symmetric(vertical: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -32,26 +30,14 @@ class LojaTile extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.fromLTRB(8, 8, 8, 1),
                         child: Text(
-                          _loja.name,
+                          _store.name,
                           style: TextStyle(
                               color: Theme.of(context).primaryColorDark,
-                              fontSize: 20
-                          ),
+                              fontSize: 20),
                           maxLines: 2,
                         ),
                       ),
-//                      Padding(
-//                        padding: EdgeInsets.all(8),
-//                        child: Text(
-//                          _loja.phone,
-//                          style: TextStyle(
-//                              color: Colors.black,
-//                              fontSize: 14
-//                          ),
-//                        ),
-//                      ),
                       Container(
-                        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
                         child: Divider(
                           color: Theme.of(context).primaryColorDark,
                           height: 30,

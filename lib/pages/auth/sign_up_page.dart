@@ -44,16 +44,16 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
             ),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 40.0),
               child: Container(
-                margin: EdgeInsets.only(top: margeTop(), bottom: MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).size.height/14),
+                margin: EdgeInsets.only(
+                    top: margeTop(),
+                    bottom: MediaQuery.of(context).viewInsets.bottom +
+                        MediaQuery.of(context).size.height / 14),
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20))
-                ),
-
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Container(
                   margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                   child: ListView(
@@ -112,9 +112,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 textColor: Colors.white,
                                 color: Theme.of(context).buttonColor,
-                                onPressed: snapshot.hasData ? _signUpBloc.submit : null,
-                                disabledColor:
-                                Theme.of(context).buttonColor.withAlpha(140),
+                                onPressed: snapshot.hasData
+                                    ? _signUpBloc.submit
+                                    : null,
+                                disabledColor: Theme.of(context)
+                                    .buttonColor
+                                    .withAlpha(140),
                               ),
                             );
                           })
@@ -129,8 +132,9 @@ class _SignUpPageState extends State<SignUpPage> {
     ));
   }
 
-  double margeTop(){
-    return MediaQuery.of(context).viewInsets.vertical != 0 ? MediaQuery.of(context).viewInsets.vertical / 10 : MediaQuery.of(context).size.height/3.2;
+  double margeTop() {
+    return MediaQuery.of(context).viewInsets.vertical != 0
+        ? MediaQuery.of(context).viewInsets.vertical / 10
+        : MediaQuery.of(context).size.height / 3.2;
   }
-
 }
