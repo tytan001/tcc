@@ -13,8 +13,8 @@ class Login {
 
   Map toMap() {
     var map = new Map<String, dynamic>();
-    map["customer_email"] = email;
-    map["customer_password"] = password;
+    map["email"] = email;
+    map["password"] = password;
 
     return map;
   }
