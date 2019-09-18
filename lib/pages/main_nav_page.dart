@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
 import 'package:idrink/blocs/products_bloc.dart';
 import 'package:idrink/pages/home_page.dart';
+import 'package:idrink/pages/profile_page.dart';
 
 class MainNavPage extends StatefulWidget {
   static final int home = 0;
@@ -82,9 +83,7 @@ class _MainNavPageState extends State<MainNavPage> {
                 Container(
                   color: Colors.blue,
                 ),
-                Container(
-                  color: Colors.yellow,
-                ),
+                ProfilePage(),
               ],
             ),
           ),

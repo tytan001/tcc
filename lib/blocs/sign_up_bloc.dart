@@ -1,6 +1,8 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:idrink/api.dart';
 import 'package:idrink/models/client.dart';
+import 'package:idrink/services/client_service.dart';
+import 'package:idrink/services/token_service.dart';
 import 'package:idrink/validators/sign_up_validators.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -40,14 +42,21 @@ class SignUpBloc extends BlocBase with SignUpValidators {
 
     _stateController.add(SignUpState.LOADING);
 
-    Map<String, dynamic> response = await api.createClient(
+    final newClient =
         Client(name: name, email: email, password: password, phone: phone)
-            .toMap());
+            .toMap();
 
-    print(response);
-    response.isNotEmpty
-        ? _stateController.add(SignUpState.SUCCESS)
-        : _stateController.add(SignUpState.FAIL);
+    Map<String, dynamic> response = await api.createClient(newClient);
+
+    await Future.delayed(Duration(milliseconds: 1000));
+
+    if (response != null && response.isNotEmpty) {
+      await TokenService.saveToken(response["token"]);
+      await ClientService.saveClient(newClient);
+      _stateController.add(SignUpState.SUCCESS);
+    } else {
+      _stateController.add(SignUpState.FAIL);
+    }
   }
 
   @override

@@ -90,7 +90,6 @@ class Api {
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");
       } else {
-//        return Cliente.fromJson(json.decode(response.body));
         return json.decode(response.body);
       }
     });
@@ -104,7 +103,6 @@ class Api {
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");
       } else {
-//        return Cliente.fromJson(json.decode(response.body));
         return json.decode(response.body);
       }
     });

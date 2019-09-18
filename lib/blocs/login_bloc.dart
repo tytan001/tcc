@@ -1,7 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:idrink/api.dart';
 import 'package:idrink/models/login.dart';
-import 'package:idrink/services/cliente_service.dart';
+import 'package:idrink/services/client_service.dart';
 import 'package:idrink/services/token_service.dart';
 import 'package:idrink/validators/login_validators.dart';
 import 'package:rxdart/rxdart.dart';
@@ -37,7 +37,7 @@ class LoginBloc extends BlocBase with LoginValidators {
   Future<void> hasToken() async {
 //    final responseOFF = await api.logout(await TokenService.getToken().then((token) => token.tokenEncoded));
 //    TokenService.removeToken();
-//    ClienteService.removeCliente();
+//    ClientService.removeClient();
 
     final token = await TokenService.getToken();
     final cliente = await ClientService.getClient();
@@ -56,14 +56,15 @@ class LoginBloc extends BlocBase with LoginValidators {
     final response =
         await api.login(Login(email: email, password: password).toMap());
 
-    response.isNotEmpty
-        ? _stateController.add(LoginState.SUCCESS)
-        : _stateController.add(LoginState.FAIL);
-
-    await TokenService.saveToken(response["token"]);
-    await ClientService.saveCliente(response["0"]);
-
     await Future.delayed(Duration(milliseconds: 1000));
+
+    if (response != null && response.isNotEmpty) {
+      await TokenService.saveToken(response["token"]);
+      await ClientService.saveClient(response["0"]);
+      _stateController.add(LoginState.SUCCESS);
+    } else {
+      _stateController.add(LoginState.FAIL);
+    }
   }
 
   @override

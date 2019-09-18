@@ -26,14 +26,14 @@ class InputField extends StatelessWidget {
         return TextField(
           onChanged: onChanged,
           decoration: InputDecoration(
-            hintText: hint,
-            labelText: label,
-            errorText: snapshot.hasError ? snapshot.error : null,
-            labelStyle: TextStyle(color: Colors.black54),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide:
-                  BorderSide(color: Theme.of(context).buttonColor))),
+              hintText: hint,
+              labelText: label,
+              errorText: snapshot.hasError ? snapshot.error : null,
+              labelStyle: TextStyle(color: Colors.black54),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).buttonColor))),
           style: TextStyle(fontSize: 18.0),
           keyboardType: email ?? false
               ? TextInputType.emailAddress

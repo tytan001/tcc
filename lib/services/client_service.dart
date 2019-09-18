@@ -11,16 +11,16 @@ enum SharedPreferencesKeys {
 }
 
 abstract class ClientService {
-  static Future<void> saveCliente(Map<String, dynamic> response) async {
+  static Future<void> saveClient(Map<String, dynamic> response) async {
     try {
       final preferences = await SharedPreferences.getInstance();
 
-      final cliente = Client.fromJson(response);
+      final client = Client.fromJson(response);
 
-      final clienteJson = Client.toJson(cliente);
+      final clientJson = Client.toJson(client);
 
       final didSave = await preferences.setString(
-          SharedPreferencesKeys.CLIENT.toString(), clienteJson);
+          SharedPreferencesKeys.CLIENT.toString(), clientJson);
 
       if (!didSave) {
         throw ServiceException(

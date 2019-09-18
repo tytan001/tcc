@@ -52,145 +52,150 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: StreamBuilder<LoginState>(
-          stream: _loginBloc.outState,
-          builder: (context, snapshot) {
-            if (snapshot.data == LoginState.LOADING ||
-                snapshot.data == LoginState.SUCCESS) {
-              return Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(
-                    Theme.of(context).accentColor,
-                  ),
-                ),
-              );
-            } else {
-              return Stack(
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      // Box decoration takes a gradient
-                      gradient: LinearGradient(
-                        // Where the linear gradient begins and ends
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        // Add one stop for each color. Stops should increase from 0 to 1
-                        stops: [0.1, 0.5, 0.7, 0.9],
-                        colors: [
-                          // Colors are easy thanks to Flutter's Colors class.
-                          Colors.red[800],
-                          Colors.orange[700],
-                          Colors.orangeAccent[400],
-                          Colors.yellow,
-                        ],
-                      ),
+        resizeToAvoidBottomInset: false,
+        body: StreamBuilder<LoginState>(
+            stream: _loginBloc.outState,
+            builder: (context, snapshot) {
+              if (snapshot.data == LoginState.LOADING ||
+                  snapshot.data == LoginState.SUCCESS) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(
+                      Theme.of(context).accentColor,
                     ),
                   ),
-                  Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 50),
-                      child: Container(
-                          margin: EdgeInsets.only(
-                              top: margeTop(),
-                              bottom: MediaQuery.of(context).viewInsets.bottom +
-                                  MediaQuery.of(context).size.height / 14),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
-                            child: ListView(
-                              children: <Widget>[
-                                InputField(
-                                  label: "E-mail",
-                                  hint: "E-mail",
-                                  email: true,
-                                  stream: _loginBloc.outEmail,
-                                  onChanged: _loginBloc.changeEmail,
-                                ),
-                                SizedBox(
-                                  height: 16.0,
-                                ),
-                                InputField(
-                                  label: "Password",
-                                  hint: "Password",
-                                  password: true,
-                                  stream: _loginBloc.outPassword,
-                                  onChanged: _loginBloc.changePassword,
-                                ),
-                                SizedBox(
-                                  height: 16.0,
-                                ),
-                                StreamBuilder<bool>(
-                                    stream: _loginBloc.outSubmitValid,
-                                    builder: (context, snapshot) {
-                                      return SizedBox(
-                                        height: 44.0,
-                                        child: RaisedButton(
-                                          child: Text(
-                                            "Entrar",
-                                            style: TextStyle(
-                                              fontSize: 18.0,
+                );
+              } else {
+                return Stack(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        // Box decoration takes a gradient
+                        gradient: LinearGradient(
+                          // Where the linear gradient begins and ends
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          // Add one stop for each color. Stops should increase from 0 to 1
+                          stops: [0.1, 0.5, 0.7, 0.9],
+                          colors: [
+                            // Colors are easy thanks to Flutter's Colors class.
+                            Colors.red[800],
+                            Colors.orange[700],
+                            Colors.orangeAccent[400],
+                            Colors.yellow,
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 50),
+                        child: Container(
+                            margin: EdgeInsets.only(
+                                top: margeTop(),
+                                bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom +
+                                    MediaQuery.of(context).size.height / 15),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 15.0),
+                              child: ListView(
+                                children: <Widget>[
+                                  InputField(
+                                    label: "E-mail",
+                                    hint: "E-mail",
+                                    email: true,
+                                    stream: _loginBloc.outEmail,
+                                    onChanged: _loginBloc.changeEmail,
+                                  ),
+                                  SizedBox(
+                                    height: 16.0,
+                                  ),
+                                  InputField(
+                                    label: "Password",
+                                    hint: "Password",
+                                    password: true,
+                                    stream: _loginBloc.outPassword,
+                                    onChanged: _loginBloc.changePassword,
+                                  ),
+                                  SizedBox(
+                                    height: 16.0,
+                                  ),
+                                  StreamBuilder<bool>(
+                                      stream: _loginBloc.outSubmitValid,
+                                      builder: (context, snapshot) {
+                                        return SizedBox(
+                                          height: 44.0,
+                                          child: RaisedButton(
+                                            child: Text(
+                                              "Entrar",
+                                              style: TextStyle(
+                                                fontSize: 18.0,
+                                              ),
                                             ),
+                                            textColor: Colors.white,
+                                            color:
+                                                Theme.of(context).buttonColor,
+                                            onPressed: snapshot.hasData
+                                                ? _loginBloc.submit
+                                                : null,
+                                            disabledColor: Theme.of(context)
+                                                .buttonColor
+                                                .withAlpha(140),
                                           ),
-                                          textColor: Colors.white,
-                                          color: Theme.of(context).buttonColor,
-                                          onPressed: snapshot.hasData
-                                              ? _loginBloc.submit
-                                              : null,
-                                          disabledColor: Theme.of(context)
-                                              .buttonColor
-                                              .withAlpha(140),
-                                        ),
-                                      );
-                                    }),
-                                SizedBox(
-                                  height: 16.0,
-                                ),
-                                OuDivider(),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text("Novo usuario ?"),
-                                    SizedBox(
-                                      width: 5.0,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: FlatButton(
-                                        onPressed: () {
+                                        );
+                                      }),
+                                  SizedBox(
+                                    height: 16.0,
+                                  ),
+                                  OuDivider(),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("Novo usuario ?"),
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: FlatButton(
+                                          onPressed: () {
 //                                Navigator.of(context).pushReplacement(
 //                                MaterialPageRoute(builder: (context)=>SignUpPage()));
-                                          widget._pageController.animateToPage(
-                                              MainAuthPage.signUp,
-                                              duration:
-                                                  Duration(milliseconds: 500),
-                                              curve: Curves.fastOutSlowIn);
-                                        },
-                                        child: Text(
-                                          "Cadastrar",
-                                          textAlign: TextAlign.center,
+                                            widget._pageController
+                                                .animateToPage(
+                                                    MainAuthPage.signUp,
+                                                    duration: Duration(
+                                                        milliseconds: 500),
+                                                    curve:
+                                                        Curves.fastOutSlowIn);
+                                          },
+                                          child: Text(
+                                            "Cadastrar",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          padding: EdgeInsets.zero,
                                         ),
-                                        padding: EdgeInsets.zero,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )))
-                ],
-              );
-            }
-          }),
-    );
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )))
+                  ],
+                );
+              }
+            }));
   }
 
   double margeTop() {
     return (MediaQuery.of(context).viewInsets.vertical != 0)
         ? MediaQuery.of(context).viewInsets.vertical / 3
-        : MediaQuery.of(context).size.height / 2.2;
+        : MediaQuery.of(context).size.height / 2.3;
   }
 }

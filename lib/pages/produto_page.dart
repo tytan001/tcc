@@ -15,7 +15,7 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
-    final _productsBloc = BlocProvider.of<ProductsBloc>(context);
+//    final _productsBloc = BlocProvider.of<ProductsBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
