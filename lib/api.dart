@@ -17,16 +17,20 @@ const API_ITEM = "test";
 class Api {
   Future<Map<String, dynamic>> createClient(Map body) async {
     const URL = API_KEY + API_NEW_CLIENT;
-    return http.post(URL, body: body).then((response) {
-      final int statusCode = response.statusCode;
 
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      } else {
-//        return Cliente.fromJson(json.decode(response.body));
-        return json.decode(response.body);
-      }
-    });
+    try {
+      return http.post(URL, body: body).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 400) {
+          throw ResourceException("Err: ${responseReturn["errors"]["email"]}");
+        } else {
+          return responseReturn;
+        }
+      });
+    } catch (e) {
+      throw ResourceException(e.toString());
+    }
   }
 
   Future<List<dynamic>> stores(String token) async {

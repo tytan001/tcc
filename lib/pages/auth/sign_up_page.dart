@@ -34,8 +34,12 @@ class _SignUpPageState extends State<SignUpPage> {
           showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                    title: Text("Erro"),
-                    content: Text("Ocorreu algum erro ao cadastrar"),
+                    title: Text("Err"),
+                    content: StreamBuilder(
+                        stream: _signUpBloc.outMessage,
+                        builder: (context, snapshot) {
+                          return Text(snapshot.data.toString());
+                        }),
                   ));
           break;
         case SignUpState.LOADING:

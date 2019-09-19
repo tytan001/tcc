@@ -47,17 +47,15 @@ class SignUpBloc extends BlocBase with SignUpValidators {
     final password = _passwordController.value;
     final phone = _phoneController.value;
 
-    final newClient =
-        Client(name: name, email: email, password: password, phone: phone)
-            .toMap();
-
     try {
-      Map<String, dynamic> response = await api.createClient(newClient);
+      Map<String, dynamic> response = await api.createClient(
+          Client(name: name, email: email, password: password, phone: phone)
+              .toMap());
 
 //      await Future.delayed(Duration(milliseconds: 1000));
 
       await TokenService.saveToken(response["token"]);
-      await ClientService.saveClient(newClient);
+      await ClientService.saveClient(response["0"]);
       _stateController.add(SignUpState.SUCCESS);
     } on ResourceException catch (e) {
       _stateController.add(SignUpState.FAIL);
