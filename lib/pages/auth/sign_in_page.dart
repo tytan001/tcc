@@ -27,18 +27,27 @@ class _SignInPageState extends State<SignInPage> {
     _loginBloc.outState.listen((state) {
       switch (state) {
         case LoginState.SUCCESS:
+          widget._isLoadingStream.add(true);
           PageService.singIn(context);
           break;
         case LoginState.FAIL:
+          widget._isLoadingStream.add(false);
           showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                    title: Text("Erro"),
-                    content: Text("Você não possui os privilégios necessários"),
+                    title: Text("Err"),
+                    content: StreamBuilder(
+                        stream: _loginBloc.outMessage,
+                        builder: (context, snapshot) {
+                          return Text(snapshot.data.toString());
+                        }),
                   ));
           break;
         case LoginState.LOADING:
+          widget._isLoadingStream.add(true);
+          break;
         case LoginState.IDLE:
+          widget._isLoadingStream.add(false);
       }
     });
   }

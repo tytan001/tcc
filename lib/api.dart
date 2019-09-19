@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/utils/token_headers.dart';
 
 const API_KEY = "http://idrink-tcc.herokuapp.com/api/";
@@ -82,29 +83,60 @@ class Api {
 
   Future<Map<String, dynamic>> login(Map body) async {
     const URL = API_KEY + API_LOGIN;
-    return http
-        .post(URL, body: body, headers: Header.headerDefault())
-        .then((response) {
-      final int statusCode = response.statusCode;
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      } else {
-        return json.decode(response.body);
-      }
-    });
+    try {
+      return http
+          .post(URL, body: body, headers: Header.headerDefault())
+          .then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw new ResourceException("Err: ${responseReturn["response"]}");
+        } else {
+          return responseReturn;
+        }
+      });
+    } catch (e) {
+      throw ResourceException(e.toString());
+    }
+//    const URL = API_KEY + API_LOGIN;
+//    return http
+//        .post(URL, body: body, headers: Header.headerDefault())
+//        .then((response) {
+//      final int statusCode = response.statusCode;
+//
+//      if (statusCode < 200 || statusCode > 400 || json == null) {
+//        throw new Exception("Error while fetching data");
+//      } else {
+//        return json.decode(response.body);
+//      }
+//    });
   }
 
   Future<Map<String, dynamic>> logout(String token) async {
     const URL = API_KEY + API_LOGOUT;
-    return http.get(URL, headers: Header.headerToken(token)).then((response) {
-      final int statusCode = response.statusCode;
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      } else {
-        return json.decode(response.body);
-      }
-    });
+    try {
+      return http.get(URL, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw ResourceException("Err: ${responseReturn["message"]}");
+        } else {
+          return responseReturn;
+        }
+      });
+    } catch (e) {
+      throw ResourceException(e.toString());
+    }
   }
+//    const URL = API_KEY + API_LOGOUT;
+//    return http.get(URL, headers: Header.headerToken(token)).then((response) {
+//      final int statusCode = response.statusCode;
+//
+//      if (statusCode < 200 || statusCode > 400 || json == null) {
+//        throw new Exception("Error while fetching data");
+//      } else {
+//        return json.decode(response.body);
+//      }
+//    });
+//  }
 }

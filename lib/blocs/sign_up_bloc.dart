@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:idrink/api.dart';
 import 'package:idrink/models/client.dart';
+import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/services/client_service.dart';
 import 'package:idrink/services/token_service.dart';
 import 'package:idrink/validators/sign_up_validators.dart';
@@ -17,6 +18,8 @@ class SignUpBloc extends BlocBase with SignUpValidators {
   final _phoneController = BehaviorSubject<String>();
   final _stateController = BehaviorSubject<SignUpState>();
 
+  final _messageController = BehaviorSubject<String>();
+
   Stream<String> get outName => _nameController.stream.transform(validadeName);
   Stream<String> get outEmail =>
       _emailController.stream.transform(validadeEmail);
@@ -25,6 +28,8 @@ class SignUpBloc extends BlocBase with SignUpValidators {
   Stream<String> get outPhone =>
       _phoneController.stream.transform(validadePhone);
   Stream<SignUpState> get outState => _stateController.stream;
+
+  Stream<String> get outMessage => _messageController.stream;
 
   Stream<bool> get outSubmitValid => Observable.combineLatest4(
       outName, outEmail, outPassword, outPhone, (a, b, c, d) => true);
@@ -35,27 +40,31 @@ class SignUpBloc extends BlocBase with SignUpValidators {
   Function(String) get changePhone => _phoneController.sink.add;
 
   void submit() async {
+    _stateController.add(SignUpState.LOADING);
+
     final name = _nameController.value;
     final email = _emailController.value;
     final password = _passwordController.value;
     final phone = _phoneController.value;
 
-    _stateController.add(SignUpState.LOADING);
-
     final newClient =
         Client(name: name, email: email, password: password, phone: phone)
             .toMap();
 
-    Map<String, dynamic> response = await api.createClient(newClient);
+    try {
+      Map<String, dynamic> response = await api.createClient(newClient);
 
-    await Future.delayed(Duration(milliseconds: 1000));
+//      await Future.delayed(Duration(milliseconds: 1000));
 
-    if (response != null && response.isNotEmpty) {
       await TokenService.saveToken(response["token"]);
       await ClientService.saveClient(newClient);
       _stateController.add(SignUpState.SUCCESS);
-    } else {
+    } on ResourceException catch (e) {
       _stateController.add(SignUpState.FAIL);
+      _messageController.add(e.msg);
+    } catch (e) {
+      _stateController.add(SignUpState.FAIL);
+      _messageController.add(e.toString());
     }
   }
 
@@ -66,5 +75,7 @@ class SignUpBloc extends BlocBase with SignUpValidators {
     _passwordController.close();
     _phoneController.close();
     _stateController.close();
+
+    _messageController.close();
   }
 }

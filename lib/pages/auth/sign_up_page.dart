@@ -26,9 +26,11 @@ class _SignUpPageState extends State<SignUpPage> {
     _signUpBloc.outState.listen((state) {
       switch (state) {
         case SignUpState.SUCCESS:
+          widget._isLoadingStream.add(true);
           PageService.singIn(context);
           break;
         case SignUpState.FAIL:
+          widget._isLoadingStream.add(false);
           showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -37,7 +39,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ));
           break;
         case SignUpState.LOADING:
+          widget._isLoadingStream.add(true);
+          break;
         case SignUpState.IDLE:
+          widget._isLoadingStream.add(false);
       }
     });
   }
