@@ -1,7 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
-import 'package:idrink/widgets/lojatile.dart';
+import 'package:idrink/widgets/storetile.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                       child: ListView.builder(
                         itemBuilder: (context, index) {
                           if (index < snapshot.data.length) {
-                            return LojaTile(snapshot.data[index]);
+                            return StoreTile(snapshot.data[index]);
                           } else {
                             return Container(
                               height: 40,
@@ -87,7 +87,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  @override
-  void initState() {}
 }

@@ -6,6 +6,8 @@ import 'package:idrink/blocs/stores_bloc.dart';
 import 'package:idrink/blocs/products_bloc.dart';
 import 'package:idrink/pages/home_page.dart';
 import 'package:idrink/pages/profile_page.dart';
+import 'package:idrink/services/client_service.dart';
+import 'package:idrink/utils/toast_util.dart';
 
 class MainNavPage extends StatefulWidget {
   static final int home = 0;
@@ -18,13 +20,13 @@ class MainNavPage extends StatefulWidget {
 
 class _MainNavPageState extends State<MainNavPage> {
   StoresBloc storesBloc = StoresBloc();
-  ProductsBloc productsBloc = ProductsBloc();
   PageController _pageController;
   int _page = 0;
 
   @override
   void initState() {
     _pageController = PageController(initialPage: MainNavPage.home);
+    getUserName();
     super.initState();
   }
 
@@ -32,6 +34,13 @@ class _MainNavPageState extends State<MainNavPage> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  Future<void> getUserName() async {
+    final client = await ClientService.getClient();
+    ToastUtil.showToast(
+        "Bem vindo, Sr(a)${client == null ? "Ghost" : client.name}", context,
+        color: ToastUtil.black);
   }
 
 //  @override
@@ -69,23 +78,20 @@ class _MainNavPageState extends State<MainNavPage> {
       body: SafeArea(
         child: BlocProvider<StoresBloc>(
           bloc: storesBloc,
-          child: BlocProvider(
-            bloc: productsBloc,
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (p) {
-                setState(() {
-                  _page = p;
-                });
-              },
-              children: <Widget>[
-                HomePage(),
-                Container(
-                  color: Colors.blue,
-                ),
-                ProfilePage(),
-              ],
-            ),
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (p) {
+              setState(() {
+                _page = p;
+              });
+            },
+            children: <Widget>[
+              HomePage(),
+              Container(
+                color: Colors.blue,
+              ),
+              ProfilePage(),
+            ],
           ),
         ),
       ),

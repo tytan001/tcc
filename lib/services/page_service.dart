@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/pages/main_nav_page.dart';
-import 'package:idrink/pages/produto_page.dart';
+import 'package:idrink/pages/product_page.dart';
 import 'package:idrink/services/client_service.dart';
 import 'package:idrink/services/token_service.dart';
 

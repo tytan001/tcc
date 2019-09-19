@@ -7,6 +7,8 @@ abstract class ToastUtil {
   static final Color warning = Colors.orangeAccent;
   static final Color error = Colors.red;
   static final Color success = Colors.green;
+  static final Color black = Colors.black;
+  static final Color white = Colors.white;
 
   static final int bottom = 0;
   static final int center = 1;
@@ -25,8 +27,9 @@ abstract class ToastUtil {
         msg,
         context,
         gravity: position,
-        backgroundColor: color,
-        textColor: CustomColors.switchColor(color),
+        backgroundColor: ToastUtil.white,
+        textColor: color,
+//        textColor: CustomColors.switchColor(color),
         duration: duration,
       );
 }

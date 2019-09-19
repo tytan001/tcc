@@ -55,9 +55,9 @@ class Api {
     });
   }
 
-  Future<List<dynamic>> products(String token) async {
-    const URL = API_KEY + API_PRODUCTS;
-    return http.get(URL, headers: Header.headerToken(token)).then((response) {
+  Future<List<dynamic>> products(String token, int idStore) async {
+    final url = API_KEY + API_PRODUCTS + idStore.toString();
+    return http.get(url, headers: Header.headerToken(token)).then((response) {
       final int statusCode = response.statusCode;
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
@@ -68,8 +68,9 @@ class Api {
     });
   }
 
-  Future<List<dynamic>> searchProducts(String token, String search) async {
-    final url = API_KEY + API_SEARCH_PRODUCTS + search;
+  Future<List<dynamic>> searchProducts(
+      String token, String idStore, String search) async {
+    final url = API_KEY + API_SEARCH_PRODUCTS + idStore + "/" + search;
     return http.get(url, headers: Header.headerToken(token)).then((response) {
       final int statusCode = response.statusCode;
 
@@ -98,18 +99,6 @@ class Api {
     } catch (e) {
       throw ResourceException(e.toString());
     }
-//    const URL = API_KEY + API_LOGIN;
-//    return http
-//        .post(URL, body: body, headers: Header.headerDefault())
-//        .then((response) {
-//      final int statusCode = response.statusCode;
-//
-//      if (statusCode < 200 || statusCode > 400 || json == null) {
-//        throw new Exception("Error while fetching data");
-//      } else {
-//        return json.decode(response.body);
-//      }
-//    });
   }
 
   Future<Map<String, dynamic>> logout(String token) async {
@@ -128,15 +117,4 @@ class Api {
       throw ResourceException(e.toString());
     }
   }
-//    const URL = API_KEY + API_LOGOUT;
-//    return http.get(URL, headers: Header.headerToken(token)).then((response) {
-//      final int statusCode = response.statusCode;
-//
-//      if (statusCode < 200 || statusCode > 400 || json == null) {
-//        throw new Exception("Error while fetching data");
-//      } else {
-//        return json.decode(response.body);
-//      }
-//    });
-//  }
 }

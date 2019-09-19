@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:idrink/models/product.dart';
 import 'package:idrink/models/store.dart';
 import 'package:idrink/services/page_service.dart';
+import 'package:idrink/utils/toast_util.dart';
 
-class LojaTile extends StatelessWidget {
+class ProductTile extends StatelessWidget {
   final Store _store;
+  final Product _product;
 
-  LojaTile(this._store);
+  ProductTile(this._store, this._product);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,10 @@ class LojaTile extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        PageService.toPageProduct(context, _store);
+        ToastUtil.showToast(
+            "Nome da Loja: ${_store.name} \nNome: ${_product.name} \nPreço: ${_product.price}",
+            context,
+            color: ToastUtil.black);
       },
       child: Container(
         color: Colors.white,
@@ -30,10 +36,20 @@ class LojaTile extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.fromLTRB(8, 8, 8, 1),
                         child: Text(
-                          _store.name,
+                          _product.name,
                           style: TextStyle(
                               color: Theme.of(context).primaryColorDark,
                               fontSize: 20),
+                          maxLines: 2,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(4, 4, 4, 1),
+                        child: Text(
+                          _product.price,
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColorDark,
+                              fontSize: 16),
                           maxLines: 2,
                         ),
                       ),

@@ -21,10 +21,10 @@ class Product {
   }
 
   static List<Product> toList(List data) {
-    List<Product> stores = [];
+    List<Product> products = [];
     for (dynamic map in data) {
-      stores.add(Product.fromJson(map));
+      products.add(Product.fromJson(map));
     }
-    return stores;
+    return products;
   }
 }

@@ -3,11 +3,13 @@ import 'dart:async';
 
 import 'package:idrink/api.dart';
 import 'package:idrink/models/product.dart';
+import 'package:idrink/models/store.dart';
 import 'package:idrink/services/token_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ProductsBloc implements BlocBase {
   final api = Api();
+  final Store store;
 
   List<Product> products;
 
@@ -18,16 +20,18 @@ class ProductsBloc implements BlocBase {
   final StreamController<String> _searchController = BehaviorSubject<String>();
   Sink get inSearch => _searchController.sink;
 
-  Future<void> get allStores => _allStores();
+  Future<void> get allProducts => _allProducts();
 
-  ProductsBloc() {
+  ProductsBloc(this.store) {
+    _allProducts();
+
     _searchController.stream.listen(_search);
   }
 
-  Future<void> _allStores() async {
+  Future<void> _allProducts() async {
     final token =
         await TokenService.getToken().then((token) => token.tokenEncoded);
-    final response = await api.stores(token);
+    final response = await api.products(token, store.id);
 
     products = Product.toList(response);
 
