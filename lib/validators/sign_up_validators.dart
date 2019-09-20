@@ -1,7 +1,7 @@
 import 'dart:async';
 
 class SignUpValidators {
-  final validadeName =
+  final validateName =
       StreamTransformer<String, String>.fromHandlers(handleData: (name, sink) {
     if (name.isNotEmpty) {
       sink.add(name);
@@ -10,7 +10,7 @@ class SignUpValidators {
     }
   });
 
-  final validadeEmail =
+  final validateEmail =
       StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
     String emailValidationRule =
         r'^(([^()[\]\\.,;:\s@\"]+(\.[^()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -23,7 +23,7 @@ class SignUpValidators {
     }
   });
 
-  final validadePassword = StreamTransformer<String, String>.fromHandlers(
+  final validatePassword = StreamTransformer<String, String>.fromHandlers(
       handleData: (password, sink) {
     if (password.isNotEmpty && password.length > 6) {
       sink.add(password);
@@ -32,7 +32,7 @@ class SignUpValidators {
     }
   });
 
-  final validadePhone =
+  final validatePhone =
       StreamTransformer<String, String>.fromHandlers(handleData: (phone, sink) {
 //        String phoneValidationRule = r'/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/';
 //        RegExp regExp = new RegExp(phoneValidationRule);

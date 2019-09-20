@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
@@ -6,6 +8,9 @@ import 'package:idrink/widgets/storetile.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+  final StreamController<bool> _isLoadingStream;
+
+  HomePage(this._isLoadingStream);
 }
 
 class _HomePageState extends State<HomePage> {

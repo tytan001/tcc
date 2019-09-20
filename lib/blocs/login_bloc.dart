@@ -22,9 +22,9 @@ class LoginBloc extends BlocBase with LoginValidators {
   final _messageController = BehaviorSubject<String>();
 
   Stream<String> get outEmail =>
-      _emailController.stream.transform(validadeEmail);
+      _emailController.stream.transform(validateEmail);
   Stream<String> get outPassword =>
-      _passwordController.stream.transform(validadePassword);
+      _passwordController.stream.transform(validatePassword);
   Stream<LoginState> get outState => _stateController.stream;
 
   Stream<String> get outMessage => _messageController.stream;
@@ -58,11 +58,11 @@ class LoginBloc extends BlocBase with LoginValidators {
     final email = _emailController.value;
     final password = _passwordController.value;
 
+    await Future.delayed(Duration(milliseconds: 10000));
+
     try {
       final response =
           await api.login(Login(email: email, password: password).toMap());
-
-//      await Future.delayed(Duration(milliseconds: 1000));
 
       await TokenService.saveToken(response["token"]);
       await ClientService.saveClient(response["0"]);

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
-import 'package:idrink/blocs/products_bloc.dart';
 import 'package:idrink/pages/home_page.dart';
 import 'package:idrink/pages/profile_page.dart';
 import 'package:idrink/services/client_service.dart';
@@ -20,18 +19,31 @@ class MainNavPage extends StatefulWidget {
 
 class _MainNavPageState extends State<MainNavPage> {
   StoresBloc storesBloc = StoresBloc();
+  StreamController<bool> _isLoadingStream;
   PageController _pageController;
+  List<Widget> _pages;
   int _page = 0;
 
   @override
   void initState() {
+    _isLoadingStream = StreamController<bool>.broadcast();
     _pageController = PageController(initialPage: MainNavPage.home);
+
+    _pages = [
+      HomePage(_isLoadingStream),
+      Container(
+        color: Colors.blue,
+      ),
+      ProfilePage(_isLoadingStream),
+    ];
+
     getUserName();
     super.initState();
   }
 
   @override
   void dispose() {
+    _isLoadingStream.close();
     _pageController.dispose();
     super.dispose();
   }
@@ -68,33 +80,36 @@ class _MainNavPageState extends State<MainNavPage> {
             },
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text("Pedidos")),
+                  icon: Icon(Icons.home), title: Text("Home")),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.list), title: Text("Produtos")),
+                  icon: Icon(Icons.list), title: Text("Historic")),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), title: Text("Clientes")),
+                  icon: Icon(Icons.person), title: Text("Profile")),
             ]),
       ),
       body: SafeArea(
         child: BlocProvider<StoresBloc>(
           bloc: storesBloc,
-          child: PageView(
-            controller: _pageController,
-            onPageChanged: (p) {
-              setState(() {
-                _page = p;
-              });
-            },
-            children: <Widget>[
-              HomePage(),
-              Container(
-                color: Colors.blue,
-              ),
-              ProfilePage(),
-            ],
+          child: StreamBuilder(
+            stream: _isLoadingStream.stream.asBroadcastStream(),
+            builder: (_, snap) => _loadPageView(snap),
           ),
         ),
       ),
+    );
+  }
+
+  PageView _loadPageView(AsyncSnapshot<bool> snap) {
+    return PageView(
+      controller: _pageController,
+      onPageChanged: (p) {
+        setState(() {
+          _page = p;
+        });
+      },
+      physics:
+          (snap.hasData && snap.data) ? NeverScrollableScrollPhysics() : null,
+      children: _pages,
     );
   }
 }

@@ -20,13 +20,13 @@ class SignUpBloc extends BlocBase with SignUpValidators {
 
   final _messageController = BehaviorSubject<String>();
 
-  Stream<String> get outName => _nameController.stream.transform(validadeName);
+  Stream<String> get outName => _nameController.stream.transform(validateName);
   Stream<String> get outEmail =>
-      _emailController.stream.transform(validadeEmail);
+      _emailController.stream.transform(validateEmail);
   Stream<String> get outPassword =>
-      _passwordController.stream.transform(validadePassword);
+      _passwordController.stream.transform(validatePassword);
   Stream<String> get outPhone =>
-      _phoneController.stream.transform(validadePhone);
+      _phoneController.stream.transform(validatePhone);
   Stream<SignUpState> get outState => _stateController.stream;
 
   Stream<String> get outMessage => _messageController.stream;
@@ -47,12 +47,12 @@ class SignUpBloc extends BlocBase with SignUpValidators {
     final password = _passwordController.value;
     final phone = _phoneController.value;
 
+    await Future.delayed(Duration(milliseconds: 10000));
+
     try {
       Map<String, dynamic> response = await api.createClient(
           Client(name: name, email: email, password: password, phone: phone)
               .toMap());
-
-//      await Future.delayed(Duration(milliseconds: 1000));
 
       await TokenService.saveToken(response["token"]);
       await ClientService.saveClient(response["0"]);

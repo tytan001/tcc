@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:idrink/api.dart';
 import 'package:idrink/resources/resource_exception.dart';
@@ -9,6 +11,9 @@ import 'package:idrink/utils/toast_util.dart';
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
+  final StreamController<bool> _isLoadingStream;
+
+  ProfilePage(this._isLoadingStream);
 }
 
 class _ProfilePageState extends State<ProfilePage> {
@@ -32,6 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
               color: Theme.of(context).accentColor,
               onPressed: () async {
                 try {
+                  widget._isLoadingStream.add(true);
                   final api = Api();
                   await api.logout(await TokenService.getToken()
                       .then((token) => token.tokenEncoded));
