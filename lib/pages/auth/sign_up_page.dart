@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:idrink/blocs/sign_up_bloc.dart';
 import 'package:idrink/services/page_service.dart';
 import 'package:idrink/widgets/gradient.dart';
@@ -18,6 +19,8 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _signUpBloc = SignUpBloc();
+
+  var controllerMaskPhone = MaskedTextController(mask: '(00) 0 0000-0000');
 
   @override
   void initState() {
@@ -104,13 +107,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               SizedBox(
                                 height: 16.0,
                               ),
-                              InputField(
-                                label: "Phone",
-                                hint: "Phone",
-                                phone: true,
-                                stream: _signUpBloc.outPhone,
-                                onChanged: _signUpBloc.changePhone,
-                              ),
+                              inputFieldMask(_signUpBloc.changePhone,
+                                  _signUpBloc.outPhone, "Phone", "Phone"),
                               SizedBox(
                                 height: 16.0,
                               ),
@@ -162,5 +160,28 @@ class _SignUpPageState extends State<SignUpPage> {
     return MediaQuery.of(context).viewInsets.vertical != 0
         ? MediaQuery.of(context).viewInsets.vertical / 10
         : MediaQuery.of(context).size.height / 3.3;
+  }
+
+  StreamBuilder<String> inputFieldMask(Function(String) onChanged,
+      Stream<String> stream, String hint, String label) {
+    return StreamBuilder<String>(
+      stream: stream,
+      builder: (context, snapshot) {
+        return TextField(
+          onChanged: onChanged,
+          controller: controllerMaskPhone,
+          decoration: InputDecoration(
+              hintText: hint,
+              labelText: label,
+              errorText: snapshot.hasError ? snapshot.error : null,
+              labelStyle: TextStyle(color: Colors.black54),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).buttonColor))),
+          style: TextStyle(fontSize: 18.0),
+        );
+      },
+    );
   }
 }
