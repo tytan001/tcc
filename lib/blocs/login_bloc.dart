@@ -58,7 +58,7 @@ class LoginBloc extends BlocBase with LoginValidators {
     final email = _emailController.value;
     final password = _passwordController.value;
 
-    await Future.delayed(Duration(milliseconds: 10000));
+//    await Future.delayed(Duration(milliseconds: 10000));
 
     try {
       final response =

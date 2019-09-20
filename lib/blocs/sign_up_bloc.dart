@@ -47,7 +47,7 @@ class SignUpBloc extends BlocBase with SignUpValidators {
     final password = _passwordController.value;
     final phone = _phoneController.value;
 
-    await Future.delayed(Duration(milliseconds: 10000));
+//    await Future.delayed(Duration(milliseconds: 10000));
 
     try {
       Map<String, dynamic> response = await api.createClient(
