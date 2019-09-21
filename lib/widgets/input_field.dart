@@ -5,7 +5,6 @@ class InputField extends StatelessWidget {
   final String hint;
   final bool email;
   final bool password;
-  final bool phone;
   final Stream<String> stream;
   final Function(String) onChanged;
 
@@ -14,7 +13,6 @@ class InputField extends StatelessWidget {
       this.hint,
       this.email,
       this.password,
-      this.phone,
       this.stream,
       this.onChanged});
 
@@ -35,9 +33,7 @@ class InputField extends StatelessWidget {
                   borderSide:
                       BorderSide(color: Theme.of(context).buttonColor))),
           style: TextStyle(fontSize: 18.0),
-          keyboardType: email ?? false
-              ? TextInputType.emailAddress
-              : phone ?? false ? TextInputType.phone : null,
+          keyboardType: email ?? false ? TextInputType.emailAddress : null,
           obscureText: password ?? false,
         );
       },

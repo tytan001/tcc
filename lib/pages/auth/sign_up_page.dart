@@ -107,7 +107,17 @@ class _SignUpPageState extends State<SignUpPage> {
                               SizedBox(
                                 height: 16.0,
                               ),
-                              inputFieldMask(_signUpBloc.changePhone,
+                              InputField(
+                                label: "Confirm Password",
+                                hint: "Confirm Password",
+                                password: true,
+                                stream: _signUpBloc.outConfirmPassword,
+                                onChanged: _signUpBloc.changeConfirmPassword,
+                              ),
+                              SizedBox(
+                                height: 16.0,
+                              ),
+                              inputFieldMaskPhone(_signUpBloc.changePhone,
                                   _signUpBloc.outPhone, "Phone", "Phone"),
                               SizedBox(
                                 height: 16.0,
@@ -162,7 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
         : MediaQuery.of(context).size.height / 3.3;
   }
 
-  StreamBuilder<String> inputFieldMask(Function(String) onChanged,
+  StreamBuilder<String> inputFieldMaskPhone(Function(String) onChanged,
       Stream<String> stream, String hint, String label) {
     return StreamBuilder<String>(
       stream: stream,
@@ -180,6 +190,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   borderSide:
                       BorderSide(color: Theme.of(context).buttonColor))),
           style: TextStyle(fontSize: 18.0),
+          keyboardType: TextInputType.phone,
         );
       },
     );

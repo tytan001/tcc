@@ -5,10 +5,17 @@ class Client {
   final String name;
   final String email;
   final String password;
+  final String confirmPassword;
 //  final String cpf;
   final String phone;
 
-  Client({this.id, this.name, this.email, this.password, this.phone});
+  Client(
+      {this.id,
+      this.name,
+      this.email,
+      this.password,
+      this.confirmPassword,
+      this.phone});
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
@@ -26,6 +33,7 @@ class Client {
     map["name"] = name;
     map["email"] = email;
     map["password"] = password;
+    map["confirmPassword"] = confirmPassword;
 //    map["cpf"] = cpf;
     map["phone"] = phone;
 

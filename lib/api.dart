@@ -23,9 +23,20 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 400) {
-          throw ResourceException("Err: ${responseReturn["errors"]["email"]}");
-        } else {
+          final responseErr = responseReturn["errors"];
+          if (responseErr["email"] != null) {
+            throw ResourceException("Err: ${responseErr["email"]}");
+          } else if (responseErr["password"] != null) {
+            throw ResourceException("Err: ${responseErr["password"]}");
+          } else if (responseReturn != null) {
+            throw ResourceException("Err: ${responseReturn.toString()}");
+          } else {
+            throw ResourceException("Err: ${responseReturn.toString()}");
+          }
+        } else if (statusCode == 200) {
           return responseReturn;
+        } else {
+          throw ResourceException("Err: ${responseReturn.toString()}");
         }
       });
     } catch (e) {
@@ -96,8 +107,10 @@ class Api {
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
           throw new ResourceException("Err: ${responseReturn["response"]}");
-        } else {
+        } else if (statusCode == 200) {
           return responseReturn;
+        } else {
+          throw ResourceException("Err: ${responseReturn.toString()}");
         }
       });
     } catch (e) {
@@ -113,8 +126,10 @@ class Api {
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
           throw ResourceException("Err: ${responseReturn["message"]}");
-        } else {
+        } else if (statusCode == 200) {
           return responseReturn;
+        } else {
+          throw ResourceException("Err: ${responseReturn.toString()}");
         }
       });
     } catch (e) {
