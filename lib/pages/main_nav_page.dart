@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
+import 'package:idrink/pages/historic_page.dart';
 import 'package:idrink/pages/home_page.dart';
 import 'package:idrink/pages/profile_page.dart';
 import 'package:idrink/services/client_service.dart';
@@ -31,9 +32,7 @@ class _MainNavPageState extends State<MainNavPage> {
 
     _pages = [
       HomePage(_isLoadingStream),
-      Container(
-        color: Colors.blue,
-      ),
+      HistoricPage(_isLoadingStream),
       ProfilePage(_isLoadingStream),
     ];
 
