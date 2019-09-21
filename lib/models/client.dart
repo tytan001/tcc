@@ -33,7 +33,7 @@ class Client {
     map["name"] = name;
     map["email"] = email;
     map["password"] = password;
-    map["confirmPassword"] = confirmPassword;
+    map["password_confirmation"] = confirmPassword;
 //    map["cpf"] = cpf;
     map["phone"] = phone;
 
