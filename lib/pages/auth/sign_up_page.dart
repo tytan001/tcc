@@ -6,6 +6,7 @@ import 'package:idrink/blocs/sign_up_bloc.dart';
 import 'package:idrink/services/page_service.dart';
 import 'package:idrink/widgets/gradient.dart';
 import 'package:idrink/widgets/input_field.dart';
+import 'package:idrink/widgets/input_field_mask.dart';
 
 class SignUpPage extends StatefulWidget {
   final PageController _pageController;
@@ -117,8 +118,14 @@ class _SignUpPageState extends State<SignUpPage> {
                               SizedBox(
                                 height: 16.0,
                               ),
-                              inputFieldMaskPhone(_signUpBloc.changePhone,
-                                  _signUpBloc.outPhone, "Phone", "Phone"),
+                              InputFieldMask(
+                                label: "Phone",
+                                hint: "Phone",
+                                phone: true,
+                                stream: _signUpBloc.outPhone,
+                                onChanged: _signUpBloc.changePhone,
+                                controller: controllerMaskPhone,
+                              ),
                               SizedBox(
                                 height: 16.0,
                               ),
@@ -170,29 +177,5 @@ class _SignUpPageState extends State<SignUpPage> {
     return MediaQuery.of(context).viewInsets.vertical != 0
         ? MediaQuery.of(context).viewInsets.vertical / 10
         : MediaQuery.of(context).size.height / 3.3;
-  }
-
-  StreamBuilder<String> inputFieldMaskPhone(Function(String) onChanged,
-      Stream<String> stream, String hint, String label) {
-    return StreamBuilder<String>(
-      stream: stream,
-      builder: (context, snapshot) {
-        return TextField(
-          onChanged: onChanged,
-          controller: controllerMaskPhone,
-          decoration: InputDecoration(
-              hintText: hint,
-              labelText: label,
-              errorText: snapshot.hasError ? snapshot.error : null,
-              labelStyle: TextStyle(color: Colors.black54),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide:
-                      BorderSide(color: Theme.of(context).buttonColor))),
-          style: TextStyle(fontSize: 18.0),
-          keyboardType: TextInputType.phone,
-        );
-      },
-    );
   }
 }
