@@ -38,11 +38,10 @@ class _SignUpPageState extends State<SignUpPage> {
           showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                    title: Text("Err"),
                     content: StreamBuilder(
                         stream: _signUpBloc.outMessage,
                         builder: (context, snapshot) {
-                          return Text(snapshot.data.toString());
+                          return Text(snapshot.data.toString(), textAlign: TextAlign.center,);
                         }),
                   ));
           break;

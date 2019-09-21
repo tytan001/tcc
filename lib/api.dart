@@ -25,13 +25,13 @@ class Api {
         if (statusCode == 400) {
           final responseErr = responseReturn["errors"];
           if (responseErr["email"] != null) {
-            throw ResourceException("Err: ${responseErr["email"]}");
+            throw ResourceException(responseErr["email"][0].toString());
           } else if (responseErr["password"] != null) {
-            throw ResourceException("Err: ${responseErr["password"]}");
+            throw ResourceException(responseErr["password"][0].toString());
           } else if (responseReturn != null) {
-            throw ResourceException("Err: ${responseReturn.toString()}");
+            throw ResourceException(responseReturn.toString());
           } else {
-            throw ResourceException("Err: ${responseReturn.toString()}");
+            throw ResourceException(responseReturn.toString());
           }
         } else if (statusCode == 200) {
           return responseReturn;
@@ -106,11 +106,11 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException("Err: ${responseReturn["response"]}");
+          throw new ResourceException(responseReturn["response"]);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Err: ${responseReturn.toString()}");
+          throw ResourceException(responseReturn.toString());
         }
       });
     } catch (e) {
@@ -125,11 +125,11 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw ResourceException("Err: ${responseReturn["message"]}");
+          throw ResourceException(responseReturn["message"]);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Err: ${responseReturn.toString()}");
+          throw ResourceException(responseReturn.toString());
         }
       });
     } catch (e) {

@@ -80,11 +80,11 @@ class _MainNavPageState extends State<MainNavPage> {
             },
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text("Home")),
+                  icon: Icon(Icons.home), title: Container()),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.list), title: Text("Historic")),
+                  icon: Icon(Icons.list), title: Container()),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person), title: Text("Profile")),
+                  icon: Icon(Icons.person), title: Container()),
             ]),
       ),
       body: SafeArea(
