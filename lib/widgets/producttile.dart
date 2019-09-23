@@ -44,9 +44,9 @@ class ProductTile extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(4, 4, 4, 1),
+                        padding: EdgeInsets.fromLTRB(8, 8, 8, 1),
                         child: Text(
-                          _product.price,
+                          "+ R\$ ${_product.price}",
                           style: TextStyle(
                               color: Theme.of(context).primaryColorDark,
                               fontSize: 16),
