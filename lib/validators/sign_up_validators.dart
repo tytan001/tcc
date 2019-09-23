@@ -28,7 +28,7 @@ class SignUpValidators {
     if (password.isNotEmpty && password.length > 6) {
       sink.add(password);
     } else {
-      sink.addError("Senha inválido");
+      sink.addError("Senha inválida");
     }
   });
 

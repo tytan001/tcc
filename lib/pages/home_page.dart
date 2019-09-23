@@ -63,29 +63,31 @@ class _HomePageState extends State<HomePage> {
                 stream: _storesBloc.outStores,
                 builder: (context, snapshot) {
                   if (snapshot.hasData)
-                    return RefreshIndicator(
-                      onRefresh: () => _storesBloc.allStores,
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          if (index < snapshot.data.length) {
+                    return Container(
+                      color: Theme.of(context).primaryColor,
+                      child: RefreshIndicator(
+                        onRefresh: () => _storesBloc.allStores,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
                             return StoreTile(snapshot.data[index]);
-                          } else {
-                            return Container(
-                              height: 40,
-                              width: 40,
-                              alignment: Alignment.center,
-                              child: CircularProgressIndicator(
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.red),
-                              ),
-                            );
-                          }
-                        },
-                        itemCount: snapshot.data.length,
+                          },
+                          itemCount: snapshot.data.length,
+                        ),
                       ),
                     );
                   else
-                    return Container();
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      color: Theme.of(context).primaryColor,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            Theme.of(context).accentColor,
+                          ),
+                        ),
+                      ),
+                    );
                 }),
           )
         ],

@@ -27,7 +27,7 @@ class SignUpBloc extends BlocBase with SignUpValidators {
   Stream<String> get outPassword =>
       _passwordController.stream.transform(validatePassword).doOnData((c) {
         if (0 != _confirmPasswordController.value.compareTo(c)) {
-          _confirmPasswordController.addError("No Match!");
+          _confirmPasswordController.addError("Sem correspondência!");
         } else {
           _confirmPasswordController.add(_confirmPasswordController.value);
         }
@@ -36,7 +36,7 @@ class SignUpBloc extends BlocBase with SignUpValidators {
           .transform(validatePassword)
           .doOnData((c) {
         if (0 != _passwordController.value.compareTo(c)) {
-          _confirmPasswordController.addError("No Match!");
+          _confirmPasswordController.addError("Sem correspondência!");
         }
       });
   Stream<String> get outPhone =>

@@ -22,8 +22,8 @@ class _HistoricPageState extends State<HistoricPage> {
             children: <Widget>[
               TabBar(
                 tabs: [
-                  Tab(icon: Icon(Icons.list)),
                   Tab(icon: Icon(Icons.content_paste)),
+                  Tab(icon: Icon(Icons.list)),
                 ],
               ),
             ],
@@ -40,9 +40,9 @@ class _HistoricPageState extends State<HistoricPage> {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(bottom: 20.0),
-                    child: Icon(Icons.list),
+                    child: Icon(Icons.content_paste),
                   ),
-                  Text("Historico"),
+                  Text("Pedidos"),
                 ],
               ),
             ),
@@ -54,9 +54,9 @@ class _HistoricPageState extends State<HistoricPage> {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(bottom: 20.0),
-                    child: Icon(Icons.content_paste),
+                    child: Icon(Icons.list),
                   ),
-                  Text("Pedidos"),
+                  Text("Historico"),
                 ],
               ),
             ),

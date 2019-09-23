@@ -27,17 +27,31 @@ class _ProductPageState extends State<ProductPage> {
           stream: _productsBloc.outProducts,
           builder: (context, snapshot) {
             if (snapshot.hasData)
-              return RefreshIndicator(
-                onRefresh: () => _productsBloc.allProducts,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return ProductTile(widget.store, snapshot.data[index]);
-                  },
-                  itemCount: snapshot.data.length,
+              return Container(
+                color: Theme.of(context).primaryColor,
+                child: RefreshIndicator(
+                  onRefresh: () => _productsBloc.allProducts,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return ProductTile(widget.store, snapshot.data[index]);
+                    },
+                    itemCount: snapshot.data.length,
+                  ),
                 ),
               );
             else
-              return Container();
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Theme.of(context).primaryColor,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(
+                      Theme.of(context).accentColor,
+                    ),
+                  ),
+                ),
+              );
           }),
     );
   }

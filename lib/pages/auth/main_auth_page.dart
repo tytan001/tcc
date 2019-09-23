@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:idrink/pages/auth/sign_in_page.dart';
 import 'package:idrink/pages/auth/sign_up_page.dart';
 import 'package:idrink/widgets/gradient.dart';
@@ -22,23 +23,30 @@ class _MainAuthPageState extends State<MainAuthPage> {
 
   @override
   void initState() {
+    super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
     _isLoadingStream = StreamController<bool>.broadcast();
     _pages = [
       SignInPage(_pageController, _isLoadingStream),
       SignUpPage(_pageController, _isLoadingStream),
     ];
-    super.initState();
   }
 
   @override
   void dispose() {
     _isLoadingStream.close();
+    _defaultOrientation();
     super.dispose();
   }
 
   @override
   void deactivate() {
     _isLoadingStream.close();
+    _defaultOrientation();
     super.deactivate();
   }
 
@@ -63,5 +71,14 @@ class _MainAuthPageState extends State<MainAuthPage> {
       controller: _pageController,
       children: _pages,
     );
+  }
+
+  void _defaultOrientation() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 }

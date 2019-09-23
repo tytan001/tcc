@@ -36,11 +36,11 @@ class Api {
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Err: ${responseReturn.toString()}");
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
         }
       });
     } catch (e) {
-      throw ResourceException(e.toString());
+      throw ResourceException("Erro inesperado!");
     }
   }
 
@@ -110,11 +110,11 @@ class Api {
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException(responseReturn.toString());
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
         }
       });
     } catch (e) {
-      throw ResourceException(e.toString());
+      throw ResourceException("Erro inesperado!");
     }
   }
 
@@ -129,11 +129,11 @@ class Api {
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException(responseReturn.toString());
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
         }
       });
     } catch (e) {
-      throw ResourceException(e.toString());
+      throw ResourceException("Erro inesperado!");
     }
   }
 }
