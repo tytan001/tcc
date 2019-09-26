@@ -30,7 +30,7 @@ class _HistoricPageState extends State<HistoricPage> {
           ),
         ),
         body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
+//          physics: NeverScrollableScrollPhysics(),
           children: [
             Container(
               color: Colors.white,
