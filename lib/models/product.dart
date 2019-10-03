@@ -1,23 +1,17 @@
 class Product {
-  final int id;
+  final int idStore;
   final String name;
   final String price;
-  final String status;
-  final int user_id;
 
-  Product({this.id, this.name, this.price, this.status, this.user_id});
+  Product({this.idStore, this.name, this.price});
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-        id: json["id"],
-        name: json["name"],
-        price: json["price"],
-        status: json["status"],
-        user_id: json["user_id"]);
+        idStore: json["store_id"], name: json["name"], price: json["price"]);
   }
 
   Map<String, dynamic> toJson() {
-    return {"id": id, "name": name, "price": price, "status": status, "user_id": user_id};
+    return {"store_id": idStore, "name": name, "price": price};
   }
 
   static List<Product> toList(List data) {

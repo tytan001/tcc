@@ -10,7 +10,7 @@ class LoginValidators {
     if (regExp.hasMatch(email)) {
       sink.add(email);
     } else {
-      sink.addError("E_mail inválido");
+      sink.addError("E-mail inválido");
     }
   });
 
@@ -25,7 +25,7 @@ class LoginValidators {
 //            'A senha tem que ter um número, uma letra minúscula, uma maiúscula, um caracter especial "@#%" e no min. 6 a max. 10 caracteres');
 //      }
 
-    if (password.isNotEmpty && password.length > 6) {
+    if (password.isNotEmpty && password.length > 5) {
       sink.add(password);
     } else {
       sink.addError("Senha inválida");

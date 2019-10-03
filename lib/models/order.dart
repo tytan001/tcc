@@ -1,21 +1,30 @@
 class Order {
-  final int id;
-  final String idStore;
-  final String idProduct;
-  final String idClient;
+  final int status;
+  final String payment;
+  final int idAddress;
+  final int idStore;
+  final int idClient;
 
-  Order({this.id, this.idStore, this.idProduct, this.idClient});
+  Order(
+      {this.status, this.payment, this.idAddress, this.idStore, this.idClient});
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-        id: json["id"],
-        idStore: json["idStore"],
-        idProduct: json["idProduct"],
-        idClient: json["idClient"]);
+        status: json["status"],
+        payment: json["payment"],
+        idAddress: json["address_id"],
+        idStore: json["store_id"],
+        idClient: json["customer_id"]);
   }
 
   Map<String, dynamic> toJson() {
-    return {"id": id, "idStore": idStore, "idProduct": idProduct, "idClient": idClient};
+    return {
+      "status": status,
+      "payment": payment,
+      "address_id": idAddress,
+      "store_id": idStore,
+      "customer_id": idClient
+    };
   }
 
   static List<Order> toList(List data) {

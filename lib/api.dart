@@ -5,12 +5,12 @@ import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/utils/token_headers.dart';
 
 const API_KEY = "http://idrink-tcc.herokuapp.com/api/";
-const API_NEW_CLIENT = "users/new";
+const API_NEW_CLIENT = "users";
 const API_LOGIN = "users/login";
 const API_LOGOUT = "users/logout";
-const API_STORES = "users/all/stores";
-const API_SEARCH_STORES = "users/getstore/";
-const API_PRODUCTS = "users/products/";
+const API_STORES = "stores";
+const API_SEARCH_STORES = "stores/";
+const API_PRODUCTS = "stores/products/";
 const API_SEARCH_PRODUCTS = "test";
 const API_ITEM = "test";
 

@@ -19,13 +19,13 @@ class SignUpValidators {
     if (regExp.hasMatch(email)) {
       sink.add(email);
     } else {
-      sink.addError("E_mail inválido");
+      sink.addError("E-mail inválido");
     }
   });
 
   final validatePassword = StreamTransformer<String, String>.fromHandlers(
       handleData: (password, sink) {
-    if (password.isNotEmpty && password.length > 6) {
+    if (password.isNotEmpty && password.length > 5) {
       sink.add(password);
     } else {
       sink.addError("Senha inválida");
