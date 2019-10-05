@@ -54,4 +54,23 @@ class StoresBloc implements BlocBase {
     _storesController.close();
     _searchController.close();
   }
+
+  @override
+  void addListener(listener) {
+    // TODO: implement addListener
+  }
+
+  @override
+  // TODO: implement hasListeners
+  bool get hasListeners => null;
+
+  @override
+  void notifyListeners() {
+    // TODO: implement notifyListeners
+  }
+
+  @override
+  void removeListener(listener) {
+    // TODO: implement removeListener
+  }
 }

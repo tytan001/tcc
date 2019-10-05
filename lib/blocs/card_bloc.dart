@@ -12,7 +12,7 @@ class CardBloc extends BlocBase{
 
   Store store;
   Order order;
-  List<Item> items;
+  List<Item> items = [];
 
   final _storeController = BehaviorSubject<Store>();
   final _orderController = BehaviorSubject<Order>();
@@ -22,11 +22,7 @@ class CardBloc extends BlocBase{
       _storeController.stream;
   Stream<Order> get outPassword =>
       _orderController.stream;
-  Stream<List<Item>> get outMessage => _itemsController.stream;
-
-  Function(Store) get changeEmail => _storeController.sink.add;
-  Function(Order) get changePassword => _orderController.sink.add;
-
+  Stream<List<Item>> get outItems => _itemsController.stream;
 
   void submit() async {
   }

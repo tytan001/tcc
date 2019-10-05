@@ -33,7 +33,7 @@ class _ProductPageState extends State<ProductPage> {
                   onRefresh: () => _productsBloc.allProducts,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return ProductTile(widget.store, snapshot.data[index]);
+                      return ProductTile(snapshot.data[index]);
                     },
                     itemCount: snapshot.data.length,
                   ),

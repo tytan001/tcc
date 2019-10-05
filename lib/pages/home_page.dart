@@ -14,12 +14,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-//  final _storesBloc = StoresBloc();
+  final _storesBloc = StoresBloc();
   final _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final _storesBloc = BlocProvider.of<StoresBloc>(context);
+//    final _storesBloc = BlocProvider.of<StoresBloc>(context);
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,

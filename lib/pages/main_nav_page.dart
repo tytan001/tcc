@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:idrink/blocs/stores_bloc.dart';
+import 'package:idrink/blocs/card_bloc.dart';
 import 'package:idrink/pages/historic_page.dart';
 import 'package:idrink/pages/home_page.dart';
 import 'package:idrink/pages/profile_page.dart';
@@ -19,7 +19,7 @@ class MainNavPage extends StatefulWidget {
 }
 
 class _MainNavPageState extends State<MainNavPage> {
-  StoresBloc storesBloc = StoresBloc();
+//  CardBloc cardBloc = CardBloc();
   StreamController<bool> _isLoadingStream;
   PageController _pageController;
   List<Widget> _pages;
@@ -87,8 +87,10 @@ class _MainNavPageState extends State<MainNavPage> {
             ]),
       ),
       body: SafeArea(
-        child: BlocProvider<StoresBloc>(
-          bloc: storesBloc,
+        child: BlocProvider(
+          blocs: [
+            Bloc((i)=>CardBloc()),
+          ],
           child: StreamBuilder(
             stream: _isLoadingStream.stream.asBroadcastStream(),
             builder: (_, snap) => _loadPageView(snap),

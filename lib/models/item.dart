@@ -1,23 +1,23 @@
 class Item {
-  final int id;
-  final double quantity;
-  final int idProduct;
-  final int idOrder;
+  int quantity;
+  int idClient;
+  int idProduct;
+  int idOrder;
 
-  Item({this.id, this.quantity, this.idProduct, this.idOrder});
+  Item({this.quantity, this.idClient, this.idProduct, this.idOrder});
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
-        id: json["customer_id"],
         quantity: json["quantity"],
+        idClient: json["customer_id"],
         idProduct: json["product_id"],
         idOrder: json["delivery_id"]);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "customer_id": id,
       "quantity": quantity,
+      "customer_id": idClient,
       "product_id": idProduct,
       "delivery_id": idOrder
     };
