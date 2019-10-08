@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/pages/main_nav_page.dart';
 import 'package:idrink/pages/product_page.dart';
+import 'package:idrink/pages/store_page.dart';
 import 'package:idrink/services/client_service.dart';
 import 'package:idrink/services/token_service.dart';
 
@@ -11,11 +12,15 @@ abstract class PageService {
         MaterialPageRoute(builder: (BuildContext context) => MainNavPage()));
   }
 
-  static void toPageProduct(BuildContext ctx, final store) async {
+  static void toPageStore(BuildContext ctx, final store) async {
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (context) => StorePage(store: store)));
+  }
+
+  static void toPageProduct(
+      BuildContext ctx, final product, final store) async {
     Navigator.of(ctx).push(MaterialPageRoute(
-        builder: (context) => ProductPage(
-              store: store,
-            )));
+        builder: (context) => ProductPage(product: product, store: store)));
   }
 
   static void singOut(BuildContext ctx) async {

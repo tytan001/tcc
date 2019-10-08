@@ -4,31 +4,29 @@ import 'package:rxdart/rxdart.dart';
 
 import 'dart:async';
 
-class ItemBloc extends BlocBase{
-
+class ItemBloc extends BlocBase {
   Item _item;
 
   final _itemController = BehaviorSubject<Item>();
 
-  Stream<Item> get outItem =>
-      _itemController.stream;
+  Stream<Item> get outItem => _itemController.stream;
 
   Item get valueItem => _itemController.value;
 
   Function(Item) get changeItem => _itemController.sink.add;
 
-  ItemBloc(item){
+  ItemBloc(item) {
     this._item = item;
     _itemController.sink.add(item);
   }
 
-  void moreOne(){
+  void moreOne() {
     _item.quantity += 1;
     _itemController.sink.add(_item);
   }
 
-  void lessOne(){
-    if(_item.quantity > 0)
+  void lessOne() {
+    if (_item.quantity > 0)
       _item.quantity -= 1;
     else
       _item.quantity = 0;
@@ -38,5 +36,6 @@ class ItemBloc extends BlocBase{
   @override
   void dispose() {
     _itemController.close();
+    super.dispose();
   }
 }

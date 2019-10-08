@@ -11,7 +11,7 @@ class StoreTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        PageService.toPageProduct(context, _store);
+        PageService.toPageStore(context, _store);
       },
       child: Container(
         color: Colors.white,
