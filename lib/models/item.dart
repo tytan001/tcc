@@ -30,4 +30,10 @@ class Item {
     }
     return stores;
   }
+
+  @override
+  bool operator ==(other) => other is Item && other.idProduct == idProduct;
+
+  @override
+  int get hashCode => idProduct.hashCode ^ idOrder.hashCode;
 }

@@ -25,4 +25,10 @@ class Store {
     }
     return stores;
   }
+
+  @override
+  bool operator ==(other) => other is Store && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode ^ email.hashCode;
 }

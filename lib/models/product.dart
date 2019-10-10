@@ -8,7 +8,10 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-        id: json["store_id"], idStore: json["store_id"], name: json["name"], price: json["price"]);
+        id: json["store_id"],
+        idStore: json["store_id"],
+        name: json["name"],
+        price: json["price"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -22,4 +25,10 @@ class Product {
     }
     return products;
   }
+
+  @override
+  bool operator ==(other) => other is Product && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode ^ idStore.hashCode;
 }

@@ -11,9 +11,7 @@ class ItemBloc extends BlocBase {
 
   Stream<Item> get outItem => _itemController.stream;
 
-  Item get valueItem => _itemController.value;
-
-  Function(Item) get changeItem => _itemController.sink.add;
+  Item get getItem => _itemController.value;
 
   ItemBloc(item) {
     this._item = item;

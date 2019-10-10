@@ -15,7 +15,6 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    final bloc = BlocProvider.of<CardBloc>(context);
     final CardBloc bloc = BlocProvider.getBloc<CardBloc>();
 
     Item item = Item(idProduct: _product.id, quantity: 0);
