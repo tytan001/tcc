@@ -46,7 +46,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ToastUtil.showToast(e.msg, context, color: ToastUtil.error);
                   PageService.singOut(context);
                 } catch (e) {
-                  ToastUtil.showToast(e.msg, context, color: ToastUtil.error);
+                  ToastUtil.showToast(e.toString(), context,
+                      color: ToastUtil.error);
                   PageService.singOut(context);
                 }
               },

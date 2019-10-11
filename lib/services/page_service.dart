@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
+import 'package:idrink/pages/card_page.dart';
 import 'package:idrink/pages/main_nav_page.dart';
 import 'package:idrink/pages/product_page.dart';
 import 'package:idrink/pages/store_page.dart';
@@ -21,6 +22,10 @@ abstract class PageService {
       BuildContext ctx, final product, final store) async {
     Navigator.of(ctx).push(MaterialPageRoute(
         builder: (context) => ProductPage(product: product, store: store)));
+  }
+
+  static void toPageCard(BuildContext ctx) async {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => CardPage()));
   }
 
   static void singOut(BuildContext ctx) async {

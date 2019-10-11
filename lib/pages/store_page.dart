@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/products_bloc.dart';
 import 'package:idrink/models/store.dart';
+import 'package:idrink/services/page_service.dart';
 import 'package:idrink/widgets/producttile.dart';
 
 class StorePage extends StatefulWidget {
@@ -33,7 +34,13 @@ class _StorePageState extends State<StorePage> {
                   onRefresh: () => _productsBloc.allProducts,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return ProductTile(snapshot.data[index], widget.store);
+                      return GestureDetector(
+                        onTap: () {
+                          PageService.toPageProduct(
+                              context, snapshot.data[index], widget.store);
+                        },
+                        child: ProductTile(snapshot.data[index]),
+                      );
                     },
                     itemCount: snapshot.data.length,
                   ),
