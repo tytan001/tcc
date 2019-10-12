@@ -2,19 +2,19 @@ class Order {
   final int status;
   final String payment;
   final int idAddress;
-  final int idStore;
   final int idClient;
+  final int idStore;
 
   Order(
-      {this.status, this.payment, this.idAddress, this.idStore, this.idClient});
+      {this.status, this.payment, this.idAddress, this.idClient, this.idStore});
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
         status: json["status"],
         payment: json["payment"],
         idAddress: json["address_id"],
-        idStore: json["store_id"],
-        idClient: json["customer_id"]);
+        idClient: json["customer_id"],
+        idStore: json["store_id"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -22,8 +22,8 @@ class Order {
       "status": status,
       "payment": payment,
       "address_id": idAddress,
-      "store_id": idStore,
-      "customer_id": idClient
+      "customer_id": idClient,
+      "store_id": idStore
     };
   }
 

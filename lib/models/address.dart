@@ -1,14 +1,26 @@
 class Address {
-  final String address;
+  final String cep;
+  final String logradouro;
+  final String complemento;
+  final String bairro;
+  final String localidade;
+  final String uf;
+  final String numero;
   final String latitude;
   final String longitude;
   final int idUser;
 
-  Address({this.address, this.latitude, this.longitude, this.idUser});
+  Address({this.cep, this.logradouro, this.complemento, this.bairro, this.localidade, this.uf,  this.numero,this.latitude, this.longitude, this.idUser});
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
-        address: json["address"],
+        cep: json["cep"],
+        logradouro: json["logradouro"],
+        complemento: json["complemento"],
+        bairro: json["bairro"],
+        localidade: json["localidade"],
+        uf: json["uf"],
+        numero: json["numero"],
         latitude: json["latitude"],
         longitude: json["longitude"],
         idUser: json["user_id"]);
@@ -16,7 +28,13 @@ class Address {
 
   Map<String, dynamic> toJson() {
     return {
-      "address": address,
+      "cep": cep,
+      "logradouro": logradouro,
+      "complemento": complemento,
+      "bairro": bairro,
+      "localidade": localidade,
+      "uf": uf,
+      "numero": numero,
       "latitude": latitude,
       "longitude": longitude,
       "user_id": idUser
