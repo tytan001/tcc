@@ -37,7 +37,7 @@ class StoreTile extends StatelessWidget {
                       ),
                       Container(
                         child: Divider(
-                          color: Theme.of(context).primaryColorDark,
+                          color: Theme.of(context).hoverColor,
                           height: 30,
                         ),
                       )

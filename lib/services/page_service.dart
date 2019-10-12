@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:idrink/pages/address_page.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/pages/card_page.dart';
 import 'package:idrink/pages/main_nav_page.dart';
 import 'package:idrink/pages/product_page.dart';
 import 'package:idrink/pages/store_page.dart';
+import 'package:idrink/pages/update_password_page.dart';
+import 'package:idrink/pages/update_profile_page.dart';
 import 'package:idrink/services/client_service.dart';
 import 'package:idrink/services/token_service.dart';
 
@@ -16,6 +19,21 @@ abstract class PageService {
   static void toPageStore(BuildContext ctx, final store) async {
     Navigator.of(ctx)
         .push(MaterialPageRoute(builder: (context) => StorePage(store: store)));
+  }
+
+  static void toPageUpdateProfile(BuildContext ctx) async {
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (context) => UpdateProfilePage()));
+  }
+
+  static void toPageUpdatePassword(BuildContext ctx) async {
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (context) => UpdatePasswordPage()));
+  }
+
+  static void toPageAddress(BuildContext ctx) async {
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (context) => AddressPage()));
   }
 
 //  static void toPageProduct(

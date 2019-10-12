@@ -6,7 +6,7 @@ import 'package:idrink/models/product.dart';
 import 'package:idrink/models/store.dart';
 //import 'package:idrink/services/page_service.dart';
 import 'package:idrink/dialogs/dialog_product.dart';
-import 'package:idrink/widgets/producttile.dart';
+import 'package:idrink/widgets/produc_tile.dart';
 
 class StorePage extends StatefulWidget {
   final Store store;
@@ -26,6 +26,7 @@ class _StorePageState extends State<StorePage> {
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 1.0,
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(widget.store.name),
         centerTitle: true,

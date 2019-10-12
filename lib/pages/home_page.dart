@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
-import 'package:idrink/widgets/storetile.dart';
+import 'package:idrink/widgets/store_tile.dart';
 
 class HomePage extends StatefulWidget {
   @override

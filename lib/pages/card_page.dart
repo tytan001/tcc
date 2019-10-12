@@ -1,7 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/card_bloc.dart';
-import 'package:idrink/widgets/produc_cardttile.dart';
+import 'package:idrink/widgets/produc_card_tile.dart';
 
 class CardPage extends StatefulWidget {
   @override
@@ -15,6 +15,7 @@ class _CardPageState extends State<CardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 1.0,
         backgroundColor: Theme.of(context).primaryColor,
         title: Text("Carrinho"),
         centerTitle: true,
