@@ -18,11 +18,11 @@ abstract class PageService {
         .push(MaterialPageRoute(builder: (context) => StorePage(store: store)));
   }
 
-  static void toPageProduct(
-      BuildContext ctx, final product, final store) async {
-    Navigator.of(ctx).push(MaterialPageRoute(
-        builder: (context) => ProductPage(product: product, store: store)));
-  }
+//  static void toPageProduct(
+//      BuildContext ctx, final product, final store) async {
+//    Navigator.of(ctx).push(MaterialPageRoute(
+//        builder: (context) => ProductPage(product: product, store: store)));
+//  }
 
   static void toPageCard(BuildContext ctx) async {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => CardPage()));
