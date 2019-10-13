@@ -4,18 +4,17 @@ import 'package:idrink/models/client.dart';
 import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/services/client_service.dart';
 import 'package:idrink/services/page_state.dart';
-import 'package:idrink/services/token_service.dart';
 import 'package:idrink/validators/sign_up_validators.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SignUpBloc extends BlocBase with SignUpValidators {
+class UpdateProfileBloc extends BlocBase with SignUpValidators {
   final api = Api();
 
+  final _idController = BehaviorSubject<int>();
   final _nameController = BehaviorSubject<String>();
   final _emailController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
-  final _confirmPasswordController = BehaviorSubject<String>();
   final _phoneController = BehaviorSubject<String>();
+
   final _stateController = BehaviorSubject<PageState>();
 
   final _messageController = BehaviorSubject<String>();
@@ -23,63 +22,36 @@ class SignUpBloc extends BlocBase with SignUpValidators {
   Stream<String> get outName => _nameController.stream.transform(validateName);
   Stream<String> get outEmail =>
       _emailController.stream.transform(validateEmail);
-  Stream<String> get outPassword =>
-      _passwordController.stream.transform(validatePassword).doOnData((c) {
-        if (0 != _confirmPasswordController.value.compareTo(c)) {
-          _confirmPasswordController.addError("Sem correspondência!");
-        } else {
-          _confirmPasswordController.add(_confirmPasswordController.value);
-        }
-      });
-  Stream<String> get outConfirmPassword => _confirmPasswordController.stream
-          .transform(validatePassword)
-          .doOnData((c) {
-        if (0 != _passwordController.value.compareTo(c)) {
-          _confirmPasswordController.addError("Sem correspondência!");
-        }
-      });
   Stream<String> get outPhone =>
       _phoneController.stream.transform(validatePhone);
+
   Stream<PageState> get outState => _stateController.stream;
 
   Stream<String> get outMessage => _messageController.stream;
 
-  Stream<bool> get outSubmitValid => Observable.combineLatest5(
-      outName,
-      outEmail,
-      outPassword,
-      outConfirmPassword,
-      outPhone,
-      (a, b, c, d, e) => true);
+  Stream<bool> get outSubmitValid =>
+      Observable.combineLatest3(outName, outEmail, outPhone, (a, b, c) => true);
 
   Function(String) get changeName => _nameController.sink.add;
   Function(String) get changeEmail => _emailController.sink.add;
-  Function(String) get changePassword => _passwordController.sink.add;
-  Function(String) get changeConfirmPassword =>
-      _confirmPasswordController.sink.add;
   Function(String) get changePhone => _phoneController.sink.add;
+
+  UpdateProfileBloc() {
+    getUserName();
+  }
 
   void submit() async {
     _stateController.add(PageState.LOADING);
 
+    final id = _idController.value;
     final name = _nameController.value;
     final email = _emailController.value;
-    final password = _passwordController.value;
-    final confirmPassword = _confirmPasswordController.value;
     final phone = _phoneController.value;
 
-//    await Future.delayed(Duration(milliseconds: 10000));
-
     try {
-      Map<String, dynamic> response = await api.createClient(Client(
-              name: name,
-              email: email,
-              password: password,
-              confirmPassword: confirmPassword,
-              phone: phone)
-          .toMap());
+      Map<String, dynamic> response = await api.updateClient(
+          Client(name: name, email: email, phone: phone).toMap(), id);
 
-      await TokenService.saveToken(response["token"]);
       await ClientService.saveClient(response["0"]);
       _stateController.add(PageState.SUCCESS);
     } on ResourceException catch (e) {
@@ -91,12 +63,20 @@ class SignUpBloc extends BlocBase with SignUpValidators {
     }
   }
 
+  Future<void> getUserName() async {
+    final client = await ClientService.getClient();
+
+    _idController.add(client.id);
+    _nameController.add(client.name);
+    _emailController.add(client.email);
+    _phoneController.add(client.phone);
+  }
+
   @override
   void dispose() {
+    _idController.close();
     _nameController.close();
     _emailController.close();
-    _passwordController.close();
-    _confirmPasswordController.close();
     _phoneController.close();
     _stateController.close();
 

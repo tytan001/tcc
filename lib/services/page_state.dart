@@ -1,0 +1,3 @@
+enum PageState { IDLE, LOADING, SUCCESS, FAIL }
+
+enum CardState { EMPTY, CHANGED, EQUAL, DIFFERENT, FULL }

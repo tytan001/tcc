@@ -3,13 +3,12 @@ import 'package:idrink/api.dart';
 import 'package:idrink/models/login.dart';
 import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/services/client_service.dart';
+import 'package:idrink/services/page_state.dart';
 import 'package:idrink/services/token_service.dart';
 import 'package:idrink/validators/login_validators.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'dart:async';
-
-enum LoginState { IDLE, LOADING, SUCCESS, FAIL }
 
 class LoginBloc extends BlocBase with LoginValidators {
   final api = Api();
@@ -17,7 +16,7 @@ class LoginBloc extends BlocBase with LoginValidators {
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
   final _stateController =
-      BehaviorSubject<LoginState>(seedValue: LoginState.LOADING);
+      BehaviorSubject<PageState>(seedValue: PageState.LOADING);
 
   final _messageController = BehaviorSubject<String>();
 
@@ -25,7 +24,7 @@ class LoginBloc extends BlocBase with LoginValidators {
       _emailController.stream.transform(validateEmail);
   Stream<String> get outPassword =>
       _passwordController.stream.transform(validatePassword);
-  Stream<LoginState> get outState => _stateController.stream;
+  Stream<PageState> get outState => _stateController.stream;
 
   Stream<String> get outMessage => _messageController.stream;
 
@@ -48,17 +47,15 @@ class LoginBloc extends BlocBase with LoginValidators {
     final cliente = await ClientService.getClient();
 
     (token != null)
-        ? _stateController.add(LoginState.SUCCESS)
-        : _stateController.add(LoginState.IDLE);
+        ? _stateController.add(PageState.SUCCESS)
+        : _stateController.add(PageState.IDLE);
   }
 
   void submit() async {
-    _stateController.add(LoginState.LOADING);
+    _stateController.add(PageState.LOADING);
 
     final email = _emailController.value;
     final password = _passwordController.value;
-
-//    await Future.delayed(Duration(milliseconds: 10000));
 
     try {
       final response =
@@ -66,12 +63,12 @@ class LoginBloc extends BlocBase with LoginValidators {
 
       await TokenService.saveToken(response["token"]);
       await ClientService.saveClient(response["0"]);
-      _stateController.add(LoginState.SUCCESS);
+      _stateController.add(PageState.SUCCESS);
     } on ResourceException catch (e) {
-      _stateController.add(LoginState.FAIL);
+      _stateController.add(PageState.FAIL);
       _messageController.add(e.msg);
     } catch (e) {
-      _stateController.add(LoginState.FAIL);
+      _stateController.add(PageState.FAIL);
       _messageController.add(e.toString());
     }
   }
@@ -83,5 +80,6 @@ class LoginBloc extends BlocBase with LoginValidators {
     _stateController.close();
 
     _messageController.close();
+    super.dispose();
   }
 }

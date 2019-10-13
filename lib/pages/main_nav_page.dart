@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/card_bloc.dart';
-import 'package:idrink/pages/historic_page.dart';
-import 'package:idrink/pages/home_page.dart';
-import 'package:idrink/pages/profile_page.dart';
+import 'package:idrink/blocs/user_bloc.dart';
+import 'package:idrink/pages/tabs/historic_page.dart';
+import 'package:idrink/pages/tabs/home_page.dart';
+import 'package:idrink/pages/tabs/profile_page.dart';
 import 'package:idrink/services/client_service.dart';
 import 'package:idrink/utils/toast_util.dart';
 
@@ -89,7 +90,8 @@ class _MainNavPageState extends State<MainNavPage> {
       body: SafeArea(
         child: BlocProvider(
           blocs: [
-            Bloc((i)=>CardBloc()),
+            Bloc((i) => UserBloc()),
+            Bloc((i) => CardBloc()),
           ],
           child: StreamBuilder(
             stream: _isLoadingStream.stream.asBroadcastStream(),

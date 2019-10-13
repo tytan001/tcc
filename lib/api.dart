@@ -6,6 +6,7 @@ import 'package:idrink/utils/token_headers.dart';
 
 const API_KEY = "http://idrink-tcc.herokuapp.com/api/";
 const API_NEW_CLIENT = "users";
+const API_UPDATE_CLIENT = "users/";
 const API_LOGIN = "users/login";
 const API_LOGOUT = "users/logout";
 const API_STORES = "stores";
@@ -28,6 +29,33 @@ class Api {
             throw ResourceException(responseErr["email"][0].toString());
           } else if (responseErr["password"] != null) {
             throw ResourceException(responseErr["password"][0].toString());
+          } else if (responseReturn != null) {
+            throw ResourceException(responseReturn.toString());
+          } else {
+            throw ResourceException(responseReturn.toString());
+          }
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<Map<String, dynamic>> updateClient(Map body, int id) async {
+    final url = API_KEY + API_NEW_CLIENT + id.toString();
+
+    try {
+      return http.put(url, body: body).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 400) {
+          final responseErr = responseReturn["errors"];
+          if (responseErr["email"] != null) {
+            throw ResourceException(responseErr["email"][0].toString());
           } else if (responseReturn != null) {
             throw ResourceException(responseReturn.toString());
           } else {

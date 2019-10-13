@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:idrink/blocs/login_bloc.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/services/page_service.dart';
+import 'package:idrink/services/page_state.dart';
 import 'package:idrink/widgets/gradient.dart';
 import 'package:idrink/widgets/input_field.dart';
 import 'package:idrink/widgets/ou_divider.dart';
@@ -27,11 +28,11 @@ class _SignInPageState extends State<SignInPage> {
 
     _loginBloc.outState.listen((state) {
       switch (state) {
-        case LoginState.SUCCESS:
+        case PageState.SUCCESS:
           widget._isLoadingStream.add(true);
           PageService.singIn(context);
           break;
-        case LoginState.FAIL:
+        case PageState.FAIL:
           widget._isLoadingStream.add(false);
           showDialog(
               context: context,
@@ -43,10 +44,10 @@ class _SignInPageState extends State<SignInPage> {
                         }),
                   ));
           break;
-        case LoginState.LOADING:
+        case PageState.LOADING:
           widget._isLoadingStream.add(true);
           break;
-        case LoginState.IDLE:
+        case PageState.IDLE:
           widget._isLoadingStream.add(false);
       }
     });
@@ -62,7 +63,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: StreamBuilder<LoginState>(
+        body: StreamBuilder<PageState>(
             stream: _loginBloc.outState,
             builder: (context, snapshot) {
               return Stack(
@@ -161,8 +162,8 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         )),
                   ),
-                  if (snapshot.data == LoginState.SUCCESS ||
-                      snapshot.data == LoginState.LOADING)
+                  if (snapshot.data == PageState.SUCCESS ||
+                      snapshot.data == PageState.LOADING)
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,

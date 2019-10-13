@@ -6,7 +6,7 @@ import 'package:idrink/models/store.dart';
 import 'package:idrink/services/token_service.dart';
 import 'package:rxdart/rxdart.dart';
 
-class StoresBloc implements BlocBase {
+class StoresBloc extends BlocBase {
   final api = Api();
 
   List<Store> stores;
@@ -53,24 +53,6 @@ class StoresBloc implements BlocBase {
   void dispose() {
     _storesController.close();
     _searchController.close();
-  }
-
-  @override
-  void addListener(listener) {
-    // TODO: implement addListener
-  }
-
-  @override
-  // TODO: implement hasListeners
-  bool get hasListeners => null;
-
-  @override
-  void notifyListeners() {
-    // TODO: implement notifyListeners
-  }
-
-  @override
-  void removeListener(listener) {
-    // TODO: implement removeListener
+    super.dispose();
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:idrink/blocs/sign_up_bloc.dart';
 import 'package:idrink/services/page_service.dart';
+import 'package:idrink/services/page_state.dart';
 import 'package:idrink/widgets/gradient.dart';
 import 'package:idrink/widgets/input_field.dart';
 import 'package:idrink/widgets/input_field_mask.dart';
@@ -29,11 +30,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
     _signUpBloc.outState.listen((state) {
       switch (state) {
-        case SignUpState.SUCCESS:
+        case PageState.SUCCESS:
           widget._isLoadingStream.add(true);
           PageService.singIn(context);
           break;
-        case SignUpState.FAIL:
+        case PageState.FAIL:
           widget._isLoadingStream.add(false);
           showDialog(
               context: context,
@@ -45,10 +46,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         }),
                   ));
           break;
-        case SignUpState.LOADING:
+        case PageState.LOADING:
           widget._isLoadingStream.add(true);
           break;
-        case SignUpState.IDLE:
+        case PageState.IDLE:
           widget._isLoadingStream.add(false);
       }
     });
@@ -57,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: StreamBuilder<SignUpState>(
+        body: StreamBuilder<PageState>(
             stream: _signUpBloc.outState,
             builder: (context, snapshot) {
               return Stack(children: <Widget>[
@@ -154,8 +155,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             ],
                           ),
                         ))),
-                if (snapshot.data == SignUpState.SUCCESS ||
-                    snapshot.data == SignUpState.LOADING)
+                if (snapshot.data == PageState.SUCCESS ||
+                    snapshot.data == PageState.LOADING)
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,

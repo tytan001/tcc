@@ -5,6 +5,7 @@ import 'package:idrink/models/item.dart';
 import 'package:idrink/models/product.dart';
 import 'package:idrink/models/store.dart';
 import 'package:idrink/services/page_service.dart';
+import 'package:idrink/services/page_state.dart';
 
 class ProductDialog extends StatelessWidget {
   final Store store;

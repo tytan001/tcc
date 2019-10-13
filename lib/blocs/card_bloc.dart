@@ -4,11 +4,10 @@ import 'package:idrink/models/item.dart';
 import 'package:idrink/models/order.dart';
 import 'package:idrink/models/product.dart';
 import 'package:idrink/models/store.dart';
+import 'package:idrink/services/page_state.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'dart:async';
-
-enum CardState { EMPTY, CHANGED, EQUAL, DIFFERENT, FULL }
 
 class CardBloc extends BlocBase {
   final api = Api();
