@@ -154,7 +154,10 @@ class ProductDialog extends StatelessWidget {
 //                    Navigator.of(context).pop();
                       Navigator.pop(context);
                     },
-                    child: Text("Cancel"),
+                    child: Text(
+                      "Cancelar",
+                      style: TextStyle(fontSize: 13.0),
+                    ),
                   ),
                 ],
               )

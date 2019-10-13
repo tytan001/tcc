@@ -16,6 +16,9 @@ class CardBloc extends BlocBase {
   List<Item> items;
   List<Product> products;
 
+  Item _auxItem;
+  Product _auxProduct;
+
   final _storeController = BehaviorSubject<Store>();
   final _orderController = BehaviorSubject<Order>();
   final _itemsController = BehaviorSubject<List<Item>>(seedValue: []);
@@ -32,6 +35,11 @@ class CardBloc extends BlocBase {
   Function(Store) get addStore => _storeController.sink.add;
   Function(CardState) get changeState => _stateController.sink.add;
 
+  void updateLists(List<Item> listItems, List<Product> listProducts) {
+    _itemsController.sink.add(listItems);
+    _productsController.sink.add(listProducts);
+  }
+
   bool addCard(final Item item, final Product product, final Store store) {
     items = _itemsController.value;
     products = _productsController.value;
@@ -45,16 +53,11 @@ class CardBloc extends BlocBase {
         products.add(product);
       }
 
-      _itemsController.sink.add(items);
-      _productsController.sink.add(products);
+      updateLists(items, products);
       return true;
     } else {
       return false;
     }
-
-//    items.contains(item)?
-//    items.forEach((i)=> i.idProduct == item.idProduct? i.quantity += item.quantity: null):
-//    items.add(item);
   }
 
   bool stateCard(final Store store) {
@@ -62,7 +65,7 @@ class CardBloc extends BlocBase {
       _stateController.sink.add(CardState.EQUAL);
       return true;
     } else if (_stateController.value == CardState.CHANGED) {
-      _changed(store);
+      _changedStore(store);
       return true;
     } else if (_stateController.value == CardState.EMPTY) {
       _stateController.sink.add(CardState.FULL);
@@ -76,15 +79,37 @@ class CardBloc extends BlocBase {
     }
   }
 
-  void _changed(final Store store) {
+  void _changedStore(final Store store) {
     _stateController.sink.add(CardState.FULL);
     _storeController.sink.add(store);
     items = _itemsController.value;
     products = _productsController.value;
     items.clear();
     products.clear();
-    _itemsController.sink.add(items);
-    _productsController.sink.add(products);
+    updateLists(items, products);
+  }
+
+  void deleteItemCard(final int index) {
+    items = _itemsController.value;
+    products = _productsController.value;
+
+    _auxItem = items[index];
+    _auxProduct = products[index];
+
+    items.removeAt(index);
+    products.removeAt(index);
+
+    updateLists(items, products);
+  }
+
+  void unDeleteItemCard() {
+    items = _itemsController.value;
+    products = _productsController.value;
+
+    items.add(_auxItem);
+    products.add(_auxProduct);
+
+    updateLists(items, products);
   }
 
   void submit() async {}

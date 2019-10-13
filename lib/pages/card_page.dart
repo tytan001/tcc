@@ -1,6 +1,7 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/card_bloc.dart';
+import 'package:idrink/models/product.dart';
 import 'package:idrink/widgets/produc_card_tile.dart';
 
 class CardPage extends StatefulWidget {
@@ -23,17 +24,15 @@ class _CardPageState extends State<CardPage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: StreamBuilder(
+            child: StreamBuilder<List<Product>>(
                 stream: bloc.outProducts,
                 builder: (context, snapshot) {
                   if (snapshot.hasData)
                     return Container(
                       color: Theme.of(context).primaryColor,
                       child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return ProductCardTile(
-                              snapshot.data[index], bloc.getItems[index]);
-                        },
+                        itemBuilder: (context, index) =>
+                            buildItem(context, index, snapshot.data[index]),
                         itemCount: snapshot.data.length,
                       ),
                     );
@@ -52,35 +51,65 @@ class _CardPageState extends State<CardPage> {
                     );
                 }),
           ),
-          Container(
-            color: Colors.yellow,
-            padding: EdgeInsets.all(10.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FlatButton(
+                  padding: EdgeInsets.all(15.0),
+                  color: Theme.of(context).buttonColor,
+                  onPressed: () {},
                   child: Container(
-                    color: Colors.lightBlueAccent,
-                    child: FlatButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              "Comprar",
-                              style: TextStyle(fontSize: 15.0),
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            "Comprar",
+                            style: TextStyle(fontSize: 18.0),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           )
         ],
       ),
+    );
+  }
+
+  Widget buildItem(context, index, Product product) {
+    return Dismissible(
+      key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
+      background: Container(
+        color: Colors.red,
+        child: Align(
+          alignment: Alignment(-0.9, 0.0),
+          child: Icon(
+            Icons.delete_forever,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      direction: DismissDirection.startToEnd,
+      child: ProductCardTile(product, bloc.getItems[index]),
+      onDismissed: (direction) {
+        bloc.deleteItemCard(index);
+        final snack = SnackBar(
+          content: Text("Item removido do carrinho."),
+          action: SnackBarAction(
+            label: "Desfazer",
+            onPressed: () {
+              bloc.unDeleteItemCard();
+            },
+          ),
+          duration: Duration(seconds: 2),
+        );
+        Scaffold.of(context).removeCurrentSnackBar();
+        Scaffold.of(context).showSnackBar(snack);
+      },
     );
   }
 }
