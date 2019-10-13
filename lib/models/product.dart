@@ -8,14 +8,14 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-        id: json["store_id"],
+        id: json["id"],
         idStore: json["store_id"],
         name: json["name"],
         price: json["price"]);
   }
 
   Map<String, dynamic> toJson() {
-    return {"store_id": id, "store_id": idStore, "name": name, "price": price};
+    return {"id": id, "store_id": idStore, "name": name, "price": price};
   }
 
   static List<Product> toList(List data) {

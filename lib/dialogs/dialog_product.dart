@@ -108,55 +108,44 @@ class ProductDialog extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: Container(
+                    child: FlatButton(
                       color: Theme.of(context).buttonColor,
-                      child: FlatButton(
-                        onPressed: () {
-                          if (bloc.addCard(itemBloc.getItem, product, store) &&
-                              itemBloc.getItem.quantity != 0) {
-                            Navigator.pop(context);
-                            PageService.toPageCard(context);
-                          } else if(itemBloc.getItem.quantity != 0) {
-                            messageError(context, itemBloc);
-                          }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-//                        margin: EdgeInsets.only(right: 23.0),
-                              child: Text(
-                                "Adicionar",
-                                style: TextStyle(fontSize: 15.0),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 20.0),
-                              child: StreamBuilder(
-                                stream: itemBloc.outItem,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text(
-                                      "R\$ ${snapshot.data.quantity * double.parse(product.price)}",
-                                      style: TextStyle(fontSize: 15.0),
-                                    );
-                                  } else {
-                                    return Container(
-                                      color: Theme.of(context).primaryColor,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          valueColor: AlwaysStoppedAnimation(
-                                            Theme.of(context).accentColor,
-                                          ),
-                                        ),
+                      onPressed: () {
+                        if (bloc.addCard(itemBloc.getItem, product, store) &&
+                            itemBloc.getItem.quantity != 0) {
+                          Navigator.pop(context);
+                          PageService.toPageCard(context);
+                        } else if (itemBloc.getItem.quantity != 0) {
+                          messageError(context, itemBloc);
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text("Adicionar", style: TextStyle(fontSize: 15.0)),
+                          StreamBuilder(
+                            stream: itemBloc.outItem,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  "R\$ ${snapshot.data.quantity * double.parse(product.price)}",
+                                  style: TextStyle(fontSize: 15.0),
+                                );
+                              } else {
+                                return Container(
+                                  color: Theme.of(context).primaryColor,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation(
+                                        Theme.of(context).accentColor,
                                       ),
-                                    );
-                                  }
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),
