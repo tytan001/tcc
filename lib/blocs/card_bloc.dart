@@ -35,9 +35,11 @@ class CardBloc extends BlocBase {
   Function(Store) get addStore => _storeController.sink.add;
   Function(CardState) get changeState => _stateController.sink.add;
 
-  void updateLists(List<Item> listItems, List<Product> listProducts) {
-    _itemsController.sink.add(listItems);
-    _productsController.sink.add(listProducts);
+  void updateLists() {
+    _itemsController.sink.add(items);
+    _productsController.sink.add(products);
+    items = [];
+    products = [];
   }
 
   bool addCard(final Item item, final Product product, final Store store) {
@@ -52,8 +54,7 @@ class CardBloc extends BlocBase {
         items.add(item);
         products.add(product);
       }
-
-      updateLists(items, products);
+      updateLists();
       return true;
     } else {
       return false;
@@ -82,34 +83,27 @@ class CardBloc extends BlocBase {
   void _changedStore(final Store store) {
     _stateController.sink.add(CardState.FULL);
     _storeController.sink.add(store);
-    items = _itemsController.value;
-    products = _productsController.value;
-    items.clear();
-    products.clear();
-    updateLists(items, products);
+    items = _itemsController.value..clear();
+    products = _productsController.value..clear();
+    updateLists();
   }
 
   void deleteItemCard(final int index) {
     items = _itemsController.value;
     products = _productsController.value;
-
     _auxItem = items[index];
     _auxProduct = products[index];
-
     items.removeAt(index);
     products.removeAt(index);
-
-    updateLists(items, products);
+    updateLists();
   }
 
   void unDeleteItemCard() {
-    items = _itemsController.value;
-    products = _productsController.value;
-
-    items.add(_auxItem);
-    products.add(_auxProduct);
-
-    updateLists(items, products);
+    items = _itemsController.value..add(_auxItem);
+    products = _productsController.value..add(_auxProduct);
+    _auxItem = null;
+    _auxProduct = null;
+    updateLists();
   }
 
   void submit() async {}
