@@ -28,31 +28,15 @@ class Client {
     );
   }
 
-  Map toMap() {
-    Map<String, dynamic> map = {
-      "name": name,
-      "email": email,
-      "password": password,
-      "password_confirmation": confirmPassword,
-//      "cpf" : cpf,
-      "phone": phone,
-    };
-
-    if (id != null) {
-      map["id"] = id;
-    }
-
-    return map;
-  }
-
 //  Map toMap() {
-//    var map = new Map<String, dynamic>();
-//    map["name"] = name;
-//    map["email"] = email;
-//    map["password"] = password;
-//    map["password_confirmation"] = confirmPassword;
-////    map["cpf"] = cpf;
-//    map["phone"] = phone;
+//    Map<String, dynamic> map = {
+//      "name": name,
+//      "email": email,
+//      "password": password,
+//      "password_confirmation": confirmPassword,
+////      "cpf" : cpf,
+//      "phone": phone,
+//    };
 //
 //    if (id != null) {
 //      map["id"] = id;
@@ -61,12 +45,17 @@ class Client {
 //    return map;
 //  }
 
-  Map toMapPut() {
-    Map<String, dynamic> map = {
-      "name": name,
-      "email": email,
-      "phone": phone,
-    };
+  Map toMap() {
+    var map = new Map<String, dynamic>();
+    if (name != null) map["name"] = name;
+    if (email != null) map["email"] = email;
+    if (password != null) map["password"] = password;
+    if (confirmPassword != null) map["password_confirmation"] = confirmPassword;
+//    if(cpf != null) map["cpf"] = cpf;
+    if (phone != null) map["phone"] = phone;
+
+    if (id != null) map["id"] = id;
+
     return map;
   }
 

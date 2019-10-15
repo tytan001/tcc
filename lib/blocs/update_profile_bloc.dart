@@ -17,7 +17,6 @@ class UpdateProfileBloc extends BlocBase with SignUpValidators {
   final _phoneController = BehaviorSubject<String>();
 
   final _stateController = BehaviorSubject<PageState>();
-
   final _messageController = BehaviorSubject<String>();
 
   Stream<String> get outName => _nameController.stream.transform(validateName);
@@ -27,9 +26,7 @@ class UpdateProfileBloc extends BlocBase with SignUpValidators {
       _phoneController.stream.transform(validatePhone);
 
   Stream<PageState> get outState => _stateController.stream;
-
   Stream<String> get outMessage => _messageController.stream;
-
   Stream<bool> get outSubmitValid =>
       Observable.combineLatest3(outName, outEmail, outPhone, (a, b, c) => true);
 
@@ -60,7 +57,7 @@ class UpdateProfileBloc extends BlocBase with SignUpValidators {
 
     try {
       Map<String, dynamic> response = await api.updateClient(
-          Client(name: name, email: email, phone: phone).toMapPut(), id, token);
+          Client(name: name, email: email, phone: phone).toMap(), id, token);
       await ClientService.saveClient(response["0"]);
       _stateController.add(PageState.SUCCESS);
     } on ResourceException catch (e) {
@@ -88,7 +85,6 @@ class UpdateProfileBloc extends BlocBase with SignUpValidators {
     _emailController.close();
     _phoneController.close();
     _stateController.close();
-
     _messageController.close();
     super.dispose();
   }

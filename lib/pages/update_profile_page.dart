@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:idrink/blocs/update_profile_bloc.dart';
 import 'package:idrink/blocs/user_bloc.dart';
+import 'package:idrink/dialogs/dialog_loading.dart';
 import 'package:idrink/services/page_state.dart';
 import 'package:idrink/widgets/input_field_mask_profile.dart';
 import 'package:idrink/widgets/input_field_profile.dart';
@@ -48,20 +49,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             context: context,
             barrierDismissible: false,
             builder: (context) => WillPopScope(
-              child: AlertDialog(
-                content: Container(
-                  width: MediaQuery.of(context).size.width / 10,
-                  height: MediaQuery.of(context).size.height / 10,
-                  color: Theme.of(context).primaryColor,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(
-                        Theme.of(context).accentColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              child: LoadingDialog(),
               onWillPop: () => Future.value(false),
             ),
           );
@@ -90,6 +78,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                 userBloc.emailUser, userBloc.phoneUser)
                         ? _updateBloc.submit
                         : null,
+                    color: Theme.of(context).accentColor,
                     disabledColor: Theme.of(context).hoverColor,
                   );
                 },
