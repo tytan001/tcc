@@ -29,13 +29,14 @@ class Client {
   }
 
   Map toMap() {
-    var map = new Map<String, dynamic>();
-    map["name"] = name;
-    map["email"] = email;
-    map["password"] = password;
-    map["password_confirmation"] = confirmPassword;
-//    map["cpf"] = cpf;
-    map["phone"] = phone;
+    Map<String, dynamic> map = {
+      "name": name,
+      "email": email,
+      "password": password,
+      "password_confirmation": confirmPassword,
+//      "cpf" : cpf,
+      "phone": phone,
+    };
 
     if (id != null) {
       map["id"] = id;
@@ -44,14 +45,39 @@ class Client {
     return map;
   }
 
-  static String toJson(Client cliente) {
+//  Map toMap() {
+//    var map = new Map<String, dynamic>();
+//    map["name"] = name;
+//    map["email"] = email;
+//    map["password"] = password;
+//    map["password_confirmation"] = confirmPassword;
+////    map["cpf"] = cpf;
+//    map["phone"] = phone;
+//
+//    if (id != null) {
+//      map["id"] = id;
+//    }
+//
+//    return map;
+//  }
+
+  Map toMapPut() {
     Map<String, dynamic> map = {
-      'id': cliente.id,
-      "name": cliente.name,
-      "email": cliente.email,
-//    "password":  cliente.password,
-//      "cpf":  cliente.cpf,
-      "phone": cliente.phone,
+      "name": name,
+      "email": email,
+      "phone": phone,
+    };
+    return map;
+  }
+
+  static String toJson(Client client) {
+    Map<String, dynamic> map = {
+      'id': client.id,
+      "name": client.name,
+      "email": client.email,
+//    "password":  client.password,
+//      "cpf":  client.cpf,
+      "phone": client.phone,
     };
     return json.encode(map);
   }

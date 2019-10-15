@@ -4,6 +4,7 @@ import 'package:idrink/models/client.dart';
 import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/services/client_service.dart';
 import 'package:idrink/services/page_state.dart';
+import 'package:idrink/services/token_service.dart';
 import 'package:idrink/validators/sign_up_validators.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -40,9 +41,18 @@ class UpdateProfileBloc extends BlocBase with SignUpValidators {
     getUserName();
   }
 
+  bool change(final String name, final String email, final String phone) {
+    if (name == _nameController.value &&
+        email == _emailController.value &&
+        phone == _phoneController.value) return false;
+    return true;
+  }
+
   void submit() async {
     _stateController.add(PageState.LOADING);
 
+    final token =
+        await TokenService.getToken().then((token) => token.tokenEncoded);
     final id = _idController.value;
     final name = _nameController.value;
     final email = _emailController.value;
@@ -50,8 +60,7 @@ class UpdateProfileBloc extends BlocBase with SignUpValidators {
 
     try {
       Map<String, dynamic> response = await api.updateClient(
-          Client(name: name, email: email, phone: phone).toMap(), id);
-
+          Client(name: name, email: email, phone: phone).toMapPut(), id, token);
       await ClientService.saveClient(response["0"]);
       _stateController.add(PageState.SUCCESS);
     } on ResourceException catch (e) {

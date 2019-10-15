@@ -45,22 +45,18 @@ class Api {
     }
   }
 
-  Future<Map<String, dynamic>> updateClient(Map body, int id) async {
-    final url = API_KEY + API_NEW_CLIENT + id.toString();
+  Future<Map<String, dynamic>> updateClient(
+      Map body, int id, String token) async {
+    final url = API_KEY + API_UPDATE_CLIENT + id.toString();
 
     try {
-      return http.put(url, body: body).then((response) {
+      return http
+          .put(url, headers: Header.headerToken(token), body: body)
+          .then((response) {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
-        if (statusCode == 400) {
-          final responseErr = responseReturn["errors"];
-          if (responseErr["email"] != null) {
-            throw ResourceException(responseErr["email"][0].toString());
-          } else if (responseReturn != null) {
-            throw ResourceException(responseReturn.toString());
-          } else {
-            throw ResourceException(responseReturn.toString());
-          }
+        if (statusCode == 401) {
+          throw ResourceException(responseReturn["message"]);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
@@ -74,55 +70,80 @@ class Api {
 
   Future<List<dynamic>> stores(String token) async {
     const URL = API_KEY + API_STORES;
-    return http.get(URL, headers: Header.headerToken(token)).then((response) {
-      final int statusCode = response.statusCode;
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      } else {
-        return json.decode(response.body);
-      }
-    });
+    try {
+      return http.get(URL, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw new ResourceException(responseReturn["response"]);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } on Exception catch (e) {
+      print(e);
+      throw ResourceException("Erro inesperado!");
+    }
   }
 
   Future<List<dynamic>> searchStores(String token, String search) async {
     final url = API_KEY + API_SEARCH_STORES + search;
-    return http.get(url, headers: Header.headerToken(token)).then((response) {
-      final int statusCode = response.statusCode;
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      } else {
-        return json.decode(response.body);
-      }
-    });
+    try {
+      return http.get(url, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw new ResourceException(responseReturn["response"]);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
   }
 
   Future<List<dynamic>> products(String token, int idStore) async {
     final url = API_KEY + API_PRODUCTS + idStore.toString();
-    return http.get(url, headers: Header.headerToken(token)).then((response) {
-      final int statusCode = response.statusCode;
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      } else {
-        return json.decode(response.body);
-      }
-    });
+    try {
+      return http.get(url, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw new ResourceException(responseReturn["response"]);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
   }
 
   Future<List<dynamic>> searchProducts(
       String token, String idStore, String search) async {
-    final url = API_KEY + API_SEARCH_PRODUCTS + idStore + "/" + search;
-    return http.get(url, headers: Header.headerToken(token)).then((response) {
-      final int statusCode = response.statusCode;
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      } else {
-        return json.decode(response.body);
-      }
-    });
+    try {
+      final url = API_KEY + API_SEARCH_PRODUCTS + idStore + "/" + search;
+      return http.get(url, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw new ResourceException(responseReturn["response"]);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
   }
 
   Future<Map<String, dynamic>> login(Map body) async {
