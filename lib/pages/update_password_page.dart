@@ -57,7 +57,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColorLight,
         title: Text("Alterar senha"),
         actions: <Widget>[
           StreamBuilder<bool>(

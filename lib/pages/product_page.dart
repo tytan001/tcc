@@ -28,7 +28,7 @@ class _ProductPageState extends State<ProductPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColorLight,
         title: Text(widget.product.name),
         centerTitle: true,
       ),
@@ -64,7 +64,7 @@ class _ProductPageState extends State<ProductPage> {
                             return Text(snapshot.data.quantity.toString());
                           } else {
                             return Container(
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).primaryColorLight,
                               child: Center(
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation(
@@ -118,7 +118,7 @@ class _ProductPageState extends State<ProductPage> {
                                   );
                                 } else {
                                   return Container(
-                                    color: Theme.of(context).primaryColor,
+                                    color: Theme.of(context).primaryColorLight,
                                     child: Center(
                                       child: CircularProgressIndicator(
                                         valueColor: AlwaysStoppedAnimation(

@@ -64,7 +64,7 @@ class _AddressPageState extends State<AddressPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColorLight,
         title: Text("Endereço de entrega"),
       ),
       body: Column(
@@ -121,7 +121,7 @@ class _AddressPageState extends State<AddressPage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData)
                     return Container(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).primaryColorLight,
                       child: RefreshIndicator(
                         onRefresh: () => _addressBloc.allAddress,
                         child: ListView.builder(

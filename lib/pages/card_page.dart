@@ -17,7 +17,7 @@ class _CardPageState extends State<CardPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 1.0,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColorLight,
         title: Text("Carrinho"),
         centerTitle: true,
       ),
@@ -29,7 +29,7 @@ class _CardPageState extends State<CardPage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData)
                     return Container(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).primaryColorLight,
                       child: ListView.builder(
                         itemBuilder: (context, index) =>
                             buildItem(context, index, snapshot.data[index]),
@@ -40,7 +40,7 @@ class _CardPageState extends State<CardPage> {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).primaryColorLight,
                       child: Center(
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(

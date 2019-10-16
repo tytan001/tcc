@@ -65,7 +65,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     return WillPopScope(
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).primaryColorLight,
             title: Text("Editar Perfil"),
             actions: <Widget>[
               StreamBuilder<bool>(

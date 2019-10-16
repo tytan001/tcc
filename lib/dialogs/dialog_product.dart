@@ -83,7 +83,7 @@ class ProductDialog extends StatelessWidget {
                           return Text(snapshot.data.quantity.toString());
                         } else {
                           return Container(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).primaryColorLight,
                             child: Center(
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation(
@@ -134,7 +134,7 @@ class ProductDialog extends StatelessWidget {
                                 );
                               } else {
                                 return Container(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).primaryColorLight,
                                   child: Center(
                                     child: CircularProgressIndicator(
                                       valueColor: AlwaysStoppedAnimation(

@@ -12,14 +12,14 @@ class ProfileOption extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).primaryColorLight,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
                 child: FlatButton(
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 0.0, 15.0),
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).primaryColorLight,
                   onPressed: onTap,
                   child: Align(
                       alignment: Alignment.centerLeft,

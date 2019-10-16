@@ -27,7 +27,7 @@ class _StorePageState extends State<StorePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 1.0,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColorLight,
         title: Text(widget.store.name),
         centerTitle: true,
       ),
@@ -39,7 +39,7 @@ class _StorePageState extends State<StorePage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData)
                     return Container(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).primaryColorLight,
                       child: RefreshIndicator(
                         onRefresh: () => _productsBloc.allProducts,
                         child: ListView.builder(
@@ -59,7 +59,7 @@ class _StorePageState extends State<StorePage> {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).primaryColorLight,
                       child: Center(
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation(

@@ -23,7 +23,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColorLight,
         title: Text("Cadastrar Endereço de Entrega"),
       ),
       body: Container(

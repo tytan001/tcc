@@ -7,7 +7,7 @@ class LoadingDialog extends StatelessWidget {
       content: Container(
         width: MediaQuery.of(context).size.width / 10,
         height: MediaQuery.of(context).size.height / 10,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).primaryColorLight,
         child: Center(
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation(
