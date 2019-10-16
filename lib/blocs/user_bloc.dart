@@ -13,6 +13,7 @@ class UserBloc extends BlocBase {
   final _confirmPasswordController = BehaviorSubject<String>();
   final _phoneController = BehaviorSubject<String>();
 
+  int get idUser => _idController.value;
   String get nameUser => _nameController.value;
   String get emailUser => _emailController.value;
   String get phoneUser => _phoneController.value;

@@ -11,6 +11,7 @@ const API_LOGIN = "users/login";
 const API_LOGOUT = "users/logout";
 const API_STORES = "stores";
 const API_SEARCH_STORES = "stores/";
+const API_ADDRESSES = "adresses";
 const API_PRODUCTS = "stores/products/";
 const API_SEARCH_PRODUCTS = "test";
 const API_ITEM = "test";
@@ -107,6 +108,26 @@ class Api {
     }
   }
 
+  Future<List<dynamic>> addresses(String token) async {
+    const URL = API_KEY + API_ADDRESSES;
+    try {
+      return http.get(URL, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw new ResourceException(responseReturn["response"]);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } on Exception catch (e) {
+      print(e);
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
   Future<List<dynamic>> products(String token, int idStore) async {
     final url = API_KEY + API_PRODUCTS + idStore.toString();
     try {
@@ -182,6 +203,29 @@ class Api {
         }
       });
     } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<Map<String, dynamic>> viaCep(String cep) async {
+    final url = "http://viacep.com.br/ws/$cep/json/";
+    try {
+      return http.get(url, headers: Header.headerDefault()).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 400) {
+          throw new ResourceException("Cep inválido");
+        } else if (statusCode == 404) {
+          throw new ResourceException("Cep não encontrado");
+        } else if (responseReturn["erro"] == true) {
+          throw new ResourceException("Cep inválido");
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } on Exception catch (e) {
       throw ResourceException("Erro inesperado!");
     }
   }

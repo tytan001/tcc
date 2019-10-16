@@ -3,6 +3,7 @@ import 'package:idrink/pages/address_page.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/pages/card_page.dart';
 import 'package:idrink/pages/main_nav_page.dart';
+import 'package:idrink/pages/new_address_page.dart';
 import 'package:idrink/pages/product_page.dart';
 import 'package:idrink/pages/store_page.dart';
 import 'package:idrink/pages/update_password_page.dart';
@@ -34,6 +35,11 @@ abstract class PageService {
   static void toPageAddress(BuildContext ctx) async {
     Navigator.of(ctx)
         .push(MaterialPageRoute(builder: (context) => AddressPage()));
+  }
+
+  static void toPageNewAddress(BuildContext ctx, final response) async {
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (context) => NewAddressPage(response: response)));
   }
 
 //  static void toPageProduct(

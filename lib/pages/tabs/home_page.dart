@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
+import 'package:idrink/models/store.dart';
 import 'package:idrink/widgets/store_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,8 +20,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-//    final _storesBloc = BlocProvider.of<StoresBloc>(context);
-
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       body: Column(
@@ -33,25 +32,34 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               children: <Widget>[
                 Expanded(
-                    child: TextField(
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                            hintText: "Search",
-                            labelText: "Search",
-                            labelStyle: TextStyle(color: Colors.black54),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).buttonColor)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).buttonColor))),
-                        style: TextStyle(fontSize: 18.0),
-                        onSubmitted: (text) {
-                          if (_searchController.text.isNotEmpty)
-                            _storesBloc.inSearch.add(_searchController.text);
-                        })),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Theme.of(context).buttonColor,
+                      ),
+                      hintText: "Search",
+                      labelText: "Search",
+                      labelStyle: TextStyle(color: Colors.black54),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).buttonColor),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).buttonColor),
+                      ),
+                    ),
+                    style: TextStyle(fontSize: 18.0),
+                    onSubmitted: (text) {
+                      if (_searchController.text.isNotEmpty)
+                        _storesBloc.inSearch.add(_searchController.text);
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -59,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             height: 20.0,
           ),
           Expanded(
-            child: StreamBuilder(
+            child: StreamBuilder<List<Store>>(
                 stream: _storesBloc.outStores,
                 builder: (context, snapshot) {
                   if (snapshot.hasData)

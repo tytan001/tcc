@@ -17,7 +17,6 @@ class LoginBloc extends BlocBase with LoginValidators {
   final _passwordController = BehaviorSubject<String>();
   final _stateController =
       BehaviorSubject<PageState>(seedValue: PageState.LOADING);
-
   final _messageController = BehaviorSubject<String>();
 
   Stream<String> get outEmail =>
@@ -78,7 +77,6 @@ class LoginBloc extends BlocBase with LoginValidators {
     _emailController.close();
     _passwordController.close();
     _stateController.close();
-
     _messageController.close();
     super.dispose();
   }

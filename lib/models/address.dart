@@ -40,4 +40,13 @@ class Address {
       "user_id": idUser
     };
   }
+
+  static List<Address> toList(List data) {
+    List<Address> addresses = [];
+    for (dynamic map in data) {
+      addresses.add(Address.fromJson(map));
+    }
+    return addresses;
+  }
+
 }

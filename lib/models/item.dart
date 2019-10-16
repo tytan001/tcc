@@ -1,15 +1,13 @@
 class Item {
   int quantity;
-  int idClient;
   int idProduct;
   int idOrder;
 
-  Item({this.quantity, this.idClient, this.idProduct, this.idOrder});
+  Item({this.quantity, this.idProduct, this.idOrder});
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
         quantity: json["quantity"],
-        idClient: json["customer_id"],
         idProduct: json["product_id"],
         idOrder: json["delivery_id"]);
   }
@@ -17,7 +15,6 @@ class Item {
   Map<String, dynamic> toJson() {
     return {
       "quantity": quantity,
-      "customer_id": idClient,
       "product_id": idProduct,
       "delivery_id": idOrder
     };

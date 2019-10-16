@@ -29,11 +29,11 @@ class StoresBloc extends BlocBase {
   Future<void> _allStores() async {
     final token =
         await TokenService.getToken().then((token) => token.tokenEncoded);
+
     final response = await api.stores(token);
-
     stores = Store.toList(response);
-
     _storesController.sink.add(stores);
+    stores = [];
   }
 
   void _search(String search) async {
@@ -41,11 +41,10 @@ class StoresBloc extends BlocBase {
         await TokenService.getToken().then((token) => token.tokenEncoded);
 
     if (search != null) {
-      print("Entrou aqui if do _search");
       final response = await api.searchStores(token, search);
       stores = Store.toList(response);
-
       _storesController.sink.add(stores);
+      stores = [];
     }
   }
 
