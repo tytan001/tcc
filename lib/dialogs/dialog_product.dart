@@ -36,7 +36,7 @@ class ProductDialog extends StatelessWidget {
           padding: EdgeInsets.all(20.0),
           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 10),
           decoration: new BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).primaryColorLight,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
@@ -48,14 +48,15 @@ class ProductDialog extends StatelessWidget {
             ],
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min, // To make the card compact
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
                 product.name,
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: 22.0,
                   fontWeight: FontWeight.w700,
                 ),
+                maxLines: 1,
               ),
               SizedBox(height: 16.0),
               Text(
@@ -123,14 +124,14 @@ class ProductDialog extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("Adicionar", style: TextStyle(fontSize: 15.0)),
+                          Text("Adicionar", style: TextStyle(fontSize: 13.0)),
                           StreamBuilder(
                             stream: itemBloc.outItem,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Text(
-                                  "R\$ ${snapshot.data.quantity * double.parse(product.price)}",
-                                  style: TextStyle(fontSize: 15.0),
+                                  "R\$ ${(snapshot.data.quantity * double.parse(product.price)).toStringAsPrecision(2)}",
+                                  style: TextStyle(fontSize: 13.0),
                                 );
                               } else {
                                 return Container(
@@ -157,7 +158,7 @@ class ProductDialog extends StatelessWidget {
                     },
                     child: Text(
                       "Cancelar",
-                      style: TextStyle(fontSize: 13.0),
+                      style: TextStyle(fontSize: 11.0),
                     ),
                   ),
                 ],

@@ -37,9 +37,9 @@ abstract class PageService {
         .push(MaterialPageRoute(builder: (context) => AddressPage()));
   }
 
-  static void toPageNewAddress(BuildContext ctx, final response) async {
-    Navigator.of(ctx)
-        .push(MaterialPageRoute(builder: (context) => NewAddressPage(response: response)));
+  static void toPageNewAddress(BuildContext ctx, final addressBloc) async {
+    Navigator.of(ctx).push(MaterialPageRoute(
+        builder: (context) => NewAddressPage(addressBloc: addressBloc)));
   }
 
 //  static void toPageProduct(

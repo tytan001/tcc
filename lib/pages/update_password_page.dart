@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idrink/blocs/update_password_bloc.dart';
 import 'package:idrink/dialogs/dialog_loading.dart';
 import 'package:idrink/services/page_state.dart';
-import 'package:idrink/widgets/input_field_password.dart';
+import 'package:idrink/widgets/input_field_no_init.dart';
 
 class UpdatePasswordPage extends StatefulWidget {
   @override
@@ -80,8 +80,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             SizedBox(
               height: 26.0,
             ),
-            InputFieldPassword(
+            InputFieldNoInit(
               label: "Nova senha",
+              hint: "Nova senha",
               stream: _updateBloc.outPassword,
               onChanged: _updateBloc.changePassword,
               password: true,
@@ -89,8 +90,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             SizedBox(
               height: 26.0,
             ),
-            InputFieldPassword(
+            InputFieldNoInit(
               label: "Confirma nova senha",
+              hint: "Confirma nova senha",
               stream: _updateBloc.outConfirmPassword,
               onChanged: _updateBloc.changeConfirmPassword,
               password: true,

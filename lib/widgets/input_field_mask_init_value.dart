@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
-class InputFieldMaskProfile extends StatelessWidget {
+class InputFieldMaskInitValue extends StatelessWidget {
   final String label;
+  final String hint;
   final bool date;
   final bool phone;
+  final bool noBorder;
   final Stream<String> stream;
   final Function(String) onChanged;
   final TextEditingController controller;
 
-  InputFieldMaskProfile(
+  InputFieldMaskInitValue(
       {this.label,
+      this.hint,
       this.date,
       this.phone,
+      this.noBorder,
       this.stream,
       this.onChanged,
       this.controller});
@@ -31,7 +35,8 @@ class InputFieldMaskProfile extends StatelessWidget {
                 onChanged: onChanged,
                 controller: controller,
                 decoration: InputDecoration(
-                  hintText: label,
+                  border: noBorder ?? false ? InputBorder.none : null,
+                  hintText: hint,
                   errorText: snapshot.hasError ? snapshot.error : null,
                   labelStyle: TextStyle(color: Colors.black54),
                 ),

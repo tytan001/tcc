@@ -6,8 +6,8 @@ import 'package:idrink/blocs/sign_up_bloc.dart';
 import 'package:idrink/services/page_service.dart';
 import 'package:idrink/services/page_state.dart';
 import 'package:idrink/widgets/gradient.dart';
-import 'package:idrink/widgets/input_field.dart';
-import 'package:idrink/widgets/input_field_mask.dart';
+import 'package:idrink/widgets/input_field_sign_up.dart';
+import 'package:idrink/widgets/input_field_mask_sign_up.dart';
 
 class SignUpPage extends StatefulWidget {
   final PageController _pageController;

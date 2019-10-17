@@ -17,7 +17,6 @@ class SignUpBloc extends BlocBase with SignUpValidators {
   final _confirmPasswordController = BehaviorSubject<String>();
   final _phoneController = BehaviorSubject<String>();
   final _stateController = BehaviorSubject<PageState>();
-
   final _messageController = BehaviorSubject<String>();
 
   Stream<String> get outName => _nameController.stream.transform(validateName);
@@ -41,7 +40,6 @@ class SignUpBloc extends BlocBase with SignUpValidators {
   Stream<String> get outPhone =>
       _phoneController.stream.transform(validatePhone);
   Stream<PageState> get outState => _stateController.stream;
-
   Stream<String> get outMessage => _messageController.stream;
 
   Stream<bool> get outSubmitValid => Observable.combineLatest5(

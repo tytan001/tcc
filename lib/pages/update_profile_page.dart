@@ -5,8 +5,8 @@ import 'package:idrink/blocs/update_profile_bloc.dart';
 import 'package:idrink/blocs/user_bloc.dart';
 import 'package:idrink/dialogs/dialog_loading.dart';
 import 'package:idrink/services/page_state.dart';
-import 'package:idrink/widgets/input_field_mask_profile.dart';
-import 'package:idrink/widgets/input_field_profile.dart';
+import 'package:idrink/widgets/input_field_mask_init_value.dart';
+import 'package:idrink/widgets/input_field_init_value.dart';
 
 class UpdateProfilePage extends StatefulWidget {
   @override
@@ -92,24 +92,27 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 SizedBox(
                   height: 26.0,
                 ),
-                InputFieldProfile(
+                InputFieldInitValue(
                   label: "Nome",
+                  hint: "Nome",
                   stream: _updateBloc.outName,
                   onChanged: _updateBloc.changeName,
                 ),
                 SizedBox(
                   height: 26.0,
                 ),
-                InputFieldProfile(
+                InputFieldInitValue(
                   label: "Email",
+                  hint: "Email",
                   stream: _updateBloc.outEmail,
                   onChanged: _updateBloc.changeEmail,
                 ),
                 SizedBox(
                   height: 26.0,
                 ),
-                InputFieldMaskProfile(
+                InputFieldMaskInitValue(
                   label: "Phone",
+                  hint: "Phone",
                   stream: _updateBloc.outPhone,
                   onChanged: _updateBloc.changePhone,
                   phone: true,

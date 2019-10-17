@@ -27,6 +27,7 @@ class _AddressPageState extends State<AddressPage> {
       switch (state) {
         case PageState.SUCCESS:
           Navigator.pop(context);
+          PageService.toPageNewAddress(context, _addressBloc);
           break;
         case PageState.FAIL:
           Navigator.pop(context);
@@ -79,12 +80,13 @@ class _AddressPageState extends State<AddressPage> {
                 Expanded(
                   child: TextField(
                     controller: _searchController,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.search,
                         color: Theme.of(context).buttonColor,
                       ),
-                      hintText: "Search",
+                      hintText: "Cep: Ex. 99999-999",
                       labelText: "Search",
                       labelStyle: TextStyle(color: Colors.black54),
                       focusedBorder: OutlineInputBorder(
@@ -99,13 +101,9 @@ class _AddressPageState extends State<AddressPage> {
                       ),
                     ),
                     style: TextStyle(fontSize: 18.0),
-                    onSubmitted: (text) async {
-                      if (_searchController.text.isNotEmpty) {
-                        var response = await _addressBloc
-                            .searchCep(_searchController.text);
-                        if (response != null)
-                          PageService.toPageNewAddress(context, response);
-                      }
+                    onSubmitted: (text) {
+                      if (_searchController.text.isNotEmpty)
+                        _addressBloc.searchCep(_searchController.text);
                     },
                   ),
                 ),
@@ -119,7 +117,7 @@ class _AddressPageState extends State<AddressPage> {
             child: StreamBuilder<List<Address>>(
                 stream: _addressBloc.outAddresses,
                 builder: (context, snapshot) {
-                  if (snapshot.hasData)
+                  if (snapshot.hasData) if (snapshot.data.length > 0)
                     return Container(
                       color: Theme.of(context).primaryColorLight,
                       child: RefreshIndicator(
@@ -129,6 +127,19 @@ class _AddressPageState extends State<AddressPage> {
                             return AddressTile(snapshot.data[index]);
                           },
                           itemCount: snapshot.data.length,
+                        ),
+                      ),
+                    );
+                  else
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30.0),
+                      child: Center(
+                        child: Text(
+                          "Você não possui endereços cadastrado",
+                          style: TextStyle(
+                              color: Theme.of(context).accentColor,
+                              fontSize: 24),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     );

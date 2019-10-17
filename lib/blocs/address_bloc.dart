@@ -14,6 +14,8 @@ class AddressBloc extends BlocBase with SignUpValidators {
 
   List<Address> addresses;
 
+  Map<String, dynamic> response;
+
   final StreamController<List<Address>> _addressesController =
       BehaviorSubject<List<Address>>();
   final _stateController =
@@ -38,22 +40,22 @@ class AddressBloc extends BlocBase with SignUpValidators {
     addresses = [];
   }
 
-  Future<Map<String, dynamic>> searchCep(String cep) async {
+  void searchCep(String cep) async {
     _stateController.add(PageState.LOADING);
 
     try {
       if (cep != null) {
+        response = await api.viaCep(cep);
         _stateController.add(PageState.SUCCESS);
-        return await api.viaCep(cep);
       }
       return null;
     } on ResourceException catch (e) {
-      _stateController.add(PageState.FAIL);
       _messageController.add(e.msg);
+      _stateController.add(PageState.FAIL);
       return null;
     } catch (e) {
-      _stateController.add(PageState.FAIL);
       _messageController.add(e.toString());
+      _stateController.add(PageState.FAIL);
       return null;
     }
   }

@@ -1,45 +1,72 @@
 class Address {
   final String cep;
-  final String logradouro;
-  final String complemento;
-  final String bairro;
-  final String localidade;
+  final String publicPlace;
+  final String complement;
+  final String neighborhood;
+  final String locality;
   final String uf;
-  final String numero;
+  final String number;
   final String latitude;
   final String longitude;
   final int idUser;
 
-  Address({this.cep, this.logradouro, this.complemento, this.bairro, this.localidade, this.uf,  this.numero,this.latitude, this.longitude, this.idUser});
+  Address(
+      {this.cep,
+      this.publicPlace,
+      this.complement,
+      this.neighborhood,
+      this.locality,
+      this.uf,
+      this.number,
+      this.latitude,
+      this.longitude,
+      this.idUser});
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
         cep: json["cep"],
-        logradouro: json["logradouro"],
-        complemento: json["complemento"],
-        bairro: json["bairro"],
-        localidade: json["localidade"],
+        publicPlace: json["logradouro"],
+        complement: json["complemento"],
+        neighborhood: json["bairro"],
+        locality: json["localidade"],
         uf: json["uf"],
-        numero: json["numero"],
+        number: json["numero"],
         latitude: json["latitude"],
         longitude: json["longitude"],
         idUser: json["user_id"]);
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "cep": cep,
-      "logradouro": logradouro,
-      "complemento": complemento,
-      "bairro": bairro,
-      "localidade": localidade,
-      "uf": uf,
-      "numero": numero,
-      "latitude": latitude,
-      "longitude": longitude,
-      "user_id": idUser
-    };
+  Map<String, dynamic> toMap() {
+    var map = new Map<String, dynamic>();
+
+    if (cep != null) map["cep"] = cep;
+    if (publicPlace != null) map["logradouro"] = publicPlace;
+    if (complement != null) map["complemento"] = complement;
+    if (neighborhood != null) map["bairro"] = neighborhood;
+    if (locality != null) map["localidade"] = locality;
+    if (uf != null) map["uf"] = uf;
+    if (number != null) map["numero"] = number;
+    if (latitude != null) map["latitude"] = latitude;
+    if (longitude != null) map["longitude"] = longitude;
+    if (idUser != null) map["user_id"] = idUser.toString();
+
+    return map;
   }
+
+//  Map<String, dynamic> toMap() {
+//    return {
+//      "cep": cep,
+//      "logradouro": publicPlace,
+//      "complemento": complement,
+//      "bairro": neighborhood,
+//      "localidade": locality,
+//      "uf": uf,
+//      "numero": number,
+//      "latitude": latitude,
+//      "longitude": longitude,
+//      "user_id": idUser
+//    };
+//  }
 
   static List<Address> toList(List data) {
     List<Address> addresses = [];
@@ -48,5 +75,4 @@ class Address {
     }
     return addresses;
   }
-
 }

@@ -6,7 +6,7 @@ import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/services/page_service.dart';
 import 'package:idrink/services/page_state.dart';
 import 'package:idrink/widgets/gradient.dart';
-import 'package:idrink/widgets/input_field.dart';
+import 'package:idrink/widgets/input_field_sign_up.dart';
 import 'package:idrink/widgets/ou_divider.dart';
 
 class SignInPage extends StatefulWidget {

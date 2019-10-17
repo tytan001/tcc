@@ -11,6 +11,7 @@ const API_LOGIN = "users/login";
 const API_LOGOUT = "users/logout";
 const API_STORES = "stores";
 const API_SEARCH_STORES = "stores/";
+const API_NEW_ADDRESSES = "adresses";
 const API_ADDRESSES = "adresses";
 const API_PRODUCTS = "stores/products/";
 const API_SEARCH_PRODUCTS = "test";
@@ -104,6 +105,26 @@ class Api {
         }
       });
     } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<void> createAddresses(Map body) async {
+    const URL = API_KEY + API_NEW_ADDRESSES;
+    try {
+      return http.post(URL, body: body).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw new ResourceException(responseReturn["response"]);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } on Exception catch (e) {
+      print(e);
       throw ResourceException("Erro inesperado!");
     }
   }
