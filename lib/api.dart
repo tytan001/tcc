@@ -109,10 +109,10 @@ class Api {
     }
   }
 
-  Future<void> createAddresses(Map body) async {
+  Future<void> createAddresses(String token, Map body) async {
     const URL = API_KEY + API_NEW_ADDRESSES;
     try {
-      return http.post(URL, body: body).then((response) {
+      return http.post(URL, body: body, headers: Header.headerToken(token)).then((response) {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {

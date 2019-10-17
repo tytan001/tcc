@@ -3,6 +3,7 @@ import 'package:idrink/api.dart';
 import 'package:idrink/models/address.dart';
 import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/services/page_state.dart';
+import 'package:idrink/services/token_service.dart';
 import 'package:idrink/validators/address_validators.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -73,16 +74,20 @@ class NewAddressBloc extends BlocBase with AddressValidators {
     final number = _numberController.value;
 
     try {
-      await api.createAddresses(Address(
-              idUser: idUser,
-              cep: cep,
-              publicPlace: publicPlace,
-              complement: complement,
-              neighborhood: neighborhood,
-              locality: locality,
-              uf: uf,
-              number: number)
-          .toMap());
+      final token =
+          await TokenService.getToken().then((token) => token.tokenEncoded);
+      await api.createAddresses(
+          token,
+          Address(
+                  idUser: idUser,
+                  cep: cep,
+                  publicPlace: publicPlace,
+                  complement: complement,
+                  neighborhood: neighborhood,
+                  locality: locality,
+                  uf: uf,
+                  number: number)
+              .toMap());
 
       _stateController.add(PageState.SUCCESS);
     } on ResourceException catch (e) {
@@ -97,11 +102,13 @@ class NewAddressBloc extends BlocBase with AddressValidators {
   void fromJson(Map<String, dynamic> response) {
     _cepController.add(response["cep"]);
     _publicPlaceController.add(response["logradouro"]);
-    _complementController.add(response["complemento"]);
+//    _complementController.add(response["complemento"]);
+    _complementController.add("");
     _neighborhoodController.add(response["bairro"]);
     _localityController.add(response["localidade"]);
     _ufController.add(response["uf"]);
-    _numberController.add(response["0"]);
+//    _numberController.add(response["0"]);
+    _numberController.add("");
   }
 
   @override
