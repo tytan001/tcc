@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.orange,
             primaryColorDark: Colors.black,
             primaryColorLight: Colors.white,
-            hoverColor: Colors.black12,
+            hoverColor: Colors.black26,
             buttonColor: Colors.orangeAccent),
         debugShowCheckedModeBanner: false,
         home: MainAuthPage());

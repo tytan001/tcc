@@ -67,13 +67,19 @@ class _AddressPageState extends State<AddressPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColorLight,
         title: Text("Endereço de entrega"),
+        elevation: 1.5,
       ),
       body: Column(
         children: <Widget>[
-          SizedBox(
-            height: 20.0,
+          Container(
+            color: Theme.of(context).primaryColorLight,
+            child: SizedBox(
+              height: 20.0,
+              width: MediaQuery.of(context).size.width,
+            ),
           ),
           Container(
+            color: Theme.of(context).primaryColorLight,
             padding: EdgeInsets.fromLTRB(10.0, 1.0, 10.0, 1.0),
             child: Row(
               children: <Widget>[
@@ -110,8 +116,12 @@ class _AddressPageState extends State<AddressPage> {
               ],
             ),
           ),
-          SizedBox(
-            height: 20.0,
+          Container(
+            color: Theme.of(context).primaryColorLight,
+            child: SizedBox(
+              height: 20.0,
+              width: MediaQuery.of(context).size.width,
+            ),
           ),
           Expanded(
             child: StreamBuilder<List<Address>>(
@@ -119,7 +129,6 @@ class _AddressPageState extends State<AddressPage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) if (snapshot.data.length > 0)
                     return Container(
-                      color: Theme.of(context).primaryColorLight,
                       child: RefreshIndicator(
                         onRefresh: () => _addressBloc.allAddress,
                         child: ListView.builder(

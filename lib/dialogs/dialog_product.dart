@@ -130,7 +130,7 @@ class ProductDialog extends StatelessWidget {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Text(
-                                  "R\$ ${(snapshot.data.quantity * double.parse(product.price)).toStringAsPrecision(2)}",
+                                  "R\$ ${(snapshot.data.quantity * double.parse(product.price)).toStringAsFixed(2)}",
                                   style: TextStyle(fontSize: 13.0),
                                 );
                               } else {
