@@ -5,7 +5,11 @@ class InputFieldMaskInitValue extends StatelessWidget {
   final String hint;
   final bool date;
   final bool phone;
+  final bool number;
+  final bool email;
   final bool noBorder;
+  final bool enable;
+  final Color color;
   final Stream<String> stream;
   final Function(String) onChanged;
   final TextEditingController controller;
@@ -15,7 +19,11 @@ class InputFieldMaskInitValue extends StatelessWidget {
       this.hint,
       this.date,
       this.phone,
+      this.number,
+      this.email,
       this.noBorder,
+      this.enable,
+      this.color,
       this.stream,
       this.onChanged,
       this.controller});
@@ -30,8 +38,9 @@ class InputFieldMaskInitValue extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(label),
+              if (label != null) Text(label),
               TextFormField(
+                enabled: enable ?? true,
                 onChanged: onChanged,
                 controller: controller,
                 decoration: InputDecoration(
@@ -40,12 +49,21 @@ class InputFieldMaskInitValue extends StatelessWidget {
                   errorText: snapshot.hasError ? snapshot.error : null,
                   labelStyle: TextStyle(color: Colors.black54),
                 ),
-                style: TextStyle(fontSize: 18.0),
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: color != null
+                      ? color
+                      : Theme.of(context).primaryColorDark,
+                ),
                 keyboardType: date ?? false
                     ? TextInputType.datetime
                     : phone ?? false
                         ? TextInputType.datetime
-                        : TextInputType.number,
+                        : number ?? false
+                            ? TextInputType.number
+                            : email ?? false
+                                ? TextInputType.emailAddress
+                                : null,
               ),
             ],
           );

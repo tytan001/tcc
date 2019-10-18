@@ -4,6 +4,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
 import 'package:idrink/models/store.dart';
+import 'package:idrink/widgets/divider.dart';
 import 'package:idrink/widgets/store_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -75,11 +76,12 @@ class _HomePageState extends State<HomePage> {
                       color: Theme.of(context).primaryColor,
                       child: RefreshIndicator(
                         onRefresh: () => _storesBloc.allStores,
-                        child: ListView.builder(
+                        child: ListView.separated(
                           itemBuilder: (context, index) {
                             return StoreTile(snapshot.data[index]);
                           },
                           itemCount: snapshot.data.length,
+                          separatorBuilder: (context, index) => DividerDefault(),
                         ),
                       ),
                     );

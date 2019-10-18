@@ -7,6 +7,7 @@ class InputFieldNoInit extends StatelessWidget {
   final bool number;
   final bool password;
   final bool noBorder;
+  final Color color;
   final int maxLines;
   final Stream<String> stream;
   final Function(String) onChanged;
@@ -18,6 +19,7 @@ class InputFieldNoInit extends StatelessWidget {
       this.number,
       this.password,
       this.noBorder,
+      this.color,
       this.maxLines,
       this.stream,
       this.onChanged});
@@ -32,7 +34,7 @@ class InputFieldNoInit extends StatelessWidget {
           children: <Widget>[
             if (label != null) Text(label),
             TextFormField(
-              maxLines: maxLines != null? maxLines: null,
+              maxLines: maxLines != null ? maxLines : null,
               onChanged: onChanged,
               initialValue: snapshot.data,
               decoration: InputDecoration(
@@ -41,7 +43,11 @@ class InputFieldNoInit extends StatelessWidget {
                 errorText: snapshot.hasError ? snapshot.error : null,
                 labelStyle: TextStyle(color: Colors.black54),
               ),
-              style: TextStyle(fontSize: 18.0),
+              style: TextStyle(
+                fontSize: 18.0,
+                color:
+                    color != null ? color : Theme.of(context).primaryColorDark,
+              ),
               keyboardType: email ?? false
                   ? TextInputType.emailAddress
                   : number ?? false ? TextInputType.number : null,

@@ -15,7 +15,7 @@ class StoreTile extends StatelessWidget {
       },
       child: Container(
         color: Colors.white,
-        margin: EdgeInsets.symmetric(vertical: 4),
+        margin: EdgeInsets.symmetric(vertical: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -35,12 +35,6 @@ class StoreTile extends StatelessWidget {
                           maxLines: 2,
                         ),
                       ),
-                      Container(
-                        child: Divider(
-                          color: Theme.of(context).hoverColor,
-                          height: 30,
-                        ),
-                      )
                     ],
                   ),
                 ),

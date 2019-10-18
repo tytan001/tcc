@@ -24,7 +24,6 @@ class LoginBloc extends BlocBase with LoginValidators {
   Stream<String> get outPassword =>
       _passwordController.stream.transform(validatePassword);
   Stream<PageState> get outState => _stateController.stream;
-
   Stream<String> get outMessage => _messageController.stream;
 
   Stream<bool> get outSubmitValid =>

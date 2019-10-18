@@ -9,6 +9,7 @@ class Address {
   final String latitude;
   final String longitude;
   final int idUser;
+  final int id;
 
   Address(
       {this.cep,
@@ -20,7 +21,8 @@ class Address {
       this.number,
       this.latitude,
       this.longitude,
-      this.idUser});
+      this.idUser,
+      this.id});
 
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
@@ -33,7 +35,8 @@ class Address {
         number: json["numero"],
         latitude: json["latitude"],
         longitude: json["longitude"],
-        idUser: json["user_id"]);
+        idUser: json["user_id"],
+        id: json["id"]);
   }
 
   Map<String, dynamic> toMap() {
@@ -49,6 +52,7 @@ class Address {
     if (latitude != null) map["latitude"] = latitude;
     if (longitude != null) map["longitude"] = longitude;
     if (idUser != null) map["user_id"] = idUser.toString();
+    if (id != null) map["id"] = id.toString();
 
     return map;
   }

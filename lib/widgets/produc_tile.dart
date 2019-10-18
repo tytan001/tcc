@@ -40,12 +40,6 @@ class ProductTile extends StatelessWidget {
                         maxLines: 2,
                       ),
                     ),
-                    Container(
-                      child: Divider(
-                        color: Theme.of(context).hoverColor,
-                        height: 30,
-                      ),
-                    )
                   ],
                 ),
               ),

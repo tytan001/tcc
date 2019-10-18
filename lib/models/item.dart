@@ -20,12 +20,30 @@ class Item {
     };
   }
 
+  Map<String, dynamic> toMap() {
+    var map = new Map<String, dynamic>();
+
+    if (quantity != null) map["quantity"] = quantity.toString();
+    if (idProduct != null) map["product_id"] = idProduct.toString();
+    if (idOrder != null) map["delivery_id"] = idOrder.toString();
+
+    return map;
+  }
+
   static List<Item> toList(List data) {
-    List<Item> stores = [];
+    List<Item> items = [];
     for (dynamic map in data) {
-      stores.add(Item.fromJson(map));
+      items.add(Item.fromJson(map));
     }
-    return stores;
+    return items;
+  }
+
+  static List<Map<String, dynamic>> toListMap(List<Item> items) {
+    List<Map<String, dynamic>> data = [];
+    for (Item item in items) {
+      data.add(item.toMap());
+    }
+    return data;
   }
 
   @override

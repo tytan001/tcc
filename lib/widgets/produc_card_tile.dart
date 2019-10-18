@@ -12,7 +12,7 @@ class ProductCardTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      margin: EdgeInsets.symmetric(vertical: 4),
+      margin: EdgeInsets.symmetric(vertical: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -43,7 +43,7 @@ class ProductCardTile extends StatelessWidget {
                 ),
                 Container(
                   child: Text(
-                    "R\$ ${double.parse(_product.price) * _item.quantity}",
+                    "R\$ ${(double.parse(_product.price) * _item.quantity).toStringAsFixed(2)}",
                     style: TextStyle(
                         color: Theme.of(context).primaryColorDark,
                         fontSize: 26),
@@ -53,12 +53,6 @@ class ProductCardTile extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            child: Divider(
-              color: Theme.of(context).hoverColor,
-              height: 30,
-            ),
-          )
         ],
       ),
     );

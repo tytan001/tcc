@@ -12,10 +12,12 @@ const API_LOGOUT = "users/logout";
 const API_STORES = "stores";
 const API_SEARCH_STORES = "stores/";
 const API_NEW_ADDRESSES = "adresses";
+const API_UPDATE_ADDRESSES = "adresses";
+const API_DELETE_ADDRESSES = "adresses/";
 const API_ADDRESSES = "adresses";
 const API_PRODUCTS = "stores/products/";
-const API_SEARCH_PRODUCTS = "test";
-const API_ITEM = "test";
+const API_NEW_ORDER = "deliveries";
+const API_ITEMS = "items";
 
 class Api {
   Future<Map<String, dynamic>> createClient(Map body) async {
@@ -112,13 +114,57 @@ class Api {
   Future<void> createAddresses(String token, Map body) async {
     const URL = API_KEY + API_NEW_ADDRESSES;
     try {
-      return http.post(URL, body: body, headers: Header.headerToken(token)).then((response) {
+      return http
+          .post(URL, body: body, headers: Header.headerToken(token))
+          .then((response) {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
           throw new ResourceException(responseReturn["response"]);
         } else if (statusCode == 200) {
           return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } on Exception catch (e) {
+      print(e);
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<void> updateAddresses(String token, Map body) async {
+    const URL = API_KEY + API_UPDATE_ADDRESSES;
+    try {
+      return http
+          .put(URL, body: body, headers: Header.headerToken(token))
+          .then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw new ResourceException(responseReturn["response"]);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } on Exception catch (e) {
+      print(e);
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<void> deleteAddresses(String token, int id) async {
+    final url = API_KEY + API_DELETE_ADDRESSES + id.toString();
+    try {
+      return http
+          .delete(url, headers: Header.headerToken(token))
+          .then((response) {
+        final int statusCode = response.statusCode;
+        if (statusCode == 401) {
+          throw new ResourceException("Erro de autenticação");
+        } else if (statusCode == 200) {
         } else {
           throw ResourceException("Erro inesperado!\nCode $statusCode");
         }
@@ -168,11 +214,13 @@ class Api {
     }
   }
 
-  Future<List<dynamic>> searchProducts(
-      String token, String idStore, String search) async {
+  Future<Map<String, dynamic>> createOrder(String token, Map body) async {
+    const URL = API_KEY + API_NEW_ORDER;
+
     try {
-      final url = API_KEY + API_SEARCH_PRODUCTS + idStore + "/" + search;
-      return http.get(url, headers: Header.headerToken(token)).then((response) {
+      return http
+          .post(URL, body: body, headers: Header.headerToken(token))
+          .then((response) {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
@@ -183,7 +231,31 @@ class Api {
           throw ResourceException("Erro inesperado!\nCode $statusCode");
         }
       });
-    } catch (e) {
+    } on Exception catch (e) {
+      print(e);
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<void> createItems(String token, final body) async {
+    const URL = API_KEY + API_ITEMS;
+
+    try {
+      return http
+          .post(URL,
+              body: json.encode(body), headers: Header.headerToken(token))
+          .then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw new ResourceException(responseReturn["response"]);
+        } else if (statusCode == 200) {
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode");
+        }
+      });
+    } on Exception catch (e) {
+      print(e);
       throw ResourceException("Erro inesperado!");
     }
   }

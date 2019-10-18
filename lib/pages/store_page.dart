@@ -6,6 +6,7 @@ import 'package:idrink/models/product.dart';
 import 'package:idrink/models/store.dart';
 import 'package:idrink/dialogs/dialog_product.dart';
 import 'package:idrink/services/page_service.dart';
+import 'package:idrink/widgets/divider.dart';
 import 'package:idrink/widgets/produc_tile.dart';
 
 class StorePage extends StatefulWidget {
@@ -42,16 +43,17 @@ class _StorePageState extends State<StorePage> {
                       color: Theme.of(context).primaryColorLight,
                       child: RefreshIndicator(
                         onRefresh: () => _productsBloc.allProducts,
-                        child: ListView.builder(
+                        child: ListView.separated(
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                toProduct(snapshot.data[index]);
+                                toDialogProduct(snapshot.data[index]);
                               },
                               child: ProductTile(snapshot.data[index]),
                             );
                           },
                           itemCount: snapshot.data.length,
+                          separatorBuilder: (context, index) => DividerDefault(),
                         ),
                       ),
                     );
@@ -100,7 +102,7 @@ class _StorePageState extends State<StorePage> {
     );
   }
 
-  void toProduct(final Product product) {
+  void toDialogProduct(final Product product) {
     showDialog(
       context: context,
       builder: (BuildContext context) =>

@@ -31,8 +31,9 @@ class _NewAddressPageState extends State<NewAddressPage> {
     _addressBloc.outState.listen((state) {
       switch (state) {
         case PageState.SUCCESS:
-          Navigator.pop(context);
           widget.addressBloc.allAddress;
+          Navigator.pop(context);
+          Navigator.pop(context);
           break;
         case PageState.FAIL:
           Navigator.pop(context);
@@ -100,6 +101,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
               onChanged: _addressBloc.changeCep,
               controller: _maskController,
               noBorder: true,
+              enable: false,
             ),
             SizedBox(
               height: 26.0,

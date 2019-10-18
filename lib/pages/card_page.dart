@@ -1,7 +1,14 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/card_bloc.dart';
+import 'package:idrink/blocs/user_bloc.dart';
+import 'package:idrink/dialogs/dialog_address.dart';
+import 'package:idrink/dialogs/dialog_loading.dart';
 import 'package:idrink/models/product.dart';
+import 'package:idrink/services/page_state.dart';
+import 'package:idrink/utils/toast_util.dart';
+import 'package:idrink/widgets/address_tile.dart';
+import 'package:idrink/widgets/divider.dart';
 import 'package:idrink/widgets/produc_card_tile.dart';
 
 class CardPage extends StatefulWidget {
@@ -11,6 +18,51 @@ class CardPage extends StatefulWidget {
 
 class _CardPageState extends State<CardPage> {
   final CardBloc bloc = BlocProvider.getBloc<CardBloc>();
+  final UserBloc user = BlocProvider.getBloc<UserBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    bloc.outState.listen((state) {
+      switch (state) {
+        case PageState.SUCCESS:
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          ToastUtil.showToast("Pedido realizado com sucesso!", context,
+              color: ToastUtil.success);
+          break;
+        case PageState.FAIL:
+          Navigator.pop(context);
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              content: StreamBuilder(
+                  stream: bloc.outMessage,
+                  builder: (context, snapshot) {
+                    return Text(
+                      snapshot.data.toString(),
+                      textAlign: TextAlign.center,
+                    );
+                  }),
+            ),
+          );
+          break;
+        case PageState.LOADING:
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => WillPopScope(
+              child: LoadingDialog(),
+              onWillPop: () => Future.value(false),
+            ),
+          );
+          break;
+        case PageState.IDLE:
+          break;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +75,34 @@ class _CardPageState extends State<CardPage> {
       ),
       body: Column(
         children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              toDialogAddress();
+            },
+            child: Container(
+              color: Theme.of(context).primaryColorLight,
+              child: StreamBuilder(
+                stream: bloc.outAddress,
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? AddressTile(address: snapshot.data)
+                      : Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 30.0, vertical: 10.0),
+                          child: Center(
+                            child: Text(
+                              "Endereço de entrega vazio.",
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                },
+              ),
+            ),
+          ),
           Expanded(
             child: StreamBuilder<List<Product>>(
                 stream: bloc.outProducts,
@@ -30,10 +110,11 @@ class _CardPageState extends State<CardPage> {
                   if (snapshot.hasData)
                     return Container(
                       color: Theme.of(context).primaryColorLight,
-                      child: ListView.builder(
+                      child: ListView.separated(
                         itemBuilder: (context, index) =>
                             buildItem(context, index, snapshot.data[index]),
                         itemCount: snapshot.data.length,
+                        separatorBuilder: (context, index) => DividerDefault(),
                       ),
                     );
                   else
@@ -57,7 +138,9 @@ class _CardPageState extends State<CardPage> {
                 child: FlatButton(
                   padding: EdgeInsets.all(15.0),
                   color: Theme.of(context).buttonColor,
-                  onPressed: () {},
+                  onPressed: () {
+                    bloc.submit(user.idUser);
+                  },
                   child: Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -110,6 +193,13 @@ class _CardPageState extends State<CardPage> {
         Scaffold.of(context).removeCurrentSnackBar();
         Scaffold.of(context).showSnackBar(snack);
       },
+    );
+  }
+
+  void toDialogAddress() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AddressDialog(),
     );
   }
 }

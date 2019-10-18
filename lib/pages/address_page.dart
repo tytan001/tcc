@@ -110,6 +110,7 @@ class _AddressPageState extends State<AddressPage> {
                     onSubmitted: (text) {
                       if (_searchController.text.isNotEmpty)
                         _addressBloc.searchCep(_searchController.text);
+                      _searchController.text = "";
                     },
                   ),
                 ),
@@ -125,36 +126,39 @@ class _AddressPageState extends State<AddressPage> {
           ),
           Expanded(
             child: StreamBuilder<List<Address>>(
-                stream: _addressBloc.outAddresses,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) if (snapshot.data.length > 0)
-                    return Container(
-                      child: RefreshIndicator(
-                        onRefresh: () => _addressBloc.allAddress,
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            return AddressTile(snapshot.data[index]);
-                          },
-                          itemCount: snapshot.data.length,
-                        ),
+              stream: _addressBloc.outAddresses,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) if (snapshot.data.length > 0)
+                  return Container(
+                    child: RefreshIndicator(
+                      onRefresh: () => _addressBloc.allAddress,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return AddressTile(
+                            address: snapshot.data[index],
+                            addressBloc: _addressBloc,
+                          );
+                        },
+                        itemCount: snapshot.data.length,
                       ),
-                    );
-                  else
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Center(
-                        child: Text(
-                          "Você não possui endereços cadastrado",
-                          style: TextStyle(
-                              color: Theme.of(context).accentColor,
-                              fontSize: 24),
-                          textAlign: TextAlign.center,
-                        ),
+                    ),
+                  );
+                else
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 30.0),
+                    child: Center(
+                      child: Text(
+                        "Você não possui endereços cadastrado",
+                        style: TextStyle(
+                            color: Theme.of(context).accentColor, fontSize: 24),
+                        textAlign: TextAlign.center,
                       ),
-                    );
-                  else
-                    return Loading();
-                }),
+                    ),
+                  );
+                else
+                  return Loading();
+              },
+            ),
           )
         ],
       ),
