@@ -243,7 +243,7 @@ class Api {
     try {
       return http
           .post(URL,
-              body: json.encode(body), headers: Header.headerToken(token))
+              body: body, headers: Header.headerToken(token))
           .then((response) {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);

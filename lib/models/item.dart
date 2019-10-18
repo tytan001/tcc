@@ -38,14 +38,6 @@ class Item {
     return items;
   }
 
-  static List<Map<String, dynamic>> toListMap(List<Item> items) {
-    List<Map<String, dynamic>> data = [];
-    for (Item item in items) {
-      data.add(item.toMap());
-    }
-    return data;
-  }
-
   @override
   bool operator ==(other) => other is Item && other.idProduct == idProduct;
 

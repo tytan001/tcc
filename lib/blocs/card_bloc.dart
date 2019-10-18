@@ -132,9 +132,10 @@ class CardBloc extends BlocBase {
               .toMap());
 
       _orderController.add(Order.fromJson(response));
-      _itemsController.value
-          .forEach((i) => i.idOrder = _orderController.value.id);
-      await api.createItems(token, Item.toListMap(_itemsController.value));
+      _itemsController.value.forEach((i) async {
+        i.idOrder = _orderController.value.id;
+        await api.createItems(token, i.toMap());
+      });
 
       _stateController.add(PageState.SUCCESS);
       success();
@@ -144,6 +145,8 @@ class CardBloc extends BlocBase {
     } catch (e) {
       _messageController.add(e.toString());
       _stateController.add(PageState.FAIL);
+    } finally {
+      _stateController.add(PageState.IDLE);
     }
   }
 
@@ -154,7 +157,6 @@ class CardBloc extends BlocBase {
     _itemsController.add([]);
     _productsController.add([]);
     _stateCardController.add(CardState.EMPTY);
-    _stateController.add(PageState.IDLE);
     _messageController.add(null);
   }
 
