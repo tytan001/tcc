@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:idrink/pages/tabs/historic_orders_tab.dart';
+import 'package:idrink/pages/tabs/orders_tab.dart';
 
 class HistoricPage extends StatefulWidget {
   @override
@@ -11,6 +13,18 @@ class HistoricPage extends StatefulWidget {
 }
 
 class _HistoricPageState extends State<HistoricPage> {
+  List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pages = [
+      OrdersTab(),
+      HistoricOrdersTab(),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -29,38 +43,11 @@ class _HistoricPageState extends State<HistoricPage> {
             ],
           ),
         ),
-        body: TabBarView(
+        body: SafeArea(
+          child: TabBarView(
 //          physics: NeverScrollableScrollPhysics(),
-          children: [
-            Container(
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(bottom: 20.0),
-                    child: Icon(Icons.content_paste),
-                  ),
-                  Text("Pedidos"),
-                ],
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(bottom: 20.0),
-                    child: Icon(Icons.list),
-                  ),
-                  Text("Historico"),
-                ],
-              ),
-            ),
-          ],
+            children: _pages,
+          ),
         ),
       ),
     );

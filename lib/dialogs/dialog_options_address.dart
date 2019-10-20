@@ -57,6 +57,8 @@ class _OptionsAddressDialogState extends State<OptionsAddressDialog> {
           break;
         case PageState.IDLE:
           break;
+        case PageState.AUTHORIZED:
+          break;
       }
     });
   }

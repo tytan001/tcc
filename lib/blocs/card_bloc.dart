@@ -120,6 +120,8 @@ class CardBloc extends BlocBase {
     _stateController.add(PageState.LOADING);
 
     try {
+      inputCompleted();
+
       final token =
           await TokenService.getToken().then((token) => token.tokenEncoded);
 
@@ -148,6 +150,14 @@ class CardBloc extends BlocBase {
     } finally {
       _stateController.add(PageState.IDLE);
     }
+  }
+
+  bool inputCompleted() {
+    if (_addressController.value == null) {
+      _messageController.add("Campo de endereço deve esta preenchido!");
+      return false;
+    }
+    return true;
   }
 
   void success() {

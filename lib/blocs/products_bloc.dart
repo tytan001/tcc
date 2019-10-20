@@ -34,8 +34,8 @@ class ProductsBloc extends BlocBase {
     final response = await api.products(token, store.id);
 
     products = Product.toList(response);
-
     _productsController.sink.add(products);
+    products = [];
   }
 
   void _search(String search) async {

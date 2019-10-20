@@ -42,7 +42,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     content: StreamBuilder(
                         stream: _signUpBloc.outMessage,
                         builder: (context, snapshot) {
-                          return Text(snapshot.data.toString(), textAlign: TextAlign.center,);
+                          return Text(
+                            snapshot.data.toString(),
+                            textAlign: TextAlign.center,
+                          );
                         }),
                   ));
           break;
@@ -51,6 +54,9 @@ class _SignUpPageState extends State<SignUpPage> {
           break;
         case PageState.IDLE:
           widget._isLoadingStream.add(false);
+          break;
+        case PageState.AUTHORIZED:
+          break;
       }
     });
   }

@@ -17,7 +17,10 @@ const API_DELETE_ADDRESSES = "adresses/";
 const API_ADDRESSES = "adresses";
 const API_PRODUCTS = "stores/products/";
 const API_NEW_ORDER = "deliveries";
-const API_ITEMS = "items";
+const API_NEW_ITEMS = "items";
+const API_ORDERS = "deliveries/open";
+const API_HISTORIC_ORDERS = "deliveries/canceled-delivered";
+const API_ITEMS_ORDER = "deliveries/open/";
 
 class Api {
   Future<Map<String, dynamic>> createClient(Map body) async {
@@ -60,11 +63,12 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw ResourceException(responseReturn["message"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
     } catch (e) {
@@ -79,15 +83,15 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException(responseReturn["response"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
-    } on Exception catch (e) {
-      print(e);
+    } catch (e) {
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -99,11 +103,72 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException(responseReturn["response"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
+        }
+      });
+    } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<List<dynamic>> orders(String token) async {
+    const URL = API_KEY + API_ORDERS;
+    try {
+      return http.get(URL, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw ResourceException(responseReturn["message"], code: statusCode);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
+        }
+      });
+    } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<List<dynamic>> historicOrders(String token) async {
+    const URL = API_KEY + API_HISTORIC_ORDERS;
+    try {
+      return http.get(URL, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw ResourceException(responseReturn["message"], code: statusCode);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
+        }
+      });
+    } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<List<dynamic>> itemsOrder(String token, int idOrder) async {
+    final url = API_KEY + API_ITEMS_ORDER + idOrder.toString();
+    try {
+      return http.get(url, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw ResourceException(responseReturn["message"], code: statusCode);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
     } catch (e) {
@@ -120,15 +185,15 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException(responseReturn["response"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
-          return responseReturn;
+          return;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
-    } on Exception catch (e) {
-      print(e);
+    } catch (e) {
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -142,15 +207,15 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException(responseReturn["response"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
-          return responseReturn;
+          return;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
-    } on Exception catch (e) {
-      print(e);
+    } catch (e) {
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -162,15 +227,17 @@ class Api {
           .delete(url, headers: Header.headerToken(token))
           .then((response) {
         final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException("Erro de autenticação");
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
+          return;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
-    } on Exception catch (e) {
-      print(e);
+    } catch (e) {
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -182,15 +249,15 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException(responseReturn["response"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
-    } on Exception catch (e) {
-      print(e);
+    } catch (e) {
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -202,11 +269,12 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException(responseReturn["response"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
     } catch (e) {
@@ -224,38 +292,38 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException(responseReturn["response"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
-    } on Exception catch (e) {
-      print(e);
+    } catch (e) {
       throw ResourceException("Erro inesperado!");
     }
   }
 
   Future<void> createItems(String token, final body) async {
-    const URL = API_KEY + API_ITEMS;
+    const URL = API_KEY + API_NEW_ITEMS;
 
     try {
       return http
-          .post(URL,
-              body: body, headers: Header.headerToken(token))
+          .post(URL, body: body, headers: Header.headerToken(token))
           .then((response) {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException(responseReturn["response"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
+          return;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
-    } on Exception catch (e) {
-      print(e);
+    } catch (e) {
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -269,11 +337,12 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw new ResourceException(responseReturn["response"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
     } catch (e) {
@@ -288,11 +357,12 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw ResourceException(responseReturn["message"]);
+          throw ResourceException(responseReturn["message"], code: statusCode);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode");
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
         }
       });
     } catch (e) {
@@ -319,6 +389,7 @@ class Api {
         }
       });
     } on Exception catch (e) {
+      print(e);
       throw ResourceException("Erro inesperado!");
     }
   }

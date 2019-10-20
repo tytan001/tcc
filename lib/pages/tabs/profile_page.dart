@@ -55,6 +55,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: () => PageService.toPageAddress(context),
                     line: true,
                   ),
+//                  ProfileOption(
+//                    label: "Pagina test",
+//                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => TestPage())),
+//                    line: true,
+//                  ),
                 ],
               ),
             ),

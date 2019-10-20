@@ -4,6 +4,9 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
 import 'package:idrink/models/store.dart';
+import 'package:idrink/services/page_service.dart';
+import 'package:idrink/services/page_state.dart';
+import 'package:idrink/utils/toast_util.dart';
 import 'package:idrink/widgets/divider.dart';
 import 'package:idrink/widgets/store_tile.dart';
 
@@ -18,6 +21,42 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _storesBloc = StoresBloc();
   final _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _storesBloc.outState.listen((state) {
+      switch (state) {
+        case PageState.SUCCESS:
+          break;
+        case PageState.FAIL:
+          Navigator.pop(context);
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              content: StreamBuilder(
+                  stream: _storesBloc.outMessage,
+                  builder: (context, snapshot) {
+                    return Text(
+                      snapshot.data.toString(),
+                      textAlign: TextAlign.center,
+                    );
+                  }),
+            ),
+          );
+          break;
+        case PageState.LOADING:
+          break;
+        case PageState.IDLE:
+          break;
+        case PageState.AUTHORIZED:
+          ToastUtil.showToast(_storesBloc.getMessage, context,
+              color: ToastUtil.error);
+          PageService.singOut(context);
+          break;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +120,8 @@ class _HomePageState extends State<HomePage> {
                             return StoreTile(snapshot.data[index]);
                           },
                           itemCount: snapshot.data.length,
-                          separatorBuilder: (context, index) => DividerDefault(),
+                          separatorBuilder: (context, index) =>
+                              DividerDefault(),
                         ),
                       ),
                     );

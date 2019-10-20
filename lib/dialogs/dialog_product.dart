@@ -122,7 +122,7 @@ class ProductDialog extends StatelessWidget {
                         }
                       },
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Text("Adicionar", style: TextStyle(fontSize: 13.0)),
                           StreamBuilder(
@@ -130,7 +130,7 @@ class ProductDialog extends StatelessWidget {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Text(
-                                  "R\$ ${(snapshot.data.quantity * double.parse(product.price)).toStringAsFixed(2)}",
+                                  "R\$ ${(snapshot.data.quantity * double.parse(product.price)).toStringAsFixed(1)}",
                                   style: TextStyle(fontSize: 11.0),
                                 );
                               } else {

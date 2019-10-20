@@ -3,12 +3,14 @@ class ResourceException implements Exception {
   final String classOrigin;
   final String methodOrigin;
   final String lineOrigin;
+  final int code;
 
   ResourceException(
     this.msg, {
     this.classOrigin,
     this.methodOrigin,
     this.lineOrigin,
+    this.code,
   });
 
   @override
@@ -19,6 +21,7 @@ class ResourceException implements Exception {
     buffer.writeln('ClassOrigin: $classOrigin');
     buffer.writeln('MethodOrigin: $methodOrigin');
     buffer.writeln('LineOrigin: $lineOrigin');
+    buffer.writeln('Code: $code');
     buffer.write('}');
     return buffer.toString();
   }

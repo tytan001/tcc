@@ -56,6 +56,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           break;
         case PageState.IDLE:
           break;
+        case PageState.AUTHORIZED:
+          break;
       }
     });
   }

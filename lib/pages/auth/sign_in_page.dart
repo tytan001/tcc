@@ -40,7 +40,10 @@ class _SignInPageState extends State<SignInPage> {
                     content: StreamBuilder(
                         stream: _loginBloc.outMessage,
                         builder: (context, snapshot) {
-                          return Text(snapshot.data.toString(), textAlign: TextAlign.center,);
+                          return Text(
+                            snapshot.data.toString(),
+                            textAlign: TextAlign.center,
+                          );
                         }),
                   ));
           break;
@@ -49,6 +52,9 @@ class _SignInPageState extends State<SignInPage> {
           break;
         case PageState.IDLE:
           widget._isLoadingStream.add(false);
+          break;
+        case PageState.AUTHORIZED:
+          break;
       }
     });
   }

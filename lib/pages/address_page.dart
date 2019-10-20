@@ -7,6 +7,7 @@ import 'package:idrink/dialogs/dialog_loading.dart';
 import 'package:idrink/models/address.dart';
 import 'package:idrink/services/page_service.dart';
 import 'package:idrink/services/page_state.dart';
+import 'package:idrink/utils/toast_util.dart';
 import 'package:idrink/widgets/address_tile.dart';
 import 'package:idrink/widgets/loading.dart';
 
@@ -30,32 +31,17 @@ class _AddressPageState extends State<AddressPage> {
           PageService.toPageNewAddress(context, _addressBloc);
           break;
         case PageState.FAIL:
-          Navigator.pop(context);
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              content: StreamBuilder(
-                  stream: _addressBloc.outMessage,
-                  builder: (context, snapshot) {
-                    return Text(
-                      snapshot.data.toString(),
-                      textAlign: TextAlign.center,
-                    );
-                  }),
-            ),
-          );
+          showDialogError();
           break;
         case PageState.LOADING:
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => WillPopScope(
-              child: LoadingDialog(),
-              onWillPop: () => Future.value(false),
-            ),
-          );
+          showDialogLoading();
           break;
         case PageState.IDLE:
+          break;
+        case PageState.AUTHORIZED:
+          ToastUtil.showToast(_addressBloc.getMessage, context,
+              color: ToastUtil.error);
+          PageService.singOut(context);
           break;
       }
     });
@@ -161,6 +147,34 @@ class _AddressPageState extends State<AddressPage> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  void showDialogLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        child: LoadingDialog(),
+        onWillPop: () => Future.value(false),
+      ),
+    );
+  }
+
+  void showDialogError() {
+    Navigator.pop(context);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: StreamBuilder(
+            stream: _addressBloc.outMessage,
+            builder: (context, snapshot) {
+              return Text(
+                snapshot.data.toString(),
+                textAlign: TextAlign.center,
+              );
+            }),
       ),
     );
   }

@@ -27,38 +27,18 @@ class _CardPageState extends State<CardPage> {
       switch (state) {
         case PageState.SUCCESS:
           Navigator.pop(context);
-          Navigator.pop(context);
-          Navigator.pop(context);
-          ToastUtil.showToast("Pedido realizado com sucesso!", context,
-              color: ToastUtil.success);
+          returnToHome();
           break;
         case PageState.FAIL:
           Navigator.pop(context);
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              content: StreamBuilder(
-                  stream: bloc.outMessage,
-                  builder: (context, snapshot) {
-                    return Text(
-                      snapshot.data.toString(),
-                      textAlign: TextAlign.center,
-                    );
-                  }),
-            ),
-          );
+          showDialogError();
           break;
         case PageState.LOADING:
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => WillPopScope(
-              child: LoadingDialog(),
-              onWillPop: () => Future.value(false),
-            ),
-          );
+          showDialogLoading();
           break;
         case PageState.IDLE:
+          break;
+        case PageState.AUTHORIZED:
           break;
       }
     });
@@ -139,7 +119,9 @@ class _CardPageState extends State<CardPage> {
                   padding: EdgeInsets.all(15.0),
                   color: Theme.of(context).buttonColor,
                   onPressed: () {
-                    bloc.submit(user.idUser);
+                    bloc.inputCompleted()
+                        ? bloc.submit(user.idUser)
+                        : showDialogError();
                   },
                   child: Container(
                     child: Row(
@@ -196,10 +178,44 @@ class _CardPageState extends State<CardPage> {
     );
   }
 
+  void showDialogLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        child: LoadingDialog(),
+        onWillPop: () => Future.value(false),
+      ),
+    );
+  }
+
+  void showDialogError() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: StreamBuilder(
+            stream: bloc.outMessage,
+            builder: (context, snapshot) {
+              return Text(
+                snapshot.data.toString(),
+                textAlign: TextAlign.center,
+              );
+            }),
+      ),
+    );
+  }
+
   void toDialogAddress() {
     showDialog(
       context: context,
       builder: (BuildContext context) => AddressDialog(),
     );
+  }
+
+  void returnToHome(){
+    Navigator.pop(context);
+    Navigator.pop(context);
+    ToastUtil.showToast("Pedido realizado com sucesso!", context,
+        color: ToastUtil.success);
   }
 }

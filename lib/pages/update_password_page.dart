@@ -49,6 +49,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           break;
         case PageState.IDLE:
           break;
+        case PageState.AUTHORIZED:
+          break;
       }
     });
   }

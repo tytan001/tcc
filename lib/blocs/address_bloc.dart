@@ -25,6 +25,7 @@ class AddressBloc extends BlocBase with SignUpValidators {
   Stream get outAddresses => _addressesController.stream;
   Stream<PageState> get outState => _stateController.stream;
   Stream<String> get outMessage => _messageController.stream;
+  String get getMessage => _messageController.value;
   Future<void> get allAddress => _allAddress();
 
   AddressBloc() {
@@ -50,13 +51,15 @@ class AddressBloc extends BlocBase with SignUpValidators {
       }
       return null;
     } on ResourceException catch (e) {
+      if (e.code == 401) {
+        _messageController.add("Erro de autenticação");
+        _stateController.add(PageState.AUTHORIZED);
+      }
       _messageController.add(e.msg);
       _stateController.add(PageState.FAIL);
-      return null;
     } catch (e) {
       _messageController.add(e.toString());
       _stateController.add(PageState.FAIL);
-      return null;
     }
   }
 
