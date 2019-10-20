@@ -7,7 +7,7 @@ import 'package:idrink/services/token_service.dart';
 import 'package:idrink/validators/address_validators.dart';
 import 'package:rxdart/rxdart.dart';
 
-class NewAddressBloc extends BlocBase with AddressValidators {
+class UpdateAddressBloc extends BlocBase with AddressValidators {
   final api = Api();
 
   final _idController = BehaviorSubject<int>();
@@ -55,9 +55,9 @@ class NewAddressBloc extends BlocBase with AddressValidators {
       outNumber,
       (a, b, c, d, e, f, g) => true);
 
-  NewAddressBloc(Map<String, dynamic> response, int id) {
+  UpdateAddressBloc(Address address, int id) {
     _idController.add(id);
-    fromJson(response);
+    fromAddress(address);
   }
 
   void submit() async {
@@ -75,7 +75,7 @@ class NewAddressBloc extends BlocBase with AddressValidators {
     try {
       final token =
           await TokenService.getToken().then((token) => token.tokenEncoded);
-      await api.createAddresses(
+      await api.updateAddresses(
           token,
           Address(
                   idUser: idUser,
@@ -98,16 +98,25 @@ class NewAddressBloc extends BlocBase with AddressValidators {
     }
   }
 
-  void fromJson(Map<String, dynamic> response) {
-    _cepController.add(response["cep"]);
-    _publicPlaceController.add(response["logradouro"]);
-//    _complementController.add(response["complemento"]);
-    _complementController.add("");
-    _neighborhoodController.add(response["bairro"]);
-    _localityController.add(response["localidade"]);
-    _ufController.add(response["uf"]);
-//    _numberController.add(response["0"]);
-    _numberController.add("");
+  void fromAddress(Address address) {
+    _cepController.add(address.cep);
+    _publicPlaceController.add(address.publicPlace);
+    _complementController.add(address.complement);
+    _neighborhoodController.add(address.neighborhood);
+    _localityController.add(address.locality);
+    _ufController.add(address.uf);
+    _numberController.add(address.number);
+  }
+
+  bool change(Address address) {
+    if (address.cep == _cepController.value &&
+        address.publicPlace == _publicPlaceController.value &&
+        address.complement == _complementController.value &&
+        address.neighborhood == _neighborhoodController.value &&
+        address.locality == _localityController.value &&
+        address.uf == _ufController.value &&
+        address.number == _numberController.value) return false;
+    return true;
   }
 
   @override

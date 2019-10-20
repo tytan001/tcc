@@ -41,7 +41,7 @@ class InputFieldMaskInitValue extends StatelessWidget {
               if (label != null) Text(label),
               TextFormField(
                 enabled: enable ?? true,
-                onChanged: onChanged,
+                onChanged: enable ?? true ? onChanged : null,
                 controller: controller,
                 decoration: InputDecoration(
                   border: noBorder ?? false ? InputBorder.none : null,

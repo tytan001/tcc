@@ -211,6 +211,7 @@ class Api {
         } else if (statusCode == 200) {
           return;
         } else {
+          print(responseReturn.toString());
           throw ResourceException("Erro inesperado!\nCode $statusCode",
               code: statusCode);
         }

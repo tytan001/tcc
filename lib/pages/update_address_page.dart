@@ -2,36 +2,38 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:idrink/blocs/address_bloc.dart';
-import 'package:idrink/blocs/new_address_bloc.dart';
+import 'package:idrink/blocs/update_address_bloc.dart';
 import 'package:idrink/blocs/user_bloc.dart';
 import 'package:idrink/dialogs/dialog_loading.dart';
+import 'package:idrink/models/address.dart';
 import 'package:idrink/services/page_state.dart';
 import 'package:idrink/widgets/input_field_mask_init_value.dart';
-import 'package:idrink/widgets/input_field_no_init.dart';
 import 'package:idrink/widgets/input_field_init_value.dart';
 
-class NewAddressPage extends StatefulWidget {
+class UpdateAddressPage extends StatefulWidget {
   final AddressBloc addressBloc;
+  final Address address;
 
-  NewAddressPage({this.addressBloc});
+  const UpdateAddressPage({this.addressBloc, this.address});
 
   @override
-  _NewAddressPageState createState() => _NewAddressPageState();
+  _UpdateAddressPageState createState() => _UpdateAddressPageState();
 }
 
-class _NewAddressPageState extends State<NewAddressPage> {
+class _UpdateAddressPageState extends State<UpdateAddressPage> {
   final userBloc = BlocProvider.getBloc<UserBloc>();
-  NewAddressBloc _addressBloc;
+  UpdateAddressBloc _addressBloc;
   final _maskController = MaskedTextController(mask: '00000-000');
 
   @override
   void initState() {
     super.initState();
-    _addressBloc = NewAddressBloc(widget.addressBloc.response, userBloc.idUser);
+    _addressBloc = UpdateAddressBloc(widget.address, userBloc.idUser);
     _addressBloc.outState.listen((state) {
       switch (state) {
         case PageState.SUCCESS:
           widget.addressBloc.allAddress;
+          Navigator.pop(context);
           Navigator.pop(context);
           Navigator.pop(context);
           break;
@@ -81,7 +83,9 @@ class _NewAddressPageState extends State<NewAddressPage> {
             builder: (context, snapshot) {
               return IconButton(
                 icon: Icon(Icons.check),
-                onPressed: snapshot.hasData ? _addressBloc.submit : null,
+                onPressed: _addressBloc.change(widget.address)
+                    ? _addressBloc.submit
+                    : null,
                 color: Theme.of(context).accentColor,
                 disabledColor: Theme.of(context).hoverColor,
               );
@@ -122,7 +126,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
               children: <Widget>[
                 Container(
                   width: MediaQuery.of(context).size.width / 1.75,
-                  child: InputFieldNoInit(
+                  child: InputFieldInitValue(
                     label: "Complemento",
                     hint: "Complemento",
                     stream: _addressBloc.outComplement,
@@ -132,7 +136,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 4,
-                  child: InputFieldNoInit(
+                  child: InputFieldInitValue(
                     label: "Número",
                     hint: "Número",
                     stream: _addressBloc.outNumber,

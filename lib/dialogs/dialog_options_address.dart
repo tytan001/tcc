@@ -3,6 +3,7 @@ import 'package:idrink/blocs/address_bloc.dart';
 import 'package:idrink/blocs/delete_address_bloc.dart';
 import 'package:idrink/dialogs/dialog_loading.dart';
 import 'package:idrink/models/address.dart';
+import 'package:idrink/services/page_service.dart';
 import 'package:idrink/services/page_state.dart';
 
 class OptionsAddressDialog extends StatefulWidget {
@@ -165,7 +166,8 @@ class _OptionsAddressDialogState extends State<OptionsAddressDialog> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0)),
                     color: Colors.transparent,
-                    onPressed: () {},
+                    onPressed: () => PageService.toPageUpdateAddress(
+                        context, widget.addressBloc, widget.address),
                     child: Container(
                       padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                       child: Row(

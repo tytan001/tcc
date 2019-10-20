@@ -6,6 +6,7 @@ import 'package:idrink/pages/main_nav_page.dart';
 import 'package:idrink/pages/new_address_page.dart';
 import 'package:idrink/pages/product_page.dart';
 import 'package:idrink/pages/store_page.dart';
+import 'package:idrink/pages/update_address_page.dart';
 import 'package:idrink/pages/update_password_page.dart';
 import 'package:idrink/pages/update_profile_page.dart';
 import 'package:idrink/services/client_service.dart';
@@ -40,6 +41,13 @@ abstract class PageService {
   static void toPageNewAddress(BuildContext ctx, final addressBloc) async {
     Navigator.of(ctx).push(MaterialPageRoute(
         builder: (context) => NewAddressPage(addressBloc: addressBloc)));
+  }
+
+  static void toPageUpdateAddress(
+      BuildContext ctx, final addressBloc, final address) async {
+    Navigator.of(ctx).push(MaterialPageRoute(
+        builder: (context) =>
+            UpdateAddressPage(addressBloc: addressBloc, address: address)));
   }
 
 //  static void toPageProduct(
