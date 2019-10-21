@@ -166,8 +166,11 @@ class _OptionsAddressDialogState extends State<OptionsAddressDialog> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0)),
                     color: Colors.transparent,
-                    onPressed: () => PageService.toPageUpdateAddress(
-                        context, widget.addressBloc, widget.address),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      PageService.toPageUpdateAddress(
+                          context, widget.addressBloc, widget.address);
+                    },
                     child: Container(
                       padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                       child: Row(
