@@ -31,12 +31,14 @@ class CardBloc extends BlocBase {
   final _stateController =
       BehaviorSubject<PageState>(seedValue: PageState.IDLE);
   final _messageController = BehaviorSubject<String>();
+  final _showCard = BehaviorSubject<bool>(seedValue: false);
 
   Stream<List<Product>> get outProducts => _productsController.stream;
   Stream<Address> get outAddress => _addressController.stream;
   Stream<CardState> get outCardState => _stateCardController.stream;
   Stream<PageState> get outState => _stateController.stream;
   Stream<String> get outMessage => _messageController.stream;
+  Stream<bool> get outShowCard => _showCard.stream;
 
   Store get getStore => _storeController.value;
   List<Item> get getItems => _itemsController.value;
@@ -46,6 +48,11 @@ class CardBloc extends BlocBase {
   Function(CardState) get changeState => _stateCardController.sink.add;
 
   void updateLists() {
+    if (items.length != 0 && products.length != 0) {
+      _showCard.add(true);
+    } else {
+      cardEmpty();
+    }
     _itemsController.sink.add(items);
     _productsController.sink.add(products);
     items = [];
@@ -64,6 +71,7 @@ class CardBloc extends BlocBase {
         items.add(item);
         products.add(product);
       }
+      _showCard.add(true);
       updateLists();
       return true;
     } else {
@@ -140,7 +148,7 @@ class CardBloc extends BlocBase {
       });
 
       _stateController.add(PageState.SUCCESS);
-      success();
+      resetCard();
     } on ResourceException catch (e) {
       _messageController.add(e.msg);
       _stateController.add(PageState.FAIL);
@@ -160,14 +168,19 @@ class CardBloc extends BlocBase {
     return true;
   }
 
-  void success() {
+  void resetCard() {
+    _addressController.add(null);
+    cardEmpty();
+  }
+
+  void cardEmpty() {
     _storeController.add(null);
     _orderController.add(null);
-    _addressController.add(null);
     _itemsController.add([]);
     _productsController.add([]);
     _stateCardController.add(CardState.EMPTY);
     _messageController.add(null);
+    _showCard.add(false);
   }
 
   @override
@@ -180,6 +193,7 @@ class CardBloc extends BlocBase {
     _stateCardController.close();
     _stateController.close();
     _messageController.close();
+    _showCard.close();
     super.dispose();
   }
 }

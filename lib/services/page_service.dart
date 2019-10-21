@@ -6,6 +6,7 @@ import 'package:idrink/pages/main_nav_page.dart';
 import 'package:idrink/pages/new_address_page.dart';
 import 'package:idrink/pages/product_page.dart';
 import 'package:idrink/pages/store_page.dart';
+import 'package:idrink/pages/test_page.dart';
 import 'package:idrink/pages/update_address_page.dart';
 import 'package:idrink/pages/update_password_page.dart';
 import 'package:idrink/pages/update_profile_page.dart';
@@ -49,6 +50,11 @@ abstract class PageService {
         builder: (context) =>
             UpdateAddressPage(addressBloc: addressBloc, address: address)));
   }
+
+//  static void toPageTest(BuildContext ctx, final store) async {
+//    Navigator.of(ctx)
+//        .push(MaterialPageRoute(builder: (context) => TestPage(store: store)));
+//  }
 
 //  static void toPageProduct(
 //      BuildContext ctx, final product, final store) async {

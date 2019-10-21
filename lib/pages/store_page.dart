@@ -53,7 +53,8 @@ class _StorePageState extends State<StorePage> {
                             );
                           },
                           itemCount: snapshot.data.length,
-                          separatorBuilder: (context, index) => DividerDefault(),
+                          separatorBuilder: (context, index) =>
+                              DividerDefault(),
                         ),
                       ),
                     );
@@ -72,31 +73,37 @@ class _StorePageState extends State<StorePage> {
                     );
                 }),
           ),
-          if (bloc.getItems.isNotEmpty)
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: FlatButton(
-                    padding: EdgeInsets.all(15.0),
-                    color: Theme.of(context).buttonColor,
-                    onPressed: () => PageService.toPageCard(context),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              "Carrinho",
-                              style: TextStyle(fontSize: 18.0),
-                            ),
+          StreamBuilder<bool>(
+            stream: bloc.outShowCard,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) if (snapshot.data)
+                return Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FlatButton(
+                        padding: EdgeInsets.all(15.0),
+                        color: Theme.of(context).buttonColor,
+                        onPressed: () => PageService.toPageCard(context),
+                        child: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                  "Carrinho",
+                                  style: TextStyle(fontSize: 18.0),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                )
-              ],
-            )
+                    )
+                  ],
+                );
+              return Container();
+            },
+          )
         ],
       ),
     );

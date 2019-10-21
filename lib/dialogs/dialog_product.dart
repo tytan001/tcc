@@ -116,7 +116,7 @@ class ProductDialog extends StatelessWidget {
                         if (bloc.addCard(itemBloc.getItem, product, store) &&
                             itemBloc.getItem.quantity != 0) {
                           Navigator.pop(context);
-                          PageService.toPageCard(context);
+//                          PageService.toPageCard(context);
                         } else if (itemBloc.getItem.quantity != 0) {
                           messageError(context, itemBloc);
                         }
@@ -192,7 +192,7 @@ class ProductDialog extends StatelessWidget {
               bloc.changeState(CardState.CHANGED);
               if (bloc.addCard(_itemBloc.getItem, product, store)) {
                 Navigator.pop(context);
-                PageService.toPageCard(context);
+//                PageService.toPageCard(context);
               }
             },
           ),
