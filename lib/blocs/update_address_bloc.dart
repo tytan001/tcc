@@ -10,6 +10,7 @@ import 'package:rxdart/rxdart.dart';
 class UpdateAddressBloc extends BlocBase with AddressValidators {
   final api = Api();
 
+  final _idUserController = BehaviorSubject<int>();
   final _idController = BehaviorSubject<int>();
   final _cepController = BehaviorSubject<String>();
   final _publicPlaceController = BehaviorSubject<String>();
@@ -55,15 +56,15 @@ class UpdateAddressBloc extends BlocBase with AddressValidators {
       outNumber,
       (a, b, c, d, e, f, g) => true);
 
-  UpdateAddressBloc(Address address, int id) {
-    _idController.add(id);
+  UpdateAddressBloc(Address address, int idUser) {
+    _idUserController.add(idUser);
     fromAddress(address);
   }
 
   void submit() async {
     _stateController.add(PageState.LOADING);
 
-    final idUser = _idController.value;
+    final idUser = _idUserController.value;
     final cep = _cepController.value;
     final publicPlace = _publicPlaceController.value;
     final complement = _complementController.value;
@@ -86,7 +87,8 @@ class UpdateAddressBloc extends BlocBase with AddressValidators {
                   locality: locality,
                   uf: uf,
                   number: number)
-              .toMap());
+              .toMap(),
+          _idController.value);
 
       _stateController.add(PageState.SUCCESS);
     } on ResourceException catch (e) {
@@ -99,6 +101,7 @@ class UpdateAddressBloc extends BlocBase with AddressValidators {
   }
 
   void fromAddress(Address address) {
+    _idController.add(address.id);
     _cepController.add(address.cep);
     _publicPlaceController.add(address.publicPlace);
     _complementController.add(address.complement);
@@ -121,6 +124,7 @@ class UpdateAddressBloc extends BlocBase with AddressValidators {
 
   @override
   void dispose() {
+    _idUserController.close();
     _idController.close();
     _cepController.close();
     _publicPlaceController.close();

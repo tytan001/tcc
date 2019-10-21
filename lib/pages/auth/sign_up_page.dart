@@ -147,7 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                             fontSize: 18.0,
                                           ),
                                         ),
-                                        textColor: Colors.white,
+                                        textColor: Theme.of(context).primaryColorLight,
                                         color: Theme.of(context).buttonColor,
                                         onPressed: snapshot.hasData
                                             ? _signUpBloc.submit

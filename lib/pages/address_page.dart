@@ -80,7 +80,7 @@ class _AddressPageState extends State<AddressPage> {
                         color: Theme.of(context).buttonColor,
                       ),
                       hintText: "Cep: Ex. 99999-999",
-                      labelText: "Search",
+                      labelText: "CEP",
                       labelStyle: TextStyle(color: Colors.black54),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),

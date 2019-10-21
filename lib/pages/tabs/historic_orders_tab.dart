@@ -1,4 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:idrink/blocs/historic_orders_bloc.dart';
+import 'package:idrink/models/dto/order_dto.dart';
+import 'package:idrink/widgets/historic_order_tile.dart';
 
 class HistoricOrdersTab extends StatefulWidget {
   @override
@@ -6,19 +11,55 @@ class HistoricOrdersTab extends StatefulWidget {
 }
 
 class _HistoricOrdersTabState extends State<HistoricOrdersTab> {
+  HistoricOrdersBloc _historicOrderBloc = HistoricOrdersBloc();
+
+//  @override
+//  void initState() {
+//    super.initState();
+//
+//    Timer.periodic(Duration(seconds: 10), (timer) {
+//      _historicOrderBloc.allOrders;
+//    });
+//  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      body: Column(
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 20.0),
-            child: Icon(Icons.list),
+          Expanded(
+            child: StreamBuilder<List<OrderDTO>>(
+              stream: _historicOrderBloc.outOrders,
+              builder: (context, snapshot) {
+                if (snapshot.hasData)
+                  return Container(
+                    color: Theme.of(context).primaryColorLight,
+                    child: RefreshIndicator(
+                      onRefresh: () => _historicOrderBloc.allOrders,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return HistoricOrderTile(snapshot.data[index]);
+                        },
+                        itemCount: snapshot.data.length,
+                      ),
+                    ),
+                  );
+                else
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: Theme.of(context).primaryColorLight,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(
+                          Theme.of(context).accentColor,
+                        ),
+                      ),
+                    ),
+                  );
+              },
+            ),
           ),
-          Text("Historico"),
         ],
       ),
     );

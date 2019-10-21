@@ -9,7 +9,7 @@ import 'dart:async';
 
 import '../api.dart';
 
-class ItemOrderBloc extends BlocBase {
+class ItemHistoricOrderBloc extends BlocBase {
   final api = Api();
 
   OrderDTO _orderDTO;
@@ -24,7 +24,7 @@ class ItemOrderBloc extends BlocBase {
   Stream<String> get outMessage => _messageController.stream;
   String get getMessage => _messageController.value;
 
-  ItemOrderBloc(this._orderDTO) {
+  ItemHistoricOrderBloc(this._orderDTO) {
     _allItems();
   }
 

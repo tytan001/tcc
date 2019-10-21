@@ -12,7 +12,7 @@ const API_LOGOUT = "users/logout";
 const API_STORES = "stores";
 const API_SEARCH_STORES = "stores/";
 const API_NEW_ADDRESSES = "adresses";
-const API_UPDATE_ADDRESSES = "adresses";
+const API_UPDATE_ADDRESSES = "adresses/";
 const API_DELETE_ADDRESSES = "adresses/";
 const API_ADDRESSES = "adresses";
 const API_PRODUCTS = "stores/products/";
@@ -20,7 +20,8 @@ const API_NEW_ORDER = "deliveries";
 const API_NEW_ITEMS = "items";
 const API_ORDERS = "deliveries/open";
 const API_HISTORIC_ORDERS = "deliveries/canceled-delivered";
-const API_ITEMS_ORDER = "deliveries/open/";
+const API_ITEMS_ORDER = "deliveries/open/items/";
+const API_ITEMS_HISTORIC_ORDER = "deliveries/open/items/";
 
 class Api {
   Future<Map<String, dynamic>> createClient(Map body) async {
@@ -176,6 +177,26 @@ class Api {
     }
   }
 
+  Future<List<dynamic>> itemsHistoricOrder(String token, int idOrder) async {
+    final url = API_KEY + API_ITEMS_HISTORIC_ORDER + idOrder.toString();
+    try {
+      return http.get(url, headers: Header.headerToken(token)).then((response) {
+        final int statusCode = response.statusCode;
+        final responseReturn = json.decode(response.body);
+        if (statusCode == 401) {
+          throw ResourceException(responseReturn["message"], code: statusCode);
+        } else if (statusCode == 200) {
+          return responseReturn;
+        } else {
+          throw ResourceException("Erro inesperado!\nCode $statusCode",
+              code: statusCode);
+        }
+      });
+    } catch (e) {
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
   Future<void> createAddresses(String token, Map body) async {
     const URL = API_KEY + API_NEW_ADDRESSES;
     try {
@@ -198,11 +219,11 @@ class Api {
     }
   }
 
-  Future<void> updateAddresses(String token, Map body) async {
-    const URL = API_KEY + API_UPDATE_ADDRESSES;
+  Future<void> updateAddresses(String token, Map body, int id) async {
+    final url = API_KEY + API_UPDATE_ADDRESSES + id.toString();
     try {
       return http
-          .put(URL, body: body, headers: Header.headerToken(token))
+          .put(url, body: body, headers: Header.headerToken(token))
           .then((response) {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
@@ -211,7 +232,6 @@ class Api {
         } else if (statusCode == 200) {
           return;
         } else {
-          print(responseReturn.toString());
           throw ResourceException("Erro inesperado!\nCode $statusCode",
               code: statusCode);
         }

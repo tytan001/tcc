@@ -2,7 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'dart:async';
 
 import 'package:idrink/api.dart';
-import 'package:idrink/models/order.dart';
+import 'package:idrink/models/dto/order_dto.dart';
 import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/services/page_state.dart';
 import 'package:idrink/services/token_service.dart';
@@ -11,10 +11,10 @@ import 'package:rxdart/rxdart.dart';
 class HistoricOrdersBloc extends BlocBase {
   final api = Api();
 
-  List<Order> orders;
+  List<OrderDTO> orders;
 
-  final StreamController<List<Order>> _ordersController =
-      BehaviorSubject<List<Order>>();
+  final StreamController<List<OrderDTO>> _ordersController =
+      BehaviorSubject<List<OrderDTO>>();
   final _stateController = BehaviorSubject<PageState>();
   final _messageController = BehaviorSubject<String>();
 
@@ -23,7 +23,7 @@ class HistoricOrdersBloc extends BlocBase {
   Stream<String> get outMessage => _messageController.stream;
   String get getMessage => _messageController.value;
 
-  Future<void> get allStores => _allOrders();
+  Future<void> get allOrders => _allOrders();
 
   HistoricOrdersBloc() {
     _allOrders();
@@ -36,8 +36,8 @@ class HistoricOrdersBloc extends BlocBase {
       final token =
           await TokenService.getToken().then((token) => token.tokenEncoded);
 
-      final response = await api.stores(token);
-      orders = Order.toList(response);
+      final response = await api.historicOrders(token);
+      orders = OrderDTO.toList(response);
       _ordersController.sink.add(orders);
       orders = [];
     } on ResourceException catch (e) {

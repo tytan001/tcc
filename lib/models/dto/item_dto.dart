@@ -5,15 +5,20 @@ class ItemDTO {
   double price;
   double partialPrice;
 
-  ItemDTO({this.quantity, this.productName, this.idOrder, this.price, this.partialPrice});
+  ItemDTO(
+      {this.quantity,
+      this.productName,
+      this.idOrder,
+      this.price,
+      this.partialPrice});
 
   factory ItemDTO.fromJson(Map<String, dynamic> json) {
     return ItemDTO(
         quantity: json["quantity"],
         productName: json["product_name"],
         idOrder: json["delivery_id"],
-        price: json["price"],
-        partialPrice: json["parcial_price"]);
+        price: double.parse(json["price"]),
+        partialPrice: double.parse(json["parcial_price"]));
   }
 
   Map<String, dynamic> toJson() {
@@ -47,7 +52,8 @@ class ItemDTO {
   }
 
   @override
-  bool operator ==(other) => other is ItemDTO && other.productName == productName;
+  bool operator ==(other) =>
+      other is ItemDTO && other.productName == productName;
 
   @override
   int get hashCode => productName.hashCode ^ idOrder.hashCode;
