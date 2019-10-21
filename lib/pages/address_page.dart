@@ -54,6 +54,7 @@ class _AddressPageState extends State<AddressPage> {
         backgroundColor: Theme.of(context).primaryColorLight,
         title: Text("Endereço de entrega"),
         elevation: 1.5,
+        centerTitle: true,
       ),
       body: Column(
         children: <Widget>[
