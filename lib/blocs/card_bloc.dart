@@ -26,6 +26,7 @@ class CardBloc extends BlocBase {
   final _addressController = BehaviorSubject<Address>();
   final _itemsController = BehaviorSubject<List<Item>>(seedValue: []);
   final _productsController = BehaviorSubject<List<Product>>(seedValue: []);
+  final _paymentController = BehaviorSubject<String>();
   final _stateCardController =
       BehaviorSubject<CardState>(seedValue: CardState.EMPTY);
   final _stateController =
@@ -35,6 +36,7 @@ class CardBloc extends BlocBase {
 
   Stream<List<Product>> get outProducts => _productsController.stream;
   Stream<Address> get outAddress => _addressController.stream;
+  Stream<String> get outPayment => _paymentController.stream;
   Stream<CardState> get outCardState => _stateCardController.stream;
   Stream<PageState> get outState => _stateController.stream;
   Stream<String> get outMessage => _messageController.stream;
@@ -46,6 +48,7 @@ class CardBloc extends BlocBase {
   Function(Store) get addStore => _storeController.sink.add;
   Function(Address) get addAddress => _addressController.sink.add;
   Function(CardState) get changeState => _stateCardController.sink.add;
+  Function(String) get changePayment => _paymentController.sink.add;
 
   void updateLists() {
     if (items.length != 0 && products.length != 0) {
@@ -138,7 +141,8 @@ class CardBloc extends BlocBase {
           Order(
                   idAddress: _addressController.value.id,
                   idClient: idUser,
-                  idStore: _storeController.value.id)
+                  idStore: _storeController.value.id,
+                  payment: _paymentController.value)
               .toMap());
 
       _orderController.add(Order.fromJson(response));
@@ -164,12 +168,16 @@ class CardBloc extends BlocBase {
     if (_addressController.value == null) {
       _messageController.add("Campo de endereço deve esta preenchido!");
       return false;
+    } else if (_paymentController.value == null) {
+      _messageController.add("Tipo de pagagemnto deve ser informado!");
+      return false;
     }
     return true;
   }
 
   void resetCard() {
     _addressController.add(null);
+    _paymentController.add(null);
     cardEmpty();
   }
 
@@ -190,6 +198,7 @@ class CardBloc extends BlocBase {
     _addressController.close();
     _itemsController.close();
     _productsController.close();
+    _paymentController.close();
     _stateCardController.close();
     _stateController.close();
     _messageController.close();

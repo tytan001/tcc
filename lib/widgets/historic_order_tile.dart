@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:idrink/blocs/items_historic_order_bloc.dart';
+import 'package:idrink/blocs/items_order_bloc.dart';
 import 'package:idrink/models/dto/item_dto.dart';
 import 'package:idrink/models/dto/order_dto.dart';
 import 'items_historic_order_tile.dart';
@@ -11,7 +11,7 @@ class HistoricOrderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ItemHistoricOrderBloc _itemOrderBloc = ItemHistoricOrderBloc(_order);
+    ItemOrderBloc _itemOrderBloc = ItemOrderBloc(_order);
 
     return Container(
       child: Card(

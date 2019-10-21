@@ -18,7 +18,8 @@ class ItemDTO {
         productName: json["product_name"],
         idOrder: json["delivery_id"],
         price: double.parse(json["price"]),
-        partialPrice: double.parse(json["parcial_price"]));
+//        partialPrice: double.parse(json["parcial_price"])
+    );
   }
 
   Map<String, dynamic> toJson() {

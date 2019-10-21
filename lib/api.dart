@@ -20,8 +20,7 @@ const API_NEW_ORDER = "deliveries";
 const API_NEW_ITEMS = "items";
 const API_ORDERS = "deliveries/open";
 const API_HISTORIC_ORDERS = "deliveries/canceled-delivered";
-const API_ITEMS_ORDER = "deliveries/open/items/";
-const API_ITEMS_HISTORIC_ORDER = "deliveries/open/items/";
+const API_ITEMS_ORDER = "items/";
 
 class Api {
   Future<Map<String, dynamic>> createClient(Map body) async {
@@ -159,26 +158,6 @@ class Api {
 
   Future<List<dynamic>> itemsOrder(String token, int idOrder) async {
     final url = API_KEY + API_ITEMS_ORDER + idOrder.toString();
-    try {
-      return http.get(url, headers: Header.headerToken(token)).then((response) {
-        final int statusCode = response.statusCode;
-        final responseReturn = json.decode(response.body);
-        if (statusCode == 401) {
-          throw ResourceException(responseReturn["message"], code: statusCode);
-        } else if (statusCode == 200) {
-          return responseReturn;
-        } else {
-          throw ResourceException("Erro inesperado!\nCode $statusCode",
-              code: statusCode);
-        }
-      });
-    } catch (e) {
-      throw ResourceException("Erro inesperado!");
-    }
-  }
-
-  Future<List<dynamic>> itemsHistoricOrder(String token, int idOrder) async {
-    final url = API_KEY + API_ITEMS_HISTORIC_ORDER + idOrder.toString();
     try {
       return http.get(url, headers: Header.headerToken(token)).then((response) {
         final int statusCode = response.statusCode;
@@ -358,7 +337,7 @@ class Api {
         final int statusCode = response.statusCode;
         final responseReturn = json.decode(response.body);
         if (statusCode == 401) {
-          throw ResourceException(responseReturn["message"], code: statusCode);
+          throw ResourceException(responseReturn["response"], code: statusCode);
         } else if (statusCode == 200) {
           return responseReturn;
         } else {

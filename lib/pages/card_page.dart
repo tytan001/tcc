@@ -4,6 +4,7 @@ import 'package:idrink/blocs/card_bloc.dart';
 import 'package:idrink/blocs/user_bloc.dart';
 import 'package:idrink/dialogs/dialog_address.dart';
 import 'package:idrink/dialogs/dialog_loading.dart';
+import 'package:idrink/dialogs/dialog_payment.dart';
 import 'package:idrink/models/product.dart';
 import 'package:idrink/services/page_state.dart';
 import 'package:idrink/utils/toast_util.dart';
@@ -71,7 +72,7 @@ class _CardPageState extends State<CardPage> {
                               horizontal: 30.0, vertical: 10.0),
                           child: Center(
                             child: Text(
-                              "Endereço de entrega vazio.",
+                              "Endereço de entrega",
                               style: TextStyle(
                                   color: Theme.of(context).accentColor,
                                   fontSize: 24),
@@ -81,6 +82,66 @@ class _CardPageState extends State<CardPage> {
                         );
                 },
               ),
+            ),
+          ),
+          Container(
+            color: Theme.of(context).primaryColorLight,
+            child: SizedBox(
+              height: 20.0,
+              child: DividerDefault(),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              toDialogPayment();
+            },
+            child: Container(
+              color: Theme.of(context).primaryColorLight,
+              child: StreamBuilder<String>(
+                stream: bloc.outPayment,
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 30.0, vertical: 10.0),
+                          child: Center(
+                            child: Text(
+                              snapshot.data == "money"
+                                  ? "Dinheiro"
+                                  : snapshot.data == "debit"
+                                      ? "Cartão de débito"
+                                      : snapshot.data == "credit"
+                                          ? "Cartão de crédito"
+                                          : null,
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      : Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 30.0, vertical: 10.0),
+                          child: Center(
+                            child: Text(
+                              "Tipo de pagamento",
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                },
+              ),
+            ),
+          ),
+          Container(
+            color: Theme.of(context).primaryColorLight,
+            child: SizedBox(
+              height: 20.0,
+              child: DividerDefault(),
             ),
           ),
           Expanded(
@@ -212,7 +273,14 @@ class _CardPageState extends State<CardPage> {
     );
   }
 
-  void returnToHome(){
+  void toDialogPayment() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => PaymentDialog(),
+    );
+  }
+
+  void returnToHome() {
     Navigator.pop(context);
     Navigator.pop(context);
     ToastUtil.showToast("Pedido realizado com sucesso!", context,

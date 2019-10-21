@@ -32,7 +32,8 @@ class ItemOrderBloc extends BlocBase {
     double total = 0.0;
     if (_itemsController.value != null)
       _itemsController.value.forEach((i) {
-        total += i.partialPrice;
+//        total += i.partialPrice;
+        total += i.quantity * i.price;
       });
     return total;
   }

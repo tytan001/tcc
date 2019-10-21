@@ -121,6 +121,7 @@ class ProductDialog extends StatelessWidget {
                         }
                       },
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Text("Adicionar", style: TextStyle(fontSize: 13.0)),
@@ -155,9 +156,14 @@ class ProductDialog extends StatelessWidget {
 //                    Navigator.of(context).pop();
                       Navigator.pop(context);
                     },
-                    child: Text(
-                      "Cancelar",
-                      style: TextStyle(fontSize: 11.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          "Cancelar",
+                          style: TextStyle(fontSize: 11.0),
+                        ),
+                      ],
                     ),
                   ),
                 ],
