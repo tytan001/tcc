@@ -23,20 +23,21 @@ class ItemOrderBloc extends BlocBase {
   Stream<PageState> get outState => _stateController.stream;
   Stream<String> get outMessage => _messageController.stream;
   String get getMessage => _messageController.value;
+  List<ItemDTO> get getItems => _itemsController.value;
 
   ItemOrderBloc(this._orderDTO) {
     _allItems();
   }
 
-  double valorTotal() {
-    double total = 0.0;
-    if (_itemsController.value != null)
-      _itemsController.value.forEach((i) {
-//        total += i.partialPrice;
-        total += i.quantity * i.price;
-      });
-    return total;
-  }
+//  double valorTotal() {
+//    double total = 0.0;
+//    if (_itemsController.value != null)
+//      _itemsController.value.forEach((i) {
+////        total += i.partialPrice;
+//        total += i.quantity * i.price;
+//      });
+//    return total;
+//  }
 
   Future<void> _allItems() async {
     final token =

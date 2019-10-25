@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:idrink/blocs/items_order_bloc.dart';
 import 'package:idrink/models/dto/item_dto.dart';
 import 'package:idrink/models/dto/order_dto.dart';
-import 'items_historic_order_tile.dart';
+import 'package:idrink/widgets/items_order_tile.dart';
+import 'package:idrink/widgets/total_price.dart';
 
 class HistoricOrderTile extends StatelessWidget {
   final OrderDTO _order;
@@ -33,7 +34,7 @@ class HistoricOrderTile extends StatelessWidget {
                         color: Theme.of(context).primaryColorLight,
                         child: Column(
                           children: snapshot.data.map((i) {
-                            return ItemsHistoricOrderTile(i);
+                            return ItemsOrderTile(i);
                           }).toList(),
                         ),
                       ),
@@ -44,13 +45,7 @@ class HistoricOrderTile extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Text(
-                              "Total R\$ ${_itemOrderBloc.valorTotal()}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                              ),
-                            ),
+                            TotalPrice(snapshot.data),
                           ],
                         ),
                       )

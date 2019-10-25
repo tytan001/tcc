@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idrink/blocs/items_order_bloc.dart';
 import 'package:idrink/models/dto/item_dto.dart';
 import 'package:idrink/models/dto/order_dto.dart';
+import 'package:idrink/widgets/total_price.dart';
 import 'items_order_tile.dart';
 
 class OrderTile extends StatelessWidget {
@@ -55,13 +56,7 @@ class OrderTile extends StatelessWidget {
                               color: Theme.of(context).buttonColor,
                               onPressed: () {},
                             ),
-                            Text(
-                              "Total R\$ ${_itemOrderBloc.valorTotal()}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                              ),
-                            ),
+                            TotalPrice(snapshot.data),
                           ],
                         ),
                       )
