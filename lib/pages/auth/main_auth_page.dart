@@ -39,14 +39,14 @@ class _MainAuthPageState extends State<MainAuthPage> {
   @override
   void dispose() {
     _isLoadingStream.close();
-    _defaultOrientation();
+//    _defaultOrientation();
     super.dispose();
   }
 
   @override
   void deactivate() {
     _isLoadingStream.close();
-    _defaultOrientation();
+//    _defaultOrientation();
     super.deactivate();
   }
 
@@ -73,12 +73,12 @@ class _MainAuthPageState extends State<MainAuthPage> {
     );
   }
 
-  void _defaultOrientation() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-  }
+//  void _defaultOrientation() {
+//    SystemChrome.setPreferredOrientations([
+//      DeviceOrientation.landscapeRight,
+//      DeviceOrientation.landscapeLeft,
+//      DeviceOrientation.portraitUp,
+//      DeviceOrientation.portraitDown,
+//    ]);
+//  }
 }

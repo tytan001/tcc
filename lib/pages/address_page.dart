@@ -38,7 +38,7 @@ class _AddressPageState extends State<AddressPage> {
           break;
         case PageState.IDLE:
           break;
-        case PageState.AUTHORIZED:
+        case PageState.UNAUTHORIZED:
           ToastUtil.showToast(_addressBloc.getMessage, context,
               color: ToastUtil.error);
           PageService.singOut(context);

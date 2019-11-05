@@ -53,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
         case PageState.IDLE:
           widget._isLoadingStream.add(false);
           break;
-        case PageState.AUTHORIZED:
+        case PageState.UNAUTHORIZED:
           break;
       }
     });

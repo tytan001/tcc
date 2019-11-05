@@ -44,7 +44,7 @@ class OrdersBloc extends BlocBase {
     } on ResourceException catch (e) {
       if (e.code == 401) {
         _messageController.add("Erro de autenticação");
-        _stateController.add(PageState.AUTHORIZED);
+        _stateController.add(PageState.UNAUTHORIZED);
       }
       _messageController.add(e.msg);
       _stateController.add(PageState.FAIL);

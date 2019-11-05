@@ -13,14 +13,14 @@ class OrdersTab extends StatefulWidget {
 class _OrdersTabState extends State<OrdersTab> {
   OrdersBloc _orderBloc = OrdersBloc();
 
-//  @override
-//  void initState() {
-//    super.initState();
-//
-//    Timer.periodic(Duration(seconds: 10), (timer) {
-//      _orderBloc.allOrders;
-//    });
-//  }
+  @override
+  void initState() {
+    super.initState();
+
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      _orderBloc.allOrders;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

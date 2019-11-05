@@ -13,14 +13,14 @@ class HistoricOrdersTab extends StatefulWidget {
 class _HistoricOrdersTabState extends State<HistoricOrdersTab> {
   HistoricOrdersBloc _historicOrderBloc = HistoricOrdersBloc();
 
-//  @override
-//  void initState() {
-//    super.initState();
-//
-//    Timer.periodic(Duration(seconds: 10), (timer) {
-//      _historicOrderBloc.allOrders;
-//    });
-//  }
+  @override
+  void initState() {
+    super.initState();
+
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      _historicOrderBloc.allOrders;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

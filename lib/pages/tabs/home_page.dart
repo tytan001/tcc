@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
 import 'package:idrink/models/store.dart';
@@ -30,7 +29,6 @@ class _HomePageState extends State<HomePage> {
         case PageState.SUCCESS:
           break;
         case PageState.FAIL:
-          Navigator.pop(context);
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -49,7 +47,7 @@ class _HomePageState extends State<HomePage> {
           break;
         case PageState.IDLE:
           break;
-        case PageState.AUTHORIZED:
+        case PageState.UNAUTHORIZED:
           ToastUtil.showToast(_storesBloc.getMessage, context,
               color: ToastUtil.error);
           PageService.singOut(context);

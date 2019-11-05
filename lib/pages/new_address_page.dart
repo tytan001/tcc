@@ -63,7 +63,7 @@ class _NewAddressPageState extends State<NewAddressPage> {
           break;
         case PageState.IDLE:
           break;
-        case PageState.AUTHORIZED:
+        case PageState.UNAUTHORIZED:
           break;
       }
     });
