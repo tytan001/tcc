@@ -29,11 +29,16 @@ dependencies:
   rxdart: ^0.20.0
   bloc_pattern: ^2.3.4
 
+  socket_io_client: ^0.9.7+1
+  laravel_echo:
+  web_socket_channel: ^1.1.0
+  flutter_socket_io: ^0.6.0
+  stomp: ^0.8.0
+
   flutter_launcher_icons: ^0.7.3
   toast: ^0.1.5
-
   flutter_masked_text: ^0.8.0
-
+  #  json_annotation: ^3.0.0
   expandable_card: ^0.0.3+1
 
 

@@ -52,7 +52,7 @@ class _AddressPageState extends State<AddressPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColorLight,
-        title: Text("Endereço de entrega"),
+        title: Text("Endereços"),
         elevation: 1.5,
         centerTitle: true,
       ),
@@ -77,20 +77,24 @@ class _AddressPageState extends State<AddressPage> {
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.search,
-                        color: Theme.of(context).buttonColor,
+                        color: Theme.of(context).accentColor,
                       ),
                       hintText: "Cep: Ex. 99999-999",
                       labelText: "CEP",
                       labelStyle: TextStyle(color: Colors.black54),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide:
-                            BorderSide(color: Theme.of(context).buttonColor),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).accentColor,
+                          width: 2,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide:
-                            BorderSide(color: Theme.of(context).buttonColor),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).accentColor,
+                          width: 2,
+                        ),
                       ),
                     ),
                     style: TextStyle(fontSize: 18.0),
@@ -112,41 +116,45 @@ class _AddressPageState extends State<AddressPage> {
             ),
           ),
           Expanded(
-            child: StreamBuilder<List<Address>>(
-              stream: _addressBloc.outAddresses,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) if (snapshot.data.length > 0)
-                  return Container(
-                    child: RefreshIndicator(
-                      onRefresh: () => _addressBloc.allAddress,
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return AddressTile(
-                            address: snapshot.data[index],
-                            addressBloc: _addressBloc,
-                          );
-                        },
-                        itemCount: snapshot.data.length,
+            child: Container(
+              color: Theme.of(context).primaryColorLight,
+              child: StreamBuilder<List<Address>>(
+                stream: _addressBloc.outAddresses,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) if (snapshot.data.length > 0)
+                    return Container(
+                      child: RefreshIndicator(
+                        onRefresh: () => _addressBloc.allAddress,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return AddressTile(
+                              address: snapshot.data[index],
+                              addressBloc: _addressBloc,
+                            );
+                          },
+                          itemCount: snapshot.data.length,
+                        ),
                       ),
-                    ),
-                  );
-                else
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 30.0),
-                    child: Center(
-                      child: Text(
-                        "Você não possui endereços cadastrado",
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor, fontSize: 24),
-                        textAlign: TextAlign.center,
+                    );
+                  else
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30.0),
+                      child: Center(
+                        child: Text(
+                          "Você não possui endereços cadastrado",
+                          style: TextStyle(
+                              color: Theme.of(context).accentColor,
+                              fontSize: 24),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
-                  );
-                else
-                  return Loading();
-              },
+                    );
+                  else
+                    return Loading();
+                },
+              ),
             ),
-          )
+          ),
         ],
       ),
     );

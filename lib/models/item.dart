@@ -7,9 +7,9 @@ class Item {
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
-        quantity: json["quantity"],
-        idProduct: json["product_id"],
-        idOrder: json["delivery_id"]);
+        quantity: int.parse(json["quantity"].toString()),
+        idProduct: int.parse(json["product_id"].toString()),
+        idOrder: int.parse(json["delivery_id"].toString()));
   }
 
   Map<String, dynamic> toJson() {

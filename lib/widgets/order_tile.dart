@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idrink/blocs/items_order_bloc.dart';
 import 'package:idrink/models/dto/item_dto.dart';
 import 'package:idrink/models/dto/order_dto.dart';
+import 'package:idrink/services/page_service.dart';
 import 'package:idrink/widgets/total_price.dart';
 import 'items_order_tile.dart';
 
@@ -54,7 +55,7 @@ class OrderTile extends StatelessWidget {
                               ),
                               textColor: Colors.white,
                               color: Theme.of(context).buttonColor,
-                              onPressed: () {},
+                              onPressed: () => PageService.toPageChat(context),
                             ),
                             TotalPrice(snapshot.data),
                           ],

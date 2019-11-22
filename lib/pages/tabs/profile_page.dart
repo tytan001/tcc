@@ -43,17 +43,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   ProfileOption(
                     label: "Editar Perfil",
                     onTap: () => PageService.toPageUpdateProfile(context),
-                    line: true,
+                    icons: Icons.face,
+                  ),
+                  Divider(
+                    height: 1.0,
+                    color: Colors.transparent,
                   ),
                   ProfileOption(
                     label: "Alterar senha",
                     onTap: () => PageService.toPageUpdatePassword(context),
-                    line: true,
+                    icons: Icons.vpn_key,
+                  ),
+                  Divider(
+                    height: 1.0,
+                    color: Colors.transparent,
                   ),
                   ProfileOption(
-                    label: "Adicionar Endereço",
+                    label: "Endereços",
                     onTap: () => PageService.toPageAddress(context),
-                    line: true,
+                    icons: Icons.location_on,
+                  ),
+                  Divider(
+                    height: 1.0,
+                    color: Colors.transparent,
                   ),
 //                  ProfileOption(
 //                    label: "Pagina test",

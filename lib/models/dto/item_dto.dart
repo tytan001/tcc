@@ -14,10 +14,10 @@ class ItemDTO {
 
   factory ItemDTO.fromJson(Map<String, dynamic> json) {
     return ItemDTO(
-        quantity: json["quantity"],
+        quantity: int.parse(json["quantity"].toString()),
         productName: json["product_name"],
-        idOrder: json["delivery_id"],
-        price: double.parse(json["price"]),
+        idOrder: int.parse(json["delivery_id"].toString()),
+        price: double.parse(json["price"].toString()),
 //        partialPrice: double.parse(json["parcial_price"])
     );
   }

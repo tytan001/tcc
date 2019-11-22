@@ -82,7 +82,7 @@ class _UpdateAddressPageState extends State<UpdateAddressPage> {
             stream: _addressBloc.outSubmitValid,
             builder: (context, snapshot) {
               return IconButton(
-                icon: Icon(Icons.save),
+                icon: Icon(Icons.check),
                 onPressed: _addressBloc.change(widget.address)
                     ? _addressBloc.submit
                     : null,

@@ -1,6 +1,8 @@
 class Order {
   final String status;
   final String payment;
+  final String change;
+  final String totalPrice;
   final int idAddress;
   final int idClient;
   final int idStore;
@@ -9,6 +11,8 @@ class Order {
   Order(
       {this.status,
       this.payment,
+      this.change,
+      this.totalPrice,
       this.idAddress,
       this.idClient,
       this.idStore,
@@ -18,16 +22,20 @@ class Order {
     return Order(
         status: json["status"],
         payment: json["payment"],
-        idAddress: int.parse(json["address_id"]),
-        idClient: int.parse(json["customer_id"]),
-        idStore: int.parse(json["store_id"]),
-        id: json["id"]);
+        change: json["change"],
+        totalPrice: json["total_price"],
+        idAddress: int.parse(json["address_id"].toString()),
+        idClient: int.parse(json["customer_id"].toString()),
+        idStore: int.parse(json["store_id"].toString()),
+        id: int.parse(json["id"].toString()));
   }
 
   Map<String, dynamic> toJson() {
     return {
       "status": status,
       "payment": payment,
+      "change": change,
+      "total_price": totalPrice,
       "address_id": idAddress,
       "customer_id": idClient,
       "store_id": idStore,
@@ -40,6 +48,8 @@ class Order {
 
     if (status != null) map["status"] = status;
     if (payment != null) map["payment"] = payment;
+    if (change != null) map["change"] = change;
+    if (totalPrice != null) map["total_price"] = totalPrice;
     if (idAddress != null) map["address_id"] = idAddress.toString();
     if (idClient != null) map["customer_id"] = idClient.toString();
     if (idStore != null) map["store_id"] = idStore.toString();

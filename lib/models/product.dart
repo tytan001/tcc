@@ -8,8 +8,8 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-        id: json["id"],
-        idStore: json["store_id"],
+        id: int.parse(json["id"].toString()),
+        idStore: int.parse(json["store_id"].toString()),
         name: json["name"],
         price: json["price"]);
   }

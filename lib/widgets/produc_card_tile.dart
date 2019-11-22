@@ -11,8 +11,7 @@ class ProductCardTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      margin: EdgeInsets.symmetric(vertical: 15),
+      margin: EdgeInsets.symmetric(vertical: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -26,12 +25,12 @@ class ProductCardTile extends StatelessWidget {
                     "${_item.quantity}x",
                     style: TextStyle(
                         color: Theme.of(context).primaryColorDark,
-                        fontSize: 26),
+                        fontSize: 20),
                   ),
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    margin: EdgeInsets.symmetric(horizontal: 3.0),
                     child: Text(
                       _product.name,
                       style: TextStyle(
@@ -43,10 +42,10 @@ class ProductCardTile extends StatelessWidget {
                 ),
                 Container(
                   child: Text(
-                    "R\$ ${(double.parse(_product.price) * _item.quantity).toStringAsFixed(2)}",
+                    "R\$ ${(double.parse(_product.price) * _item.quantity).toStringAsFixed(2).replaceAll(".", ",")}",
                     style: TextStyle(
                         color: Theme.of(context).primaryColorDark,
-                        fontSize: 26),
+                        fontSize: 20),
                     maxLines: 2,
                   ),
                 ),

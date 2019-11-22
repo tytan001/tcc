@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/address_bloc.dart';
 import 'package:idrink/blocs/card_bloc.dart';
+import 'package:idrink/dialogs/dialog_change.dart';
 import 'package:idrink/models/address.dart';
 import 'package:idrink/widgets/address_tile.dart';
 import 'package:idrink/widgets/loading.dart';
@@ -22,6 +23,13 @@ class PaymentDialog extends StatelessWidget {
   }
 
   dialogContent(BuildContext context) {
+    void toDialogChange() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => ChangeDialog(),
+      );
+    }
+
     return Container(
       padding: EdgeInsets.all(10.0),
       margin: EdgeInsets.symmetric(
@@ -58,6 +66,8 @@ class PaymentDialog extends StatelessWidget {
               onPressed: () {
                 bloc.changePayment("money");
                 Navigator.pop(context);
+                toDialogChange();
+//                Navigator.pop(context);
               },
             ),
             Divider(

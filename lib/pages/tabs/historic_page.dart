@@ -36,8 +36,8 @@ class _HistoricPageState extends State<HistoricPage> {
             children: <Widget>[
               TabBar(
                 tabs: [
-                  Tab(icon: Icon(Icons.content_paste)),
-                  Tab(icon: Icon(Icons.list)),
+                  Tab(icon: Icon(Icons.library_books, color: Theme.of(context).accentColor,)),
+                  Tab(icon: Icon(Icons.bookmark, color: Theme.of(context).accentColor)),
                 ],
               ),
             ],

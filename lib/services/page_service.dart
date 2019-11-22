@@ -4,13 +4,12 @@ import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/pages/card_page.dart';
 import 'package:idrink/pages/main_nav_page.dart';
 import 'package:idrink/pages/new_address_page.dart';
-import 'package:idrink/pages/product_page.dart';
 import 'package:idrink/pages/store_page.dart';
-import 'package:idrink/pages/test_page.dart';
 import 'package:idrink/pages/update_address_page.dart';
 import 'package:idrink/pages/update_password_page.dart';
 import 'package:idrink/pages/update_profile_page.dart';
 import 'package:idrink/services/client_service.dart';
+import 'package:idrink/services/test_socket.dart';
 import 'package:idrink/services/token_service.dart';
 
 abstract class PageService {
@@ -61,6 +60,11 @@ abstract class PageService {
 //    Navigator.of(ctx).push(MaterialPageRoute(
 //        builder: (context) => ProductPage(product: product, store: store)));
 //  }
+
+  static void toPageChat(BuildContext ctx) async {
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (context) => ChatSocket()));
+  }
 
   static void toPageCard(BuildContext ctx) async {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => CardPage()));

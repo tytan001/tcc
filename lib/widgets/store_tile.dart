@@ -9,12 +9,11 @@ class StoreTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return FlatButton(
+      onPressed: () {
         PageService.toPageStore(context, _store);
       },
       child: Container(
-        color: Colors.white,
         margin: EdgeInsets.symmetric(vertical: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -38,23 +37,23 @@ class StoreTile extends StatelessWidget {
                     ],
                   ),
                 ),
-//                StreamBuilder<Map<String, Video>>(
-//                  stream: bloc.outFav,
-//                  builder: (context, snapshot){
-//                    if(snapshot.hasData)
-//                      return IconButton(
-//                        icon: Icon(snapshot.data.containsKey(video.id) ?
-//                        Icons.star : Icons.star_border),
-//                        color: Colors.white,
-//                        iconSize: 30,
-//                        onPressed: (){
-//                          bloc.toggleFavorite(video);
-//                        },
-//                      );
-//                    else
-//                      return CircularProgressIndicator();
-//                  },
-//                )
+                ////                StreamBuilder<Map<String, Video>>(
+////                  stream: bloc.outFav,
+////                  builder: (context, snapshot){
+////                    if(snapshot.hasData)
+////                      return IconButton(
+////                        icon: Icon(snapshot.data.containsKey(video.id) ?
+////                        Icons.star : Icons.star_border),
+////                        color: Colors.white,
+////                        iconSize: 30,
+////                        onPressed: (){
+////                          bloc.toggleFavorite(video);
+////                        },
+////                      );
+////                    else
+////                      return CircularProgressIndicator();
+////                  },
+////                )
               ],
             )
           ],

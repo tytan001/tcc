@@ -27,6 +27,8 @@ class CardBloc extends BlocBase {
   final _itemsController = BehaviorSubject<List<Item>>(seedValue: []);
   final _productsController = BehaviorSubject<List<Product>>(seedValue: []);
   final _paymentController = BehaviorSubject<String>();
+  final _changeController = BehaviorSubject<String>();
+  final _priceTotalController = BehaviorSubject<String>();
   final _stateCardController =
       BehaviorSubject<CardState>(seedValue: CardState.EMPTY);
   final _stateController =
@@ -37,6 +39,14 @@ class CardBloc extends BlocBase {
   Stream<List<Product>> get outProducts => _productsController.stream;
   Stream<Address> get outAddress => _addressController.stream;
   Stream<String> get outPayment => _paymentController.stream;
+//  Stream<String> get outChange => _changeController.stream.doOnData((c) {
+//        double totalPrice = double.parse(_priceTotalController.value);
+//
+//        if (double.parse(c) < totalPrice)
+//          _changeController.addError("Troco menor que o valor da compra.");
+//      });
+  Stream<String> get outChange => _changeController.stream;
+  Stream<String> get outPriceTotal => _priceTotalController.stream;
   Stream<CardState> get outCardState => _stateCardController.stream;
   Stream<PageState> get outState => _stateController.stream;
   Stream<String> get outMessage => _messageController.stream;
@@ -44,11 +54,14 @@ class CardBloc extends BlocBase {
 
   Store get getStore => _storeController.value;
   List<Item> get getItems => _itemsController.value;
+  String get getPayment => _paymentController.value;
+  String get totalPrice => _priceTotalController.value;
 
   Function(Store) get addStore => _storeController.sink.add;
   Function(Address) get addAddress => _addressController.sink.add;
   Function(CardState) get changeState => _stateCardController.sink.add;
   Function(String) get changePayment => _paymentController.sink.add;
+  Function(String) get changeChange => _changeController.sink.add;
 
   void updateLists() {
     if (items.length != 0 && products.length != 0) {
@@ -60,17 +73,20 @@ class CardBloc extends BlocBase {
     _productsController.sink.add(products);
     items = [];
     products = [];
+    sla();
   }
 
   bool addCard(final Item item, final Product product, final Store store) {
     items = _itemsController.value;
     products = _productsController.value;
 
+    sla();
+
     if (stateCard(store)) {
       if (items.contains(item) && products.contains(product)) {
         items.forEach((i) =>
             i.idProduct == item.idProduct ? i.quantity += item.quantity : null);
-      } else {
+      } else if (item != null && products != null && item.quantity != 0) {
         items.add(item);
         products.add(product);
       }
@@ -131,10 +147,11 @@ class CardBloc extends BlocBase {
     _stateController.add(PageState.LOADING);
 
     try {
-      inputCompleted();
-
       final token =
           await TokenService.getToken().then((token) => token.tokenEncoded);
+
+      sla();
+      money();
 
       Map<String, dynamic> response = await api.createOrder(
           token,
@@ -142,7 +159,9 @@ class CardBloc extends BlocBase {
                   idAddress: _addressController.value.id,
                   idClient: idUser,
                   idStore: _storeController.value.id,
-                  payment: _paymentController.value)
+                  payment: _paymentController.value,
+                  change: _changeController.value,
+                  totalPrice: _priceTotalController.value)
               .toMap());
 
       _orderController.add(Order.fromJson(response));
@@ -164,12 +183,55 @@ class CardBloc extends BlocBase {
     }
   }
 
+  void sla() {
+    double priceTotal = 0;
+    String change = "";
+
+    _productsController.value.forEach((p) {
+      _itemsController.value.forEach((i) {
+        if (p.id == i.idProduct)
+          priceTotal += (double.parse(p.price) * i.quantity);
+      });
+    });
+
+    if (_paymentController.value != null &&
+        _paymentController.value == "money" &&
+        _changeController.value != null) change = _changeController.value;
+
+    _changeController.add(change);
+    _priceTotalController.add((priceTotal).toStringAsFixed(2));
+  }
+
+  void money() {
+    if (_paymentController.value != null &&
+        _paymentController.value == "money" &&
+        _changeController.value != null)
+      _changeController.add(
+          _changeController.value.replaceAll(".", "").replaceAll(",", "."));
+  }
+
   bool inputCompleted() {
     if (_addressController.value == null) {
-      _messageController.add("Campo de endereço deve esta preenchido!");
+      _messageController.add("Campo de endereço deve esta preenchido.");
       return false;
     } else if (_paymentController.value == null) {
-      _messageController.add("Tipo de pagagemnto deve ser informado!");
+      _messageController.add("Tipo de pagagemnto deve ser informado.");
+      return false;
+    } else if (_paymentController.value == "money" &&
+        (_changeController.value == null ||
+            _changeController.value.trim() == "")) {
+      _messageController.add("Valor para ser trocado deve ser informado.");
+      return false;
+    } else if (_itemsController.value == null ||
+        _itemsController.value.length == 0) {
+      _messageController.add("Carrinho vazio.");
+      return false;
+    } else if (_paymentController.value == "money" &&
+        double.parse(_priceTotalController.value) >
+            double.parse(_changeController.value
+                .replaceAll(".", "")
+                .replaceAll(",", "."))) {
+      _messageController.add("Dinheiro de troca deve ser maior que a fatura.");
       return false;
     }
     return true;
@@ -199,6 +261,8 @@ class CardBloc extends BlocBase {
     _itemsController.close();
     _productsController.close();
     _paymentController.close();
+    _changeController.close();
+    _priceTotalController.close();
     _stateCardController.close();
     _stateController.close();
     _messageController.close();

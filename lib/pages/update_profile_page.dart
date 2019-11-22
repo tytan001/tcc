@@ -74,7 +74,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 stream: _updateBloc.outSubmitValid,
                 builder: (context, snapshot) {
                   return IconButton(
-                    icon: Icon(Icons.save),
+                    icon: Icon(Icons.check),
                     onPressed: snapshot.hasData &&
                             _updateBloc.change(userBloc.nameUser,
                                 userBloc.emailUser, userBloc.phoneUser)

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/card_bloc.dart';
@@ -20,11 +22,21 @@ class StorePage extends StatefulWidget {
 
 class _StorePageState extends State<StorePage> {
   final CardBloc bloc = BlocProvider.getBloc<CardBloc>();
+  ProductsBloc _productsBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _productsBloc = ProductsBloc(widget.store);
+
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      _productsBloc.allProducts;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    ProductsBloc _productsBloc = ProductsBloc(widget.store);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 1.0,
@@ -45,11 +57,9 @@ class _StorePageState extends State<StorePage> {
                         onRefresh: () => _productsBloc.allProducts,
                         child: ListView.separated(
                           itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                toDialogProduct(snapshot.data[index]);
-                              },
-                              child: ProductTile(snapshot.data[index]),
+                            return Container(
+                              child: ProductTile(
+                                  widget.store, snapshot.data[index]),
                             );
                           },
                           itemCount: snapshot.data.length,
@@ -86,12 +96,58 @@ class _StorePageState extends State<StorePage> {
                         onPressed: () => PageService.toPageCard(context),
                         child: Container(
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Container(
+                                child: StreamBuilder<List<Product>>(
+                                    stream: bloc.outProducts,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData)
+                                        return Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 15.0),
+                                          child: Text(
+                                            "${snapshot.data.length}",
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColorLight,
+                                              fontSize: 18,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        );
+                                      else
+                                        return Container();
+                                    }),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 35.0),
                                 child: Text(
                                   "Carrinho",
-                                  style: TextStyle(fontSize: 18.0),
+                                  style: TextStyle(
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      fontSize: 16.0),
+                                ),
+                              ),
+                              Container(
+                                child: StreamBuilder<String>(
+                                  stream: bloc.outPriceTotal,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData)
+                                      return Container(
+                                        child: Text(
+                                          "R\$ ${bloc.totalPrice.replaceAll(".", ",")}",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColorLight,
+                                              fontSize: 18),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      );
+                                    else
+                                      return Container();
+                                  },
                                 ),
                               ),
                             ],
@@ -106,14 +162,6 @@ class _StorePageState extends State<StorePage> {
           )
         ],
       ),
-    );
-  }
-
-  void toDialogProduct(final Product product) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) =>
-          ProductDialog(store: widget.store, product: product, bloc: bloc),
     );
   }
 }

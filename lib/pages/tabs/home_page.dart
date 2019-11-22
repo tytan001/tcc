@@ -82,13 +82,17 @@ class _HomePageState extends State<HomePage> {
                       labelStyle: TextStyle(color: Colors.black54),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide:
-                            BorderSide(color: Theme.of(context).buttonColor),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).accentColor,
+                          width: 2,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                        borderSide:
-                            BorderSide(color: Theme.of(context).buttonColor),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).accentColor,
+                          width: 2,
+                        ),
                       ),
                     ),
                     style: TextStyle(fontSize: 18.0),
@@ -112,7 +116,10 @@ class _HomePageState extends State<HomePage> {
                     return Container(
                       color: Theme.of(context).primaryColor,
                       child: RefreshIndicator(
-                        onRefresh: () => _storesBloc.allStores,
+                        onRefresh: () async {
+                          await _storesBloc.allStores;
+                          _searchController.text = "";
+                          },
                         child: ListView.separated(
                           itemBuilder: (context, index) {
                             return StoreTile(snapshot.data[index]);

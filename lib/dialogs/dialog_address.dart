@@ -47,6 +47,7 @@ class AddressDialog extends StatelessWidget {
               child: RefreshIndicator(
                 onRefresh: () => _addressBloc.allAddress,
                 child: ListView.builder(
+                  shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
@@ -65,12 +66,15 @@ class AddressDialog extends StatelessWidget {
           else
             return Container(
               margin: EdgeInsets.symmetric(horizontal: 30.0),
-              child: Center(
-                child: Text(
-                  "Você não possui endereços cadastrado",
-                  style: TextStyle(
-                      color: Theme.of(context).accentColor, fontSize: 24),
-                  textAlign: TextAlign.center,
+              child: RefreshIndicator(
+                onRefresh: () => _addressBloc.allAddress,
+                child: Center(
+                  child: Text(
+                    "Você não possui endereços cadastrado",
+                    style: TextStyle(
+                        color: Theme.of(context).accentColor, fontSize: 24),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             );

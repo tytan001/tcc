@@ -20,7 +20,7 @@ class HistoricOrderTile extends StatelessWidget {
           title: Text(
             _order.nameStore,
             style: TextStyle(
-                color: Theme.of(context).primaryColorDark,
+                color: typeHistory(context, _order),
                 fontWeight: FontWeight.bold),
           ),
           children: <Widget>[
@@ -70,5 +70,15 @@ class HistoricOrderTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color typeHistory(BuildContext context, OrderDTO _order) {
+    Color cor = Theme.of(context).primaryColorDark;
+
+    if (_order.status == "delivered")
+      cor = Colors.green;
+    else if (_order.status == "canceled") cor = Colors.redAccent;
+
+    return cor;
   }
 }

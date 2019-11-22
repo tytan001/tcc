@@ -6,6 +6,7 @@ import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/utils/token_headers.dart';
 
 const API_KEY = "http://idrink-tcc.herokuapp.com/api/";
+//const API_KEY = "http://192.168.43.69:8000/api/";
 const API_NEW_CLIENT = "users";
 const API_UPDATE_CLIENT = "users/";
 const API_LOGIN = "users/login";
@@ -85,7 +86,7 @@ class Api {
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
-        throw ResourceException(responseReturn["message"], code: statusCode);
+        throw ResourceException("Não autorizado!", code: statusCode);
       } else if (statusCode == 200) {
         return responseReturn;
       } else {
@@ -94,7 +95,10 @@ class Api {
       }
     } on SocketException catch (e) {
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }

@@ -13,13 +13,13 @@ class AddressTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColorLight,
+        color: Colors.transparent,
         border: Border.all(color: Theme.of(context).accentColor, width: 1.5),
         borderRadius: BorderRadius.all(
           Radius.circular(10.0),
         ),
       ),
-      margin: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0.0),
+      margin: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       child: Row(
         children: <Widget>[
@@ -27,7 +27,7 @@ class AddressTile extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(12.0, 0.0, 20.0, 0.0),
             child: Center(
               child: Icon(
-                Icons.home,
+                Icons.location_on,
                 color: Theme.of(context).accentColor,
               ),
             ),
@@ -42,7 +42,7 @@ class AddressTile extends StatelessWidget {
                       child: Text(
                         address.cep,
                         style: TextStyle(
-                          color: Theme.of(context).hoverColor,
+                          color: Theme.of(context).primaryColorDark,
                           fontSize: 13,
                         ),
                       ),
@@ -53,7 +53,7 @@ class AddressTile extends StatelessWidget {
                   child: Text(
                     "${address.publicPlace} ${address.complement} Nº ${address.number}",
                     style: TextStyle(
-                      color: Theme.of(context).hoverColor,
+                      color: Theme.of(context).primaryColorDark,
                       fontSize: 13,
                     ),
                     maxLines: 3,
@@ -63,7 +63,7 @@ class AddressTile extends StatelessWidget {
                   child: Text(
                     address.neighborhood,
                     style: TextStyle(
-                      color: Theme.of(context).hoverColor,
+                      color: Theme.of(context).primaryColorDark,
                       fontSize: 13,
                     ),
                   ),
@@ -72,7 +72,7 @@ class AddressTile extends StatelessWidget {
                   child: Text(
                     "${address.locality} - ${address.uf}",
                     style: TextStyle(
-                      color: Theme.of(context).hoverColor,
+                      color: Theme.of(context).primaryColorDark,
                       fontSize: 13,
                     ),
                     maxLines: 1,

@@ -66,7 +66,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             stream: _updateBloc.outSubmitValid,
             builder: (context, snapshot) {
               return IconButton(
-                icon: Icon(Icons.save),
+                icon: Icon(Icons.check),
                 onPressed: snapshot.hasData ? _updateBloc.submit : null,
                 color: Theme.of(context).accentColor,
                 disabledColor: Theme.of(context).hoverColor,

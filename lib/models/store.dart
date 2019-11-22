@@ -8,7 +8,7 @@ class Store {
 
   factory Store.fromJson(Map<String, dynamic> json) {
     return Store(
-        id: json["id"],
+        id: int.parse(json["id"].toString()),
         name: json["name"],
         email: json["email"],
         phone: json["phone"]);

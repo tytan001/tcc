@@ -35,8 +35,8 @@ class Address {
         number: json["numero"],
         latitude: json["latitude"],
         longitude: json["longitude"],
-        idUser: json["user_id"],
-        id: json["id"]);
+        idUser: int.parse(json["user_id"].toString()),
+        id: int.parse(json["id"].toString()));
   }
 
   Map<String, dynamic> toMap() {
