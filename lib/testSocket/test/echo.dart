@@ -3,7 +3,7 @@ import 'dart:math';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:idrink/services/web_socket.dart';
+import 'package:idrink/testSocket/test/web_socket.dart';
 
 import 'package:stomp/stomp.dart';
 

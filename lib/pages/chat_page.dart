@@ -1,82 +1,85 @@
-import 'package:flutter/foundation.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:idrink/socket/maneger.dart';
+import 'package:idrink/socket/socket_io.dart';
+//import 'package:flutter_socket_io/flutter_socket_io.dart';
+//import 'package:flutter_socket_io/socket_io_manager.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    final title = 'WebSocket Demo';
-    return MaterialApp(
-      title: title,
-      home: MyHomePage(
-        title: title,
-        channel: IOWebSocketChannel.connect('http://192.168.43.69:8000/ws'),
-      ),
-    );
-  }
+  _ChatPageState createState() => _ChatPageState();
 }
 
-class MyHomePage extends StatefulWidget {
-  final String title;
-  final WebSocketChannel channel;
+const String URI = 'http://192.168.1.12:3000';
 
-  MyHomePage({Key key, @required this.title, @required this.channel})
-      : super(key: key);
+class _ChatPageState extends State<ChatPage> {
+  SocketIO socketIO;
+  _connectSocket01() {
+    //update your domain before using
+    socketIO = SocketIOManager().createSocketIO(URI, "/",
+        query: "userId=21031", socketStatusCallback: _socketStatus);
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+    //call init socket before doing anything
+    socketIO.init();
 
-class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController _controller = TextEditingController();
+    //subscribe event
+    socketIO.subscribe("previousMessages", (c) {
+      print("\nokay: previousMessages\n");
+      print("\n${c.toString()}\n");
+    });
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Form(
-              child: TextFormField(
-                controller: _controller,
-                decoration: InputDecoration(labelText: 'Send a message'),
-              ),
-            ),
-            StreamBuilder(
-              stream: widget.channel.stream,
-              builder: (context, snapshot) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: Text(snapshot.hasData ? '${snapshot.data}' : ''),
-                );
-              },
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _sendMessage,
-        tooltip: 'Send message',
-        child: Icon(Icons.send),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    //subscribe event
+    socketIO.subscribe("receivedMessage", (c) {
+      print("\nokay: receivedMessage\n");
+      print("\n${c.toString()}\n");
+    });
+
+    //connect socket
+    socketIO.connect();
   }
 
-  void _sendMessage() {
-    if (_controller.text.isNotEmpty) {
-      widget.channel.sink.add(_controller.text);
+  _socketStatus(dynamic data) {
+    print("Socket status: " + data);
+  }
+
+  _subscribes() {
+    if (socketIO != null) {
+      socketIO.subscribe("chat_direct", _onReceiveChatMessage);
+    }
+  }
+
+  void _onReceiveChatMessage(dynamic message) {
+    print("Message from UFO: " + message);
+  }
+
+  void _sendChatMessage(String msg) async {
+    if (socketIO != null) {
+      String jsonData =
+          '{"message":{"type":"Text","content": ${(msg != null && msg.isNotEmpty) ? '"${msg}"' : '"Hello SOCKET IO PLUGIN :))"'},"owner":"589f10b9bbcd694aa570988d","avatar":"img/avatar-default.png"},"sender":{"userId":"589f10b9bbcd694aa570988d","first":"Ha","last":"Test 2","location":{"lat":10.792273999999999,"long":106.6430356,"accuracy":38,"regionId":null,"vendor":"gps","verticalAccuracy":null},"name":"Ha Test 2"},"receivers":["587e1147744c6260e2d3a4af"],"conversationId":"589f116612aa254aa4fef79f","name":null,"isAnonymous":null}';
+      socketIO.sendMessage("sendMessage", jsonData, _onReceiveChatMessage);
+    }
+  }
+
+  _destroySocket() {
+    if (socketIO != null) {
+      SocketIOManager().destroySocket(socketIO);
     }
   }
 
   @override
-  void dispose() {
-    widget.channel.sink.close();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _connectSocket01();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.blue,
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        _sendChatMessage("author:Demi,message:Olá mundo!");
+      }),
+    );
   }
 }

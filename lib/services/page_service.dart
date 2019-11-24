@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idrink/pages/address_page.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/pages/card_page.dart';
+import 'package:idrink/pages/chat_page.dart';
 import 'package:idrink/pages/main_nav_page.dart';
 import 'package:idrink/pages/new_address_page.dart';
 import 'package:idrink/pages/store_page.dart';
@@ -9,7 +10,6 @@ import 'package:idrink/pages/update_address_page.dart';
 import 'package:idrink/pages/update_password_page.dart';
 import 'package:idrink/pages/update_profile_page.dart';
 import 'package:idrink/services/client_service.dart';
-import 'package:idrink/services/test_socket.dart';
 import 'package:idrink/services/token_service.dart';
 
 abstract class PageService {
@@ -62,8 +62,7 @@ abstract class PageService {
 //  }
 
   static void toPageChat(BuildContext ctx) async {
-    Navigator.of(ctx)
-        .push(MaterialPageRoute(builder: (context) => ChatSocket()));
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => ChatPage()));
   }
 
   static void toPageCard(BuildContext ctx) async {
