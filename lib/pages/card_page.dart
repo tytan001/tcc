@@ -7,6 +7,7 @@ import 'package:idrink/dialogs/dialog_change.dart';
 import 'package:idrink/dialogs/dialog_loading.dart';
 import 'package:idrink/dialogs/dialog_payment.dart';
 import 'package:idrink/models/product.dart';
+import 'package:idrink/models/store.dart';
 import 'package:idrink/services/page_state.dart';
 import 'package:idrink/utils/toast_util.dart';
 import 'package:idrink/widgets/address_tile.dart';
@@ -106,6 +107,36 @@ class _CardPageState extends State<CardPage> {
                 child: DividerDefault(),
               ),
             ),
+          StreamBuilder<Store>(
+            stream: bloc.outStore,
+            builder: (context, snapshot) {
+              return snapshot.hasData
+                  ? Container(
+                      margin:
+                          EdgeInsets.only(top: 1.0, left: 10.0, bottom: 10.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          snapshot.data.name,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColorDark,
+                            fontSize: 28,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                        ),
+                      ),
+                    )
+                  : Container();
+            },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 50.0),
+            child: SizedBox(
+              height: 2.0,
+              child: DividerDefault(),
+            ),
+          ),
           Expanded(
             child: StreamBuilder<List<Product>>(
                 stream: bloc.outProducts,
@@ -145,8 +176,9 @@ class _CardPageState extends State<CardPage> {
                         child: Text(
                           "Total: R\$ ${bloc.totalPrice.replaceAll(".", ",")}",
                           style: TextStyle(
-                              color: Theme.of(context).primaryColorDark,
-                              fontSize: 24),
+                            color: Theme.of(context).primaryColorDark,
+                            fontSize: 24,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),

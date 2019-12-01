@@ -51,8 +51,8 @@ class CardBloc extends BlocBase {
   Stream<PageState> get outState => _stateController.stream;
   Stream<String> get outMessage => _messageController.stream;
   Stream<bool> get outShowCard => _showCard.stream;
+  Stream<Store> get outStore => _storeController.stream;
 
-  Store get getStore => _storeController.value;
   List<Item> get getItems => _itemsController.value;
   String get getPayment => _paymentController.value;
   String get totalPrice => _priceTotalController.value;

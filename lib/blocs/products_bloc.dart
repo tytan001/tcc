@@ -33,7 +33,11 @@ class ProductsBloc extends BlocBase {
         await TokenService.getToken().then((token) => token.tokenEncoded);
     final response = await api.products(token, store.id);
 
-    products = Product.toList(response);
+    if(response != null) {
+      products = Product.toList(response);
+    } else {
+      products = [];
+    }
     _productsController.sink.add(products);
     products = [];
   }

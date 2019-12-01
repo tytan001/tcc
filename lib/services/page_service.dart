@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:idrink/models/dto/order_dto.dart';
 import 'package:idrink/pages/address_page.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/pages/card_page.dart';
@@ -61,8 +62,8 @@ abstract class PageService {
 //        builder: (context) => ProductPage(product: product, store: store)));
 //  }
 
-  static void toPageChat(BuildContext ctx) async {
-    Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => ChatPage()));
+  static void toPageChat(BuildContext ctx, OrderDTO _order) async {
+    Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => ChatPage(order: _order,)));
   }
 
   static void toPageCard(BuildContext ctx) async {

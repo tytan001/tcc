@@ -1,72 +1,138 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:idrink/models/dto/message_dto.dart';
+import 'package:idrink/models/dto/order_dto.dart';
+import 'package:idrink/services/page_state.dart';
 import 'package:idrink/socket/maneger.dart';
 import 'package:idrink/socket/socket_io.dart';
+import 'package:rxdart/rxdart.dart';
 //import 'package:flutter_socket_io/flutter_socket_io.dart';
 //import 'package:flutter_socket_io/socket_io_manager.dart';
 
-const String URI = 'http://192.168.1.12:3000';
+//const String URI = 'http://192.168.1.12:3000';
 
 class ChatBloc extends BlocBase {
-  SocketIO socketIO;
+  SocketIO _socketIO;
+  List<MessageDTO> _messages = [];
 
-  _connectSocket() {
-    //update your domain before using
-    socketIO = SocketIOManager().createSocketIO(URI, "/",
+  final StreamController<List<MessageDTO>> _messagesController =
+      BehaviorSubject<List<MessageDTO>>(seedValue: []);
+  final _stateController =
+      BehaviorSubject<PageState>(seedValue: PageState.IDLE);
+  final _messageAlertController = BehaviorSubject<String>();
+  final _newMessageController = BehaviorSubject<bool>();
+
+  Stream<List<MessageDTO>> get outMessages => _messagesController.stream;
+  Stream<PageState> get outState => _stateController.stream;
+  Stream<String> get outMessageAlert => _messageAlertController.stream;
+  Stream<bool> get outNewMessage => _newMessageController.stream;
+
+  Sink get changeNewMessage => _newMessageController.sink;
+
+  void submit(String message, OrderDTO order, int idUser) {
+    if (_socketIO != null) {
+      Map<String, dynamic> messageSending = MessageDTO(
+              idUser: idUser,
+              idStore: order.idStore,
+              idOrder: order.id,
+              idSend: idUser,
+              message: message,
+              create: "23:39")
+          .toMap();
+      String jsonData = json.encode(messageSending);
+      _socketIO.sendMessage("sendMessage", jsonData, _onReceiveChatMessage);
+    }
+  }
+
+  void connect(String url, OrderDTO order, int id) {
+    _socketIO = SocketIOManager().createSocketIO('http://' + url, "/",
         query: "userId=21031", socketStatusCallback: _socketStatus);
 
-    //call init socket before doing anything
-    socketIO.init();
+    _socketIO.init();
 
-    //subscribe event
-    socketIO.subscribe("previousMessages", (c) {
-      print("\nokay: previousMessages\n");
-      print("\n${c.toString()}\n");
+    _listen(order, id);
+
+    _socketIO.connect();
+  }
+
+  void disconnect() {
+    _destroySocket();
+  }
+
+//  _connectSocket() {
+//    //update your domain before using
+//    _socketIO = SocketIOManager().createSocketIO(URI, "/",
+//        query: "userId=21031", socketStatusCallback: _socketStatus);
+//
+//    //call init socket before doing anything
+//    _socketIO.init();
+//
+//    _listen();
+//
+//    //connect socket
+//    _socketIO.connect();
+//  }
+
+  void _listen(OrderDTO order, int id) {
+    _socketIO.subscribe("previousMessages", (c) {
+//      print("\n\npreviousMessages\n\n");
+      _messages = MessageDTO.toList(json.decode(c));
+      _messagesController.add(_messages);
     });
 
-    //subscribe event
-    socketIO.subscribe("receivedMessage", (c) {
-      print("\nokay: receivedMessage\n");
-      print("\n${c.toString()}\n");
+    _socketIO.subscribe("receivedMessage" + order.idStore.toString(), (c) {
+//      print("\n\nreceivedMessage\n\n");
+      MessageDTO messageDTO = MessageDTO.fromJson(json.decode(c));
+      _messages.add(messageDTO);
+      _messagesController.add(_messages);
+      _newMessageController.add(true);
     });
 
-    //connect socket
-    socketIO.connect();
+    _socketIO.subscribe("receivedMyMessage" + id.toString(), (c) {
+//      print("\n\nreceivedMyMessage\n\n");
+      MessageDTO messageDTO = MessageDTO.fromJson(json.decode(c));
+      _messages.add(messageDTO);
+      _messagesController.add(_messages);
+      _newMessageController.add(true);
+    });
   }
 
   _socketStatus(dynamic data) {
     print("Socket status: " + data);
   }
 
-  _subscribes() {
-    if (socketIO != null) {
-      socketIO.subscribe("chat_direct", _onReceiveChatMessage);
-    }
-  }
+//  _subscribes() {
+//    if (_socketIO != null) {
+//      _socketIO.subscribe("chat_direct", _onReceiveChatMessage);
+//    }
+//  }
 
   void _onReceiveChatMessage(dynamic message) {
-    print("Message from UFO: " + message);
+    print("\n\n$message\n\n");
   }
 
-  void _sendChatMessage(String msg) async {
-    if (socketIO != null) {
-      String jsonData =
-          '{"message":{"type":"Text","content": ${(msg != null && msg.isNotEmpty) ? '"${msg}"' : '"Hello SOCKET IO PLUGIN :))"'},"owner":"589f10b9bbcd694aa570988d","avatar":"img/avatar-default.png"},"sender":{"userId":"589f10b9bbcd694aa570988d","first":"Ha","last":"Test 2","location":{"lat":10.792273999999999,"long":106.6430356,"accuracy":38,"regionId":null,"vendor":"gps","verticalAccuracy":null},"name":"Ha Test 2"},"receivers":["587e1147744c6260e2d3a4af"],"conversationId":"589f116612aa254aa4fef79f","name":null,"isAnonymous":null}';
-      socketIO.sendMessage("sendMessage", jsonData, _onReceiveChatMessage);
-    }
-  }
+//  void _sendChatMessage(String msg) async {
+//    if (_socketIO != null) {
+//      String jsonData =
+//          '{"message":{"type":"Text","content": ${(msg != null && msg.isNotEmpty) ? '"${msg}"' : '"Hello SOCKET IO PLUGIN :))"'},"owner":"589f10b9bbcd694aa570988d","avatar":"img/avatar-default.png"},"sender":{"userId":"589f10b9bbcd694aa570988d","first":"Ha","last":"Test 2","location":{"lat":10.792273999999999,"long":106.6430356,"accuracy":38,"regionId":null,"vendor":"gps","verticalAccuracy":null},"name":"Ha Test 2"},"receivers":["587e1147744c6260e2d3a4af"],"conversationId":"589f116612aa254aa4fef79f","name":null,"isAnonymous":null}';
+//      _socketIO.sendMessage("sendMessage", jsonData, _onReceiveChatMessage);
+//    }
+//  }
 
   _destroySocket() {
-    if (socketIO != null) {
-      SocketIOManager().destroySocket(socketIO);
+    if (_socketIO != null) {
+      SocketIOManager().destroySocket(_socketIO);
     }
-  }
-
-  ChatBloc() {
-    _connectSocket();
   }
 
   @override
   void dispose() {
+    _messagesController.close();
+    _stateController.close();
+    _messageAlertController.close();
+    _newMessageController.close();
     _destroySocket();
     super.dispose();
   }

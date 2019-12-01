@@ -55,7 +55,7 @@ class OrderTile extends StatelessWidget {
                               ),
                               textColor: Colors.white,
                               color: Theme.of(context).buttonColor,
-                              onPressed: () => PageService.toPageChat(context),
+                              onPressed: () => PageService.toPageChat(context, _order),
                             ),
                             TotalPrice(snapshot.data),
                           ],

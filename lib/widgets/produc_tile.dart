@@ -24,9 +24,8 @@ class ProductTile extends StatelessWidget {
     }
 
     return FlatButton(
-      onPressed: () {
-        toDialogProduct(_product);
-      },
+      onPressed:
+          _store.situation == "open" ? () => toDialogProduct(_product) : null,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 4),
         child: Column(
@@ -43,8 +42,9 @@ class ProductTile extends StatelessWidget {
                         child: Text(
                           _product.name,
                           style: TextStyle(
-                              color: Theme.of(context).primaryColorDark,
-                              fontSize: 20),
+                            color: Theme.of(context).primaryColorDark,
+                            fontSize: 20,
+                          ),
                           maxLines: 2,
                         ),
                       ),

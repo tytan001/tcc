@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:idrink/models/dto/message_dto.dart';
 
 class ReceivedMessages extends StatelessWidget {
+  final MessageDTO _messageDTO;
+
+  ReceivedMessages(this._messageDTO);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 7.0),
+      padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 5.0),
       child: Row(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Store",
-                style: Theme.of(context).textTheme.caption,
-              ),
+//              Text(
+//                "Store",
+//                style: Theme.of(context).textTheme.caption,
+//              ),
               Container(
                 constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * .6),
@@ -27,7 +32,7 @@ class ReceivedMessages extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  "Hi, i am here to help\nWhat do you want to ask?",
+                  _messageDTO.message,
                   style: Theme.of(context).textTheme.body1.apply(
                         color: Colors.black87,
                       ),
@@ -35,11 +40,11 @@ class ReceivedMessages extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(width: 15),
-          Text(
-            "19:28",
-            style: Theme.of(context).textTheme.body2.apply(color: Colors.grey),
-          ),
+//          SizedBox(width: 15),
+//          Text(
+//            _messageDTO.create,
+//            style: Theme.of(context).textTheme.body2.apply(color: Colors.grey),
+//          ),
         ],
       ),
     );
