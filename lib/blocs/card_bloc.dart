@@ -122,7 +122,7 @@ class CardBloc extends BlocBase {
     _storeController.sink.add(store);
     items = _itemsController.value..clear();
     products = _productsController.value..clear();
-    updateLists();
+//    updateLists();
   }
 
   void deleteItemCard(final int index) {
