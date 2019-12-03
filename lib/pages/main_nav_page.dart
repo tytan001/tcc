@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:idrink/blocs/card_bloc.dart';
 import 'package:idrink/blocs/user_bloc.dart';
 import 'package:idrink/pages/tabs/historic_page.dart';
@@ -139,7 +139,8 @@ class _MainNavPageState extends State<MainNavPage> {
               FlatButton(
                 child: Text("Sim"),
                 onPressed: () {
-                  exit(0);
+                  SystemNavigator.pop();
+//                  exit(0);
                 },
               ),
             ],
