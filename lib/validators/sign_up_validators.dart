@@ -25,7 +25,7 @@ class SignUpValidators {
 
   final validatePassword = StreamTransformer<String, String>.fromHandlers(
       handleData: (password, sink) {
-    if (password.isNotEmpty && password.length > 5) {
+    if (password.isNotEmpty && password.length > 7) {
       sink.add(password);
     } else {
       sink.addError("Senha inválida");

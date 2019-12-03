@@ -51,7 +51,7 @@ class ProductTile extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.fromLTRB(8, 8, 8, 1),
                         child: Text(
-                          "+ R\$ ${_product.price.replaceAll(".", ",")}",
+                          "+ R\$ ${double.parse(_product.price).toStringAsFixed(2).replaceAll(".", ",")}",
                           style: TextStyle(
                               color: Theme.of(context).primaryColorDark,
                               fontSize: 16),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idrink/api.dart';
 import 'package:idrink/models/store.dart';
 import 'package:idrink/services/page_service.dart';
@@ -34,16 +35,27 @@ class StoreTile extends StatelessWidget {
                       ),
                     ),
                   )
+//                : Container(
+//                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+//                    width: 50.0,
+//                    height: 50.0,
+//                    decoration: BoxDecoration(
+//                      shape: BoxShape.circle,
+//                      image: DecorationImage(
+//                        image: ExactAssetImage("images/store.png"),
+//                      ),
+//                    ),
+////                    child: Image.asset(
+////                      "images/store.png",
+////                      fit: BoxFit.fill,
+////                    ),
+//                  ),
                 : Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    width: 50.0,
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      "images/store.png",
-                      fit: BoxFit.fill,
+                    margin: EdgeInsets.symmetric(vertical: 5.0),
+                    child: SvgPicture.asset(
+                      'images/svg/shop.svg',
+                      height: 40.0,
+                      width: 40.0,
                     ),
                   ),
             Expanded(
@@ -51,12 +63,13 @@ class StoreTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 1),
+                    padding: EdgeInsets.fromLTRB(16, 8, 8, 1),
                     child: Text(
                       _store.name,
                       style: TextStyle(
-                          color: Theme.of(context).primaryColorDark,
-                          fontSize: 20),
+                        color: Theme.of(context).primaryColorDark,
+                        fontSize: 20,
+                      ),
                       maxLines: 2,
                     ),
                   ),
@@ -76,7 +89,7 @@ class StoreTile extends StatelessWidget {
                         vertical: 4.0, horizontal: 4.0),
                     margin: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
                     child: Text(
-                      "Open",
+                      "Aberto",
                       style: TextStyle(fontSize: 12.0, color: Colors.black87),
                     ),
                   )
@@ -92,7 +105,7 @@ class StoreTile extends StatelessWidget {
                         vertical: 4.0, horizontal: 4.0),
                     margin: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
                     child: Text(
-                      "Close",
+                      "Fechado",
                       style: TextStyle(fontSize: 12.0, color: Colors.black87),
                     ),
                   ),

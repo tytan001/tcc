@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 511.176 511.176" style="enable-background:new 0 0 511.176 511.176;" xml:space="preserve" width="512px" height="512px" class=""><g><g>
+	<rect x="39.618" y="135.299" style="fill:#EEE8AA" width="431.939" height="375.877" data-original="#D4D4D9" class="" data-old_color="#D4D4D9"/>
+	<rect x="255.26" y="135.299" style="fill:#F0E68C" width="216.298" height="375.877" data-original="#BBBBC2" class="" data-old_color="#BBBBC2"/>
+	<path style="fill:#FFA500" d="M505.752,150.299v-3.411L435.301,0H75.875L5.424,146.888v3.411H505.752z" data-original="#09719E" class="" data-old_color="#09719E"/>
+	<polygon style="fill:#FF8C00" points="505.752,146.888 435.301,0 255.26,0 255.26,150.299 505.752,150.299  " data-original="#094970" class="" data-old_color="#094970"/>
+	<rect x="281.17" y="294.872" style="fill:#64C3D2" width="112.551" height="82.537" data-original="#64C3D2" class=""/>
+	<rect x="281.17" y="294.872" style="fill:#FFA500" width="112.551" height="82.537" data-original="#439FCA" class="" data-old_color="#439FCA"/>
+	<path style="fill:#FFA500" d="M408.721,392.409H266.17V279.872h142.551V392.409z M296.17,362.409h82.551v-52.537H296.17V362.409z" data-original="#09719E" class="" data-old_color="#09719E"/>
+	<path style="fill:#FF8C00" d="M408.721,392.409H266.17V279.872h142.551V392.409z M296.17,362.409h82.551v-52.537H296.17V362.409z" data-original="#094970" class="" data-old_color="#094970"/>
+	<path style="fill:#FF8C00" d="M5.424,147.199c0,58.212,37.058,91.769,73.665,91.769c22.173,0,44.513-11.176,58.682-32.925   c14.201,21.749,36.592,32.925,58.816,32.925c22.152,0,44.468-11.1,58.675-32.71c13.913,21.61,35.765,32.71,57.456,32.71   c21.771,0,43.705-11.186,57.61-32.95c14.495,21.765,37.361,32.95,60.057,32.95c37.452,0,75.367-33.557,75.367-91.769H5.424z" data-original="#094970" class="" data-old_color="#094970"/>
+	<path style="fill:#FF4500" d="M255.26,147.199v59.061c0.001-0.001,0.001-0.002,0.002-0.002   c13.913,21.61,35.765,32.71,57.456,32.71c21.771,0,43.705-11.186,57.61-32.95c14.495,21.765,37.361,32.95,60.057,32.95   c37.452,0,75.367-33.557,75.367-91.769H255.26z" data-original="#07233E" class="active-path" data-old_color="#07233E"/>
+	<polyline style="fill:#FFA500" points="117.456,511.176 117.456,294.872 219.775,294.872 219.775,511.176  " data-original="#09719E" class="" data-old_color="#09719E"/>
+	<polygon style="fill:#FF8C00" points="234.774,511.176 204.774,511.176 204.774,309.872 132.456,309.872 132.456,511.176    102.456,511.176 102.456,279.872 234.774,279.872  " data-original="#094970" class="" data-old_color="#094970"/>
+</g></g> </svg>

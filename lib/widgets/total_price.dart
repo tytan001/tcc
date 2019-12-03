@@ -9,7 +9,7 @@ class TotalPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "Total R\$ ${valorTotal()}",
+      "Total R\$ ${(valorTotal()).toStringAsFixed(2).replaceAll(".", ",")}",
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18.0,

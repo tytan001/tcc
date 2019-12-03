@@ -244,8 +244,8 @@ class CardBloc extends BlocBase {
   }
 
   void cardEmpty() {
-    _storeController.add(null);
-    _orderController.add(null);
+//    _storeController.add(null);
+//    _orderController.add(null);
     _itemsController.add([]);
     _productsController.add([]);
     _stateCardController.add(CardState.EMPTY);

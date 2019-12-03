@@ -59,7 +59,7 @@ class ProductDialog extends StatelessWidget {
               ),
               SizedBox(height: 16.0),
               Text(
-                "R\$ ${product.price}",
+                "R\$ ${double.parse(product.price).toStringAsFixed(2).replaceAll(".", ",")}",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16.0,
@@ -124,14 +124,21 @@ class ProductDialog extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text("Adicionar", style: TextStyle(fontSize: 13.0)),
+                          Text("Adicionar",
+                              style: TextStyle(
+                                fontSize: 13.0,
+                                color: Theme.of(context).primaryColorLight,
+                              )),
                           StreamBuilder(
                             stream: itemBloc.outItem,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Text(
-                                  "R\$ ${(snapshot.data.quantity * double.parse(product.price)).toStringAsFixed(1)}",
-                                  style: TextStyle(fontSize: 9.0),
+                                  "R\$ ${(snapshot.data.quantity * double.parse(product.price)).toStringAsFixed(2).replaceAll(".", ",")}",
+                                  style: TextStyle(
+                                    fontSize: 9.0,
+                                    color: Theme.of(context).primaryColorLight,
+                                  ),
                                 );
                               } else {
                                 return Container(
@@ -161,7 +168,10 @@ class ProductDialog extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           "Cancelar",
-                          style: TextStyle(fontSize: 11.0),
+                          style: TextStyle(
+                            fontSize: 11.0,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
                         ),
                       ],
                     ),

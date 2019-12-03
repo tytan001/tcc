@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idrink/blocs/sign_up_bloc.dart';
 import 'package:idrink/services/page_service.dart';
 import 'package:idrink/services/page_state.dart';
@@ -69,6 +70,40 @@ class _SignUpPageState extends State<SignUpPage> {
             builder: (context, snapshot) {
               return Stack(children: <Widget>[
                 GradientBackground(),
+                Container(
+                  padding: EdgeInsets.only(top: 30.0),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: SvgPicture.asset(
+                      'images/svg/imageSignIn.svg',
+                      height: 170.0,
+                      width: 170.0,
+                    ),
+                  ),
+                ),
+//                Container(
+//                  padding: EdgeInsets.only(top: 30.0),
+//                  width: MediaQuery.of(context).size.width,
+//                  child: Column(
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    crossAxisAlignment: CrossAxisAlignment.center,
+//                    children: <Widget>[
+//                      SvgPicture.asset(
+//                        'images/svg/imageSignIn.svg',
+//                        height: 140.0,
+//                        width: 140.0,
+//                      ),
+//                      Container(
+//                        child: Text(
+//                          "Idrink",
+//                          style: TextStyle(
+//                            fontSize: 30.0,
+//                          ),
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                ),
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 40.0),
                     child: Container(
@@ -147,7 +182,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                             fontSize: 18.0,
                                           ),
                                         ),
-                                        textColor: Theme.of(context).primaryColorLight,
+                                        textColor:
+                                            Theme.of(context).primaryColorLight,
                                         color: Theme.of(context).buttonColor,
                                         onPressed: snapshot.hasData
                                             ? _signUpBloc.submit

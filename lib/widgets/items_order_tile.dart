@@ -23,7 +23,7 @@ class ItemsOrderTile extends StatelessWidget {
           ),
           Text(
 //            "R\$ ${_itemDTO.partialPrice}",
-            "R\$ ${_itemDTO.price * _itemDTO.quantity}",
+            "R\$ ${(_itemDTO.price * _itemDTO.quantity).toStringAsFixed(2).replaceAll(".", ",")}",
             style: TextStyle(
                 color: Theme.of(context).primaryColorDark, fontSize: 15),
             maxLines: 2,

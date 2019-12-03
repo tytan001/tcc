@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:idrink/blocs/login_bloc.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/services/page_service.dart';
@@ -75,6 +76,40 @@ class _SignInPageState extends State<SignInPage> {
               return Stack(
                 children: <Widget>[
                   GradientBackground(),
+                  Container(
+                    padding: EdgeInsets.only(top: 30.0),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: SvgPicture.asset(
+                        'images/svg/imageSignIn.svg',
+                        height: 250.0,
+                        width: 250.0,
+                      ),
+                    ),
+                  ),
+//                  Container(
+//                    padding: EdgeInsets.only(top: 30.0),
+//                    width: MediaQuery.of(context).size.width,
+//                    child: Column(
+//                      mainAxisAlignment: MainAxisAlignment.start,
+//                      crossAxisAlignment: CrossAxisAlignment.center,
+//                      children: <Widget>[
+//                        SvgPicture.asset(
+//                          'images/svg/imageSignIn.svg',
+//                          height: 200.0,
+//                          width: 200.0,
+//                        ),
+//                        Container(
+//                          child: Text(
+//                            "iDrink",
+//                            style: TextStyle(
+//                              fontSize: 40.0,
+//                            ),
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: Container(
@@ -122,7 +157,8 @@ class _SignInPageState extends State<SignInPage> {
                                             fontSize: 18.0,
                                           ),
                                         ),
-                                        textColor: Theme.of(context).primaryColorLight,
+                                        textColor:
+                                            Theme.of(context).primaryColorLight,
                                         color: Theme.of(context).buttonColor,
                                         onPressed: snapshot.hasData
                                             ? _loginBloc.submit
