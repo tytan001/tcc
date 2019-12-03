@@ -51,8 +51,12 @@ class Api {
         throw ResourceException("Erro inesperado!\nCode $statusCode");
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -63,7 +67,7 @@ class Api {
 
     try {
       final response =
-          await http.put(url, headers: Header.headerToken(token), body: body);
+      await http.put(url, headers: Header.headerToken(token), body: body);
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -75,8 +79,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -96,6 +104,7 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
     } on ResourceException catch (e) {
       throw e;
@@ -120,8 +129,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -141,8 +154,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -162,8 +179,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -183,8 +204,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -193,7 +218,7 @@ class Api {
     const URL = API_KEY + API_NEW_ADDRESSES;
     try {
       final response =
-          await http.post(URL, body: body, headers: Header.headerToken(token));
+      await http.post(URL, body: body, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -205,8 +230,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -215,7 +244,7 @@ class Api {
     final url = API_KEY + API_UPDATE_ADDRESSES + id.toString();
     try {
       final response =
-          await http.put(url, body: body, headers: Header.headerToken(token));
+      await http.put(url, body: body, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -227,8 +256,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -237,7 +270,7 @@ class Api {
     final url = API_KEY + API_DELETE_ADDRESSES + id.toString();
     try {
       final response =
-          await http.delete(url, headers: Header.headerToken(token));
+      await http.delete(url, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -249,8 +282,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -270,8 +307,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -291,8 +332,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -302,7 +347,7 @@ class Api {
 
     try {
       final response =
-          await http.post(URL, body: body, headers: Header.headerToken(token));
+      await http.post(URL, body: body, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -314,8 +359,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -325,7 +374,7 @@ class Api {
 
     try {
       final response =
-          await http.post(URL, body: body, headers: Header.headerToken(token));
+      await http.post(URL, body: body, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -337,8 +386,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -347,7 +400,7 @@ class Api {
     const URL = API_KEY + API_LOGIN;
     try {
       final response =
-          await http.post(URL, body: body, headers: Header.headerDefault());
+      await http.post(URL, body: body, headers: Header.headerDefault());
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -359,8 +412,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -380,8 +437,12 @@ class Api {
             code: statusCode);
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
     } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }
@@ -404,9 +465,12 @@ class Api {
         throw ResourceException("Erro inesperado!\nCode $statusCode");
       }
     } on SocketException catch (e) {
+      print(e.toString());
       throw ResourceException("Sem internet");
-    } on Exception catch (e) {
-      print(e);
+    } on ResourceException catch (e) {
+      throw e;
+    } catch (e) {
+      print(e.toString());
       throw ResourceException("Erro inesperado!");
     }
   }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
@@ -63,42 +64,46 @@ class _MainNavPageState extends State<MainNavPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      child: Scaffold(
 //      backgroundColor: Colors.grey[850],
-      backgroundColor: Theme.of(context).primaryColorLight,
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-            canvasColor: Theme.of(context).primaryColorLight,
-            primaryColor: Theme.of(context).accentColor,
-            textTheme: Theme.of(context).textTheme.copyWith(
-                caption: TextStyle(color: Theme.of(context).primaryColorDark))),
-        child: BottomNavigationBar(
-            currentIndex: _page,
-            onTap: (p) {
-              _pageController.animateToPage(p,
-                  duration: Duration(milliseconds: 500), curve: Curves.ease);
-            },
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Container()),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.list), title: Container()),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), title: Container()),
-            ]),
-      ),
-      body: SafeArea(
-        child: BlocProvider(
-          blocs: [
-            Bloc((i) => UserBloc()),
-            Bloc((i) => CardBloc()),
-          ],
-          child: StreamBuilder(
-            stream: _isLoadingStream.stream.asBroadcastStream(),
-            builder: (_, snap) => _loadPageView(snap),
+        backgroundColor: Theme.of(context).primaryColorLight,
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+              canvasColor: Theme.of(context).primaryColorLight,
+              primaryColor: Theme.of(context).accentColor,
+              textTheme: Theme.of(context).textTheme.copyWith(
+                  caption:
+                      TextStyle(color: Theme.of(context).primaryColorDark))),
+          child: BottomNavigationBar(
+              currentIndex: _page,
+              onTap: (p) {
+                _pageController.animateToPage(p,
+                    duration: Duration(milliseconds: 500), curve: Curves.ease);
+              },
+              items: [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home), title: Container()),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.list), title: Container()),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), title: Container()),
+              ]),
+        ),
+        body: SafeArea(
+          child: BlocProvider(
+            blocs: [
+              Bloc((i) => UserBloc()),
+              Bloc((i) => CardBloc()),
+            ],
+            child: StreamBuilder(
+              stream: _isLoadingStream.stream.asBroadcastStream(),
+              builder: (_, snap) => _loadPageView(snap),
+            ),
           ),
         ),
       ),
+      onWillPop: _requestPop,
     );
   }
 
@@ -114,5 +119,32 @@ class _MainNavPageState extends State<MainNavPage> {
           (snap.hasData && snap.data) ? NeverScrollableScrollPhysics() : null,
       children: _pages,
     );
+  }
+
+  Future<bool> _requestPop() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(
+              child: Text("Sair do iDrink?"),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Cancelar"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text("Sim"),
+                onPressed: () {
+                  exit(0);
+                },
+              ),
+            ],
+          );
+        });
+    return Future.value(false);
   }
 }

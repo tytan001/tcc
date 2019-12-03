@@ -65,66 +65,67 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColorLight,
-            title: Text("Editar Perfil"),
-            actions: <Widget>[
-              StreamBuilder<bool>(
-                stream: _updateBloc.outSubmitValid,
-                builder: (context, snapshot) {
-                  return IconButton(
-                    icon: Icon(Icons.check),
-                    onPressed: snapshot.hasData &&
-                            _updateBloc.change(userBloc.nameUser,
-                                userBloc.emailUser, userBloc.phoneUser)
-                        ? _updateBloc.submit
-                        : null,
-                    color: Theme.of(context).accentColor,
-                    disabledColor: Theme.of(context).hoverColor,
-                  );
-                },
-              )
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColorLight,
+          title: Text("Editar Perfil"),
+          actions: <Widget>[
+            StreamBuilder<bool>(
+              stream: _updateBloc.outSubmitValid,
+              builder: (context, snapshot) {
+                return IconButton(
+                  icon: Icon(Icons.check),
+                  onPressed: snapshot.hasData &&
+                          _updateBloc.change(userBloc.nameUser,
+                              userBloc.emailUser, userBloc.phoneUser)
+                      ? _updateBloc.submit
+                      : null,
+                  color: Theme.of(context).accentColor,
+                  disabledColor: Theme.of(context).hoverColor,
+                );
+              },
+            )
+          ],
+        ),
+        body: Container(
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            children: <Widget>[
+              SizedBox(
+                height: 26.0,
+              ),
+              InputFieldInitValue(
+                label: "Nome",
+                hint: "Nome",
+                stream: _updateBloc.outName,
+                onChanged: _updateBloc.changeName,
+              ),
+              SizedBox(
+                height: 26.0,
+              ),
+              InputFieldInitValue(
+                label: "Email",
+                hint: "Email",
+                stream: _updateBloc.outEmail,
+                onChanged: _updateBloc.changeEmail,
+              ),
+              SizedBox(
+                height: 26.0,
+              ),
+              InputFieldMaskInitValue(
+                label: "Phone",
+                hint: "Phone",
+                stream: _updateBloc.outPhone,
+                onChanged: _updateBloc.changePhone,
+                phone: true,
+                controller: controllerMaskPhone,
+              ),
             ],
           ),
-          body: Container(
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              children: <Widget>[
-                SizedBox(
-                  height: 26.0,
-                ),
-                InputFieldInitValue(
-                  label: "Nome",
-                  hint: "Nome",
-                  stream: _updateBloc.outName,
-                  onChanged: _updateBloc.changeName,
-                ),
-                SizedBox(
-                  height: 26.0,
-                ),
-                InputFieldInitValue(
-                  label: "Email",
-                  hint: "Email",
-                  stream: _updateBloc.outEmail,
-                  onChanged: _updateBloc.changeEmail,
-                ),
-                SizedBox(
-                  height: 26.0,
-                ),
-                InputFieldMaskInitValue(
-                  label: "Phone",
-                  hint: "Phone",
-                  stream: _updateBloc.outPhone,
-                  onChanged: _updateBloc.changePhone,
-                  phone: true,
-                  controller: controllerMaskPhone,
-                ),
-              ],
-            ),
-          ),
         ),
-        onWillPop: _requestPop);
+      ),
+      onWillPop: _requestPop,
+    );
   }
 
   Future<bool> _requestPop() {
@@ -134,7 +135,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text("Descartar Alterações ?"),
+              title: Text("Descartar Alterações?"),
               content: Text("Se sair, as alterações seram perdidas."),
               actions: <Widget>[
                 FlatButton(
