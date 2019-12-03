@@ -67,7 +67,7 @@ class Api {
 
     try {
       final response =
-      await http.put(url, headers: Header.headerToken(token), body: body);
+          await http.put(url, headers: Header.headerToken(token), body: body);
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -218,7 +218,7 @@ class Api {
     const URL = API_KEY + API_NEW_ADDRESSES;
     try {
       final response =
-      await http.post(URL, body: body, headers: Header.headerToken(token));
+          await http.post(URL, body: body, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -244,7 +244,7 @@ class Api {
     final url = API_KEY + API_UPDATE_ADDRESSES + id.toString();
     try {
       final response =
-      await http.put(url, body: body, headers: Header.headerToken(token));
+          await http.put(url, body: body, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -270,7 +270,7 @@ class Api {
     final url = API_KEY + API_DELETE_ADDRESSES + id.toString();
     try {
       final response =
-      await http.delete(url, headers: Header.headerToken(token));
+          await http.delete(url, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -347,7 +347,7 @@ class Api {
 
     try {
       final response =
-      await http.post(URL, body: body, headers: Header.headerToken(token));
+          await http.post(URL, body: body, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -374,7 +374,7 @@ class Api {
 
     try {
       final response =
-      await http.post(URL, body: body, headers: Header.headerToken(token));
+          await http.post(URL, body: body, headers: Header.headerToken(token));
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
@@ -400,7 +400,7 @@ class Api {
     const URL = API_KEY + API_LOGIN;
     try {
       final response =
-      await http.post(URL, body: body, headers: Header.headerDefault());
+          await http.post(URL, body: body, headers: Header.headerDefault());
       final int statusCode = response.statusCode;
       final responseReturn = json.decode(response.body);
       if (statusCode == 401) {
