@@ -170,7 +170,25 @@ class _SignInPageState extends State<SignInPage> {
                                     );
                                   }),
                               SizedBox(
-                                height: 16.0,
+                                height: 6.0,
+                              ),
+                              Container(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: GestureDetector(
+                                    onTap: () =>
+                                        PageService.toForgetPassword(context),
+                                    child: Text(
+                                      "Esqueci a senha",
+                                      style: TextStyle(
+                                          color: Colors.black87,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8.0,
                               ),
                               OuDivider(),
                               Row(

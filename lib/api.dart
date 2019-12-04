@@ -5,14 +5,15 @@ import 'package:http/http.dart' as http;
 import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/utils/token_headers.dart';
 
-//const ROUTE_IMAGE = 'http://idrink-tcc.herokuapp.com/images/avatar/';
-const ROUTE_IMAGE = 'http://192.168.43.37:8000/images/avatar/';
-//const API_KEY = "http://idrink-tcc.herokuapp.com/api/";
-const API_KEY = "http://192.168.43.37:8000/api/";
+const ROUTE_IMAGE = 'http://idrink-tcc.herokuapp.com/images/avatar/';
+//const ROUTE_IMAGE = 'http://192.168.43.37:8000/images/avatar/';
+const API_KEY = "http://idrink-tcc.herokuapp.com/api/";
+//const API_KEY = "http://192.168.43.37:8000/api/";
 const API_NEW_CLIENT = "users";
 const API_UPDATE_CLIENT = "users/";
 const API_LOGIN = "users/login";
 const API_LOGOUT = "users/logout";
+const API_FORGET_PASSWORD = "users/pwdReset";
 const API_STORES = "stores";
 const API_SEARCH_STORES = "stores/";
 const API_NEW_ADDRESSES = "adresses";
@@ -432,6 +433,31 @@ class Api {
         throw ResourceException(responseReturn["message"], code: statusCode);
       } else if (statusCode == 200) {
         return responseReturn;
+      } else {
+        throw ResourceException("Erro inesperado!\nCode $statusCode",
+            code: statusCode);
+      }
+    } on SocketException catch (e) {
+      print(e.toString());
+      throw ResourceException("Sem internet");
+    } on ResourceException catch (e) {
+      throw e;
+    } catch (e) {
+      print(e.toString());
+      throw ResourceException("Erro inesperado!");
+    }
+  }
+
+  Future<void> forgetPassword(Map body) async {
+    const URL = API_KEY + API_FORGET_PASSWORD;
+    try {
+      final response =
+          await http.put(URL, body: body, headers: Header.headerDefault());
+      final int statusCode = response.statusCode;
+      if (statusCode == 404) {
+        throw ResourceException("Email não encontrado", code: statusCode);
+      } else if (statusCode == 200) {
+        return;
       } else {
         throw ResourceException("Erro inesperado!\nCode $statusCode",
             code: statusCode);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:idrink/models/dto/order_dto.dart';
 import 'package:idrink/pages/address_page.dart';
+import 'package:idrink/pages/auth/forget_password.dart';
 import 'package:idrink/pages/auth/main_auth_page.dart';
 import 'package:idrink/pages/card_page.dart';
 import 'package:idrink/pages/chat_page.dart';
@@ -63,11 +64,19 @@ abstract class PageService {
 //  }
 
   static void toPageChat(BuildContext ctx, OrderDTO _order) async {
-    Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => ChatPage(order: _order,)));
+    Navigator.of(ctx).push(MaterialPageRoute(
+        builder: (context) => ChatPage(
+              order: _order,
+            )));
   }
 
   static void toPageCard(BuildContext ctx) async {
     Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => CardPage()));
+  }
+
+  static void toForgetPassword(BuildContext ctx) async {
+    Navigator.of(ctx)
+        .push(MaterialPageRoute(builder: (context) => ForgetPasswordPage()));
   }
 
   static void singOut(BuildContext ctx) async {

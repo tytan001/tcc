@@ -43,12 +43,12 @@ class _MainAuthPageState extends State<MainAuthPage> {
     super.dispose();
   }
 
-  @override
-  void deactivate() {
-    _isLoadingStream.close();
-//    _defaultOrientation();
-    super.deactivate();
-  }
+//  @override
+//  void deactivate() {
+//    _isLoadingStream.close();
+////    _defaultOrientation();
+//    super.deactivate();
+//  }
 
   @override
   Widget build(BuildContext context) {
