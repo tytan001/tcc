@@ -76,8 +76,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     alignment: Alignment.topCenter,
                     child: SvgPicture.asset(
                       'images/svg/imageSignIn.svg',
-                      height: 170.0,
-                      width: 170.0,
+                      height: 165.0,
+                      width: 165.0,
                     ),
                   ),
                 ),

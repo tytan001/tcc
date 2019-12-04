@@ -84,6 +84,7 @@ class ChatBloc extends BlocBase {
       _messages.forEach((m) {
         if (m.idOrder == order.id) _messagesAux.add(m);
       });
+      _messages = _messagesAux;
       _messagesController.add(_messagesAux);
     });
 
@@ -134,12 +135,8 @@ class ChatBloc extends BlocBase {
   _destroySocket() {
     if (_socketIO != null && _statusController.value) {
       SocketIOManager().destroySocket(_socketIO);
-      _messagesController.add([]);
-      _stateController.add(PageState.IDLE);
-      _messageAlertController.add("");
-      _newMessageController.add(false);
-      _statusController.add(false);
 //      print("\n _destroy socket\n");
+//      _statusController.add(false);
     }
   }
 
