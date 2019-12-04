@@ -30,9 +30,9 @@ class _StorePageState extends State<StorePage> {
 
     _productsBloc = ProductsBloc(widget.store);
 
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      _productsBloc.allProducts;
-    });
+//    Timer.periodic(Duration(seconds: 10), (timer) {
+//      _productsBloc.allProducts;
+//    });
   }
 
   @override

@@ -5,10 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:idrink/resources/resource_exception.dart';
 import 'package:idrink/utils/token_headers.dart';
 
-const ROUTE_IMAGE = 'http://idrink-tcc.herokuapp.com/images/avatar/';
-//const ROUTE_IMAGE = 'http://192.168.43.37:8000/images/avatar/';
-const API_KEY = "http://idrink-tcc.herokuapp.com/api/";
-//const API_KEY = "http://192.168.43.37:8000/api/";
+//const ROUTE_IMAGE = 'http://idrink-tcc.herokuapp.com/images/avatar/';
+const ROUTE_IMAGE = 'http://192.168.43.37:8000/images/avatar/';
+//const API_KEY = "http://idrink-tcc.herokuapp.com/api/";
+const API_KEY = "http://192.168.43.37:8000/api/";
 const API_NEW_CLIENT = "users";
 const API_UPDATE_CLIENT = "users/";
 const API_LOGIN = "users/login";

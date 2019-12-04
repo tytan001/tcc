@@ -11,7 +11,7 @@ import 'package:rxdart/rxdart.dart';
 //import 'package:flutter_socket_io/flutter_socket_io.dart';
 //import 'package:flutter_socket_io/socket_io_manager.dart';
 
-//const String URI = 'http://192.168.1.12:3000';
+const String URI = 'http://192.168.43.37:3000';
 
 class ChatBloc extends BlocBase {
   SocketIO _socketIO;
@@ -23,6 +23,7 @@ class ChatBloc extends BlocBase {
       BehaviorSubject<PageState>(seedValue: PageState.IDLE);
   final _messageAlertController = BehaviorSubject<String>();
   final _newMessageController = BehaviorSubject<bool>();
+  final _statusController = BehaviorSubject<bool>();
 
   Stream<List<MessageDTO>> get outMessages => _messagesController.stream;
   Stream<PageState> get outState => _stateController.stream;
@@ -46,8 +47,9 @@ class ChatBloc extends BlocBase {
     }
   }
 
-  void connect(String url, OrderDTO order, int id) {
-    _socketIO = SocketIOManager().createSocketIO('http://' + url, "/",
+  void connect(OrderDTO order, int id) {
+//  void connect(String url, OrderDTO order, int id) {
+    _socketIO = SocketIOManager().createSocketIO(URI, "/",
         query: "userId=21031", socketStatusCallback: _socketStatus);
 
     _socketIO.init();
@@ -77,30 +79,38 @@ class ChatBloc extends BlocBase {
 
   void _listen(OrderDTO order, int id) {
     _socketIO.subscribe("previousMessages", (c) {
-//      print("\n\npreviousMessages\n\n");
+      List<MessageDTO> _messagesAux = [];
       _messages = MessageDTO.toList(json.decode(c));
-      _messagesController.add(_messages);
+      _messages.forEach((m) {
+        if (m.idOrder == order.id) _messagesAux.add(m);
+      });
+      _messagesController.add(_messagesAux);
     });
 
     _socketIO.subscribe("receivedMessage" + order.idStore.toString(), (c) {
-//      print("\n\nreceivedMessage\n\n");
       MessageDTO messageDTO = MessageDTO.fromJson(json.decode(c));
-      _messages.add(messageDTO);
-      _messagesController.add(_messages);
-      _newMessageController.add(true);
+      if (messageDTO.idOrder == order.id) {
+        _messages.add(messageDTO);
+        _messagesController.add(_messages);
+        _newMessageController.add(true);
+      }
     });
 
     _socketIO.subscribe("receivedMyMessage" + id.toString(), (c) {
-//      print("\n\nreceivedMyMessage\n\n");
       MessageDTO messageDTO = MessageDTO.fromJson(json.decode(c));
-      _messages.add(messageDTO);
-      _messagesController.add(_messages);
-      _newMessageController.add(true);
+      if (messageDTO.idOrder == order.id) {
+        _messages.add(messageDTO);
+        _messagesController.add(_messages);
+        _newMessageController.add(true);
+      }
     });
   }
 
   _socketStatus(dynamic data) {
-    print("Socket status: " + data);
+    data == "connect"
+        ? _statusController.add(true)
+        : _statusController.add(false);
+//    print("\nAqui fala o status\nSocket status: " + data);
   }
 
 //  _subscribes() {
@@ -122,8 +132,14 @@ class ChatBloc extends BlocBase {
 //  }
 
   _destroySocket() {
-    if (_socketIO != null) {
+    if (_socketIO != null && _statusController.value) {
       SocketIOManager().destroySocket(_socketIO);
+      _messagesController.add([]);
+      _stateController.add(PageState.IDLE);
+      _messageAlertController.add("");
+      _newMessageController.add(false);
+      _statusController.add(false);
+//      print("\n _destroy socket\n");
     }
   }
 
@@ -133,6 +149,7 @@ class ChatBloc extends BlocBase {
     _stateController.close();
     _messageAlertController.close();
     _newMessageController.close();
+    _statusController.close();
     _destroySocket();
     super.dispose();
   }

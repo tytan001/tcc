@@ -17,9 +17,9 @@ class _HistoricOrdersTabState extends State<HistoricOrdersTab> {
   void initState() {
     super.initState();
 
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      _historicOrderBloc.allOrders;
-    });
+//    Timer.periodic(Duration(seconds: 10), (timer) {
+//      _historicOrderBloc.allOrders;
+//    });
   }
 
   @override

@@ -17,9 +17,9 @@ class _OrdersTabState extends State<OrdersTab> {
   void initState() {
     super.initState();
 
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      _orderBloc.allOrders;
-    });
+//    Timer.periodic(Duration(seconds: 10), (timer) {
+//      _orderBloc.allOrders;
+//    });
   }
 
   @override

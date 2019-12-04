@@ -22,7 +22,7 @@ class StoreTile extends StatelessWidget {
 //                Image.network('https://flutter.io/images/catalog-widget-placeholder.png',width: 40.0,height: 40.0,fit: BoxFit.cover,),
             _store.avatar != null && _store.avatar != "default.svg"
                 ? Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
                     width: 50.0,
                     height: 50.0,
                     decoration: BoxDecoration(
@@ -51,11 +51,11 @@ class StoreTile extends StatelessWidget {
 ////                    ),
 //                  ),
                 : Container(
-                    margin: EdgeInsets.symmetric(vertical: 5.0),
+                    margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
                     child: SvgPicture.asset(
                       'images/svg/shop.svg',
-                      height: 40.0,
-                      width: 40.0,
+                      height: 50.0,
+                      width: 50.0,
                     ),
                   ),
             Expanded(

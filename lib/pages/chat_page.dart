@@ -20,13 +20,15 @@ class _ChatPageState extends State<ChatPage> {
   final userBloc = BlocProvider.getBloc<UserBloc>();
   ChatBloc _chatBloc;
   final _textController = TextEditingController();
-  final _urlController = TextEditingController();
+//  final _urlController = TextEditingController();
   ScrollController controller = new ScrollController();
 
   @override
   void initState() {
     super.initState();
     _chatBloc = ChatBloc();
+
+    _chatBloc.connect(widget.order, userBloc.idUser);
 
     _chatBloc.outNewMessage.listen((b) {
       if (b) {
@@ -67,67 +69,67 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Column(
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 10.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: _urlController,
-                    decoration: InputDecoration(
-                      hintText: "url",
-                      labelText: "url",
-                      labelStyle: TextStyle(color: Colors.black54),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                          width: 2,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(fontSize: 18.0),
-                    onSubmitted: (text) {
-                      if (_urlController.text != null &&
-                          _urlController.text.isNotEmpty)
-                        _chatBloc.connect(_urlController.text, widget.order, userBloc.idUser);
-                    },
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 4.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text("Connect"),
-                    onPressed: () {
-                      if (_urlController.text != null &&
-                          _urlController.text.isNotEmpty)
-                        _chatBloc.connect(_urlController.text, widget.order, userBloc.idUser);
-                    },
-                    padding: EdgeInsets.symmetric(horizontal: 4.0),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 4.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text("Disconnect"),
-                    onPressed: () {
-                      _chatBloc.disconnect();
-                    },
-                    padding: EdgeInsets.symmetric(horizontal: 4.0),
-                  ),
-                ),
-              ],
-            ),
-          ),
+//          Container(
+//            margin: EdgeInsets.symmetric(vertical: 10.0),
+//            child: Row(
+//              children: <Widget>[
+//                Expanded(
+//                  child: TextField(
+//                    controller: _urlController,
+//                    decoration: InputDecoration(
+//                      hintText: "url",
+//                      labelText: "url",
+//                      labelStyle: TextStyle(color: Colors.black54),
+//                      focusedBorder: OutlineInputBorder(
+//                        borderRadius: BorderRadius.circular(20),
+//                        borderSide: BorderSide(
+//                          color: Colors.blue,
+//                          width: 2,
+//                        ),
+//                      ),
+//                      enabledBorder: OutlineInputBorder(
+//                        borderRadius: BorderRadius.circular(20),
+//                        borderSide: BorderSide(
+//                          color: Colors.blue,
+//                          width: 2,
+//                        ),
+//                      ),
+//                    ),
+//                    style: TextStyle(fontSize: 18.0),
+//                    onSubmitted: (text) {
+//                      if (_urlController.text != null &&
+//                          _urlController.text.isNotEmpty)
+//                        _chatBloc.connect(_urlController.text, widget.order, userBloc.idUser);
+//                    },
+//                  ),
+//                ),
+//                Container(
+//                  margin: EdgeInsets.symmetric(horizontal: 4.0),
+//                  child: RaisedButton(
+//                    color: Colors.blue,
+//                    child: Text("Connect"),
+//                    onPressed: () {
+//                      if (_urlController.text != null &&
+//                          _urlController.text.isNotEmpty)
+//                        _chatBloc.connect(_urlController.text, widget.order, userBloc.idUser);
+//                    },
+//                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+//                  ),
+//                ),
+//                Container(
+//                  margin: EdgeInsets.symmetric(horizontal: 4.0),
+//                  child: RaisedButton(
+//                    color: Colors.blue,
+//                    child: Text("Disconnect"),
+//                    onPressed: () {
+//                      _chatBloc.disconnect();
+//                    },
+//                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
           Expanded(
             child: StreamBuilder<List<MessageDTO>>(
               stream: _chatBloc.outMessages,
