@@ -2,21 +2,24 @@ class Item {
   int quantity;
   int idProduct;
   int idOrder;
+  double partialPrice;
 
-  Item({this.quantity, this.idProduct, this.idOrder});
+  Item({this.quantity, this.idProduct, this.idOrder, this.partialPrice});
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
         quantity: int.parse(json["quantity"].toString()),
         idProduct: int.parse(json["product_id"].toString()),
-        idOrder: int.parse(json["delivery_id"].toString()));
+        idOrder: int.parse(json["delivery_id"].toString()),
+        partialPrice: double.parse(json["parcial_price"].toString()));
   }
 
   Map<String, dynamic> toJson() {
     return {
       "quantity": quantity,
       "product_id": idProduct,
-      "delivery_id": idOrder
+      "delivery_id": idOrder,
+      "parcial_price": partialPrice
     };
   }
 
@@ -26,6 +29,7 @@ class Item {
     if (quantity != null) map["quantity"] = quantity.toString();
     if (idProduct != null) map["product_id"] = idProduct.toString();
     if (idOrder != null) map["delivery_id"] = idOrder.toString();
+    if (partialPrice != null) map["parcial_price"] = partialPrice.toString();
 
     return map;
   }

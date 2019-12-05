@@ -11,7 +11,7 @@ import 'package:rxdart/rxdart.dart';
 //import 'package:flutter_socket_io/flutter_socket_io.dart';
 //import 'package:flutter_socket_io/socket_io_manager.dart';
 
-const String URI = 'http://192.168.43.37:3000';
+const String URI = 'http://192.168.1.12:3000';
 
 class ChatBloc extends BlocBase {
   SocketIO _socketIO;
@@ -23,7 +23,7 @@ class ChatBloc extends BlocBase {
       BehaviorSubject<PageState>(seedValue: PageState.IDLE);
   final _messageAlertController = BehaviorSubject<String>();
   final _newMessageController = BehaviorSubject<bool>();
-  final _statusController = BehaviorSubject<bool>();
+  final _statusController = BehaviorSubject<bool>(seedValue: true);
 
   Stream<List<MessageDTO>> get outMessages => _messagesController.stream;
   Stream<PageState> get outState => _stateController.stream;
@@ -40,7 +40,7 @@ class ChatBloc extends BlocBase {
               idOrder: order.id,
               idSend: idUser,
               message: message,
-              create: "23:39")
+              create: "${DateTime.now().hour}:${DateTime.now().minute}")
           .toMap();
       String jsonData = json.encode(messageSending);
       _socketIO.sendMessage("sendMessage", jsonData, _onReceiveChatMessage);
@@ -49,8 +49,8 @@ class ChatBloc extends BlocBase {
 
   void connect(OrderDTO order, int id) {
 //  void connect(String url, OrderDTO order, int id) {
-    _socketIO = SocketIOManager().createSocketIO(URI, "/",
-        query: "userId=21031", socketStatusCallback: _socketStatus);
+    _socketIO = SocketIOManager().createSocketIO(URI, "/");
+//        query: "userId=21031", socketStatusCallback: _socketStatus);
 
     _socketIO.init();
 
@@ -111,7 +111,6 @@ class ChatBloc extends BlocBase {
     data == "connect"
         ? _statusController.add(true)
         : _statusController.add(false);
-//    print("\nAqui fala o status\nSocket status: " + data);
   }
 
 //  _subscribes() {
@@ -135,8 +134,6 @@ class ChatBloc extends BlocBase {
   _destroySocket() {
     if (_socketIO != null && _statusController.value) {
       SocketIOManager().destroySocket(_socketIO);
-//      print("\n _destroy socket\n");
-//      _statusController.add(false);
     }
   }
 

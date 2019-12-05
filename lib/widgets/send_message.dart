@@ -13,11 +13,11 @@ class SendMessage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-//          Text(
-//            _messageDTO.create,
-//            style: Theme.of(context).textTheme.body2.apply(color: Colors.grey),
-//          ),
-//          SizedBox(width: 15),
+          Text(
+            _messageDTO.create,
+            style: Theme.of(context).textTheme.body2.apply(color: Colors.grey),
+          ),
+          SizedBox(width: 15),
           Container(
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * .6),

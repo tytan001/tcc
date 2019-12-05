@@ -167,6 +167,9 @@ class CardBloc extends BlocBase {
       _orderController.add(Order.fromJson(response));
       _itemsController.value.forEach((i) async {
         i.idOrder = _orderController.value.id;
+        _productsController.value.forEach((p) => p.id == i.idProduct
+            ? i.partialPrice = i.quantity * double.parse(p.price)
+            : null);
         await api.createItems(token, i.toMap());
       });
 

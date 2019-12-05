@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:idrink/blocs/stores_bloc.dart';
+import 'package:idrink/blocs/user_bloc.dart';
 import 'package:idrink/models/store.dart';
 import 'package:idrink/services/page_service.dart';
 import 'package:idrink/services/page_state.dart';
@@ -24,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.getBloc<UserBloc>().getUserName();
     _storesBloc.outState.listen((state) {
       switch (state) {
         case PageState.SUCCESS:

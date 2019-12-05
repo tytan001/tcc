@@ -120,7 +120,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   double heightBox() {
     return (MediaQuery.of(context).viewInsets.vertical != 0)
-        ? MediaQuery.of(context).viewInsets.vertical / 5
-        : MediaQuery.of(context).size.height / 5;
+        ? MediaQuery.of(context).viewInsets.vertical / 7
+        : MediaQuery.of(context).size.height / 7;
   }
 }

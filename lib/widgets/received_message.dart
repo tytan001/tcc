@@ -40,11 +40,11 @@ class ReceivedMessages extends StatelessWidget {
               ),
             ],
           ),
-//          SizedBox(width: 15),
-//          Text(
-//            _messageDTO.create,
-//            style: Theme.of(context).textTheme.body2.apply(color: Colors.grey),
-//          ),
+          SizedBox(width: 15),
+          Text(
+            _messageDTO.create,
+            style: Theme.of(context).textTheme.body2.apply(color: Colors.grey),
+          ),
         ],
       ),
     );
