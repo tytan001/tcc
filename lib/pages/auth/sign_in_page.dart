@@ -124,6 +124,7 @@ class _SignInPageState extends State<SignInPage> {
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 15.0),
                           child: ListView(
+                            padding: EdgeInsets.only(top: 10.0),
                             children: <Widget>[
                               InputField(
                                 label: "E-mail",

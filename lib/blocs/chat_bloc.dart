@@ -34,13 +34,17 @@ class ChatBloc extends BlocBase {
 
   void submit(String message, OrderDTO order, int idUser) {
     if (_socketIO != null) {
+      var agr = DateTime.now();
+      String hour = agr.hour < 10 ? "0${agr.hour}" : agr.hour.toString();
+      String minute =
+          agr.minute < 10 ? "0${agr.minute}" : agr.minute.toString();
       Map<String, dynamic> messageSending = MessageDTO(
               idUser: idUser,
               idStore: order.idStore,
               idOrder: order.id,
               idSend: idUser,
               message: message,
-              create: "${DateTime.now().hour}:${DateTime.now().minute}")
+              create: "$hour:$minute")
           .toMap();
       String jsonData = json.encode(messageSending);
       _socketIO.sendMessage("sendMessage", jsonData, _onReceiveChatMessage);
