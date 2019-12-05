@@ -23,7 +23,7 @@ class ChatBloc extends BlocBase {
       BehaviorSubject<PageState>(seedValue: PageState.IDLE);
   final _messageAlertController = BehaviorSubject<String>();
   final _newMessageController = BehaviorSubject<bool>();
-  final _statusController = BehaviorSubject<bool>(seedValue: true);
+//  final _statusController = BehaviorSubject<bool>(seedValue: true);
 
   Stream<List<MessageDTO>> get outMessages => _messagesController.stream;
   Stream<PageState> get outState => _stateController.stream;
@@ -107,11 +107,11 @@ class ChatBloc extends BlocBase {
     });
   }
 
-  _socketStatus(dynamic data) {
-    data == "connect"
-        ? _statusController.add(true)
-        : _statusController.add(false);
-  }
+//  _socketStatus(dynamic data) {
+//    data == "connect"
+//        ? _statusController.add(true)
+//        : _statusController.add(false);
+//  }
 
 //  _subscribes() {
 //    if (_socketIO != null) {
@@ -132,7 +132,8 @@ class ChatBloc extends BlocBase {
 //  }
 
   _destroySocket() {
-    if (_socketIO != null && _statusController.value) {
+    if (_socketIO != null) {
+//    if (_socketIO != null && _statusController.value) {
       SocketIOManager().destroySocket(_socketIO);
     }
   }
@@ -143,7 +144,7 @@ class ChatBloc extends BlocBase {
     _stateController.close();
     _messageAlertController.close();
     _newMessageController.close();
-    _statusController.close();
+//    _statusController.close();
     _destroySocket();
     super.dispose();
   }
